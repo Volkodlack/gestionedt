@@ -488,23 +488,8 @@
                 }
             };
 
-            // "Enregistrer" – écrit directement dans le fichier déjà choisi (pas de dialogue)
-            const saveDataQuick = async () => {
-                if (!fileHandleRef.current) { return saveDataToFile(); } // rien choisi encore → ouvrir le dialogue
-                try {
-                    const writable = await fileHandleRef.current.createWritable();
-                    await writable.write(getDataBlob());
-                    await writable.close();
-                    setNeedsSave(false);
-                    setMessage({ type: 'success', text: `Enregistré : ${fileHandleRef.current.name}` });
-                    setTimeout(() => setMessage(null), 3000);
-                } catch (err) {
-                    if (err.name !== 'AbortError') {
-                        setMessage({ type: 'error', text: 'Erreur lors de la sauvegarde' });
-                        setTimeout(() => setMessage(null), 3000);
-                    }
-                }
-            };
+
+
 
             const loadDataFromFile = (event) => {
                 const file = event.target.files[0];
@@ -630,199 +615,285 @@
                 const year = new Date().getFullYear();
                 const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
-                // Colors
-                const primaryHex = '3D3573';
-                const secondaryHex = 'E84597';
-                const lightPrimary = 'EDE9F5';
-                const lightGreen = 'D1FAE5';
-                const lightRed = 'FEE2E2';
-                const lightOrange = 'FEF3C7';
-                const lightGray = 'F3F4F6';
-                const whiteHex = 'FFFFFF';
-                const darkGray = '9CA3AF';
+                // ── Palette ──
+                const P = '3D3573';          // violet principal
+                const S = 'E84597';          // rose
+                const W = 'FFFFFF';
+                const BG_TITLE   = S;
+                const BG_CP      = 'F3E8FF';  // lavender clair
+                const BG_HDR     = P;
+                const BG_ROW_A   = 'FFFFFF';  // blanc
+                const BG_ROW_B   = 'F5F3FA';  // violet très clair – alternance
+                const BG_WEEKEND = 'ECECEC';  // gris neutre
+                const BG_CP_OK   = 'D1FAE5';  // vert clair
+                const BG_ABSENT  = 'FEE2E2';  // rouge clair
+                const BG_RETARD  = 'FEF3C7';  // jaune clair
+                const BG_TOTALS  = 'EDE9F5';  // lavender
+                const BG_MOTIF   = 'F0E6FF';  // lavender + sombre
 
-                const headerFill = { patternType: 'solid', fgColor: { rgb: primaryHex } };
-                const headerFont = { bold: true, color: { rgb: whiteHex }, sz: 11, name: 'Calibri' };
-                const titleFill = { patternType: 'solid', fgColor: { rgb: secondaryHex } };
-                const titleFont = { bold: true, color: { rgb: whiteHex }, sz: 14, name: 'Calibri' };
-                const subtitleFont = { bold: true, color: { rgb: primaryHex }, sz: 11, name: 'Calibri' };
-                const normalFont = { sz: 10, name: 'Calibri', color: { rgb: '2A2547' } };
-                const absenceFont = { sz: 10, name: 'Calibri', color: { rgb: 'B91C1C' }, bold: true };
-                const reposFont = { sz: 10, name: 'Calibri', color: { rgb: '6B7280' }, italic: true };
-                const totalLabelFont = { bold: true, sz: 11, name: 'Calibri', color: { rgb: primaryHex } };
-                const totalValueFont = { bold: true, sz: 12, name: 'Calibri', color: { rgb: primaryHex } };
+                // ── Fonts ──
+                const fTitle   = { bold:true, color:{rgb:W}, sz:14, name:'Calibri' };
+                const fCpLabel = { bold:true, color:{rgb:P}, sz:10, name:'Calibri' };
+                const fCpValue = { bold:true, color:{rgb:P}, sz:12, name:'Calibri' };
+                const fHdr     = { bold:true, color:{rgb:W}, sz:11, name:'Calibri' };
+                const fNormal  = { color:{rgb:'2A2547'}, sz:10, name:'Calibri' };
+                const fBold    = { bold:true, color:{rgb:'2A2547'}, sz:10, name:'Calibri' };
+                const fWeekend = { color:{rgb:'6B7280'}, sz:10, name:'Calibri', italic:true };
+                const fAbsent  = { bold:true, color:{rgb:'B91C1C'}, sz:10, name:'Calibri' };
+                const fTotLabel= { bold:true, color:{rgb:P}, sz:11, name:'Calibri' };
+                const fTotValue= { bold:true, color:{rgb:P}, sz:12, name:'Calibri' };
+                const fMotifHdr= { bold:true, color:{rgb:W}, sz:10, name:'Calibri' };
 
-                // Borders – solid visible
-                const borderData = { style: 'thin', color: { rgb: '9CA3AF' } };       // données : gris médium
-                const borderHeader = { style: 'medium', color: { rgb: whiteHex } };   // en-tête : blanc sur fond violet
-                const borderTitle = { style: 'thin', color: { rgb: secondaryHex } };  // titre : rose
-                const borderTotals = { style: 'medium', color: { rgb: primaryHex } }; // totaux : violet fort
+                // ── Borders ──
+                const bThin  = { style:'thin',   color:{rgb:'B0AEC0'} };
+                const bMed   = { style:'medium', color:{rgb:P} };
+                const bThick = { style:'thick',  color:{rgb:P} };
+                const bWhite = { style:'thin',   color:{rgb:W} };
+                const bNone  = { style:'thin',   color:{rgb:'FFFFFF'} };
 
-                const cellBorder  = { top: borderData, bottom: borderData, left: borderData, right: borderData };
-                const headerBorder = { top: borderHeader, bottom: borderHeader, left: borderHeader, right: borderHeader };
-                const titleBorder  = { top: borderTitle, bottom: borderTitle, left: borderTitle, right: borderTitle };
-                const totalBorder  = { top: borderTotals, bottom: borderTotals, left: borderTotals, right: borderTotals };
+                const bAll = (s) => ({ top:s, bottom:s, left:s, right:s });
+                const bCell     = bAll(bThin);
+                const bHdr      = bAll(bWhite);
+                const bTitle    = { top:bMed, bottom:bMed, left:bMed, right:bMed };
+                const bTotals   = bAll(bMed);
+                const bLastData = { top:bThin, bottom:bThick, left:bThin, right:bThin }; // dernière ligne avant totaux
+
+                // ── Helpers ──
+                const fill = (hex) => ({ patternType:'solid', fgColor:{rgb:hex} });
+                const centerH = { horizontal:'center', vertical:'center' };
+                const leftH   = { horizontal:'left',   vertical:'center' };
+                const rightH  = { horizontal:'right',  vertical:'center' };
 
                 const cpBal = computeCPBalance(employee, absences);
 
                 months.forEach((monthName, monthIndex) => {
                     const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
                     const ws = {};
-                    const range = { s: { c: 0, r: 0 }, e: { c: 7, r: 0 } };
+                    ws['!merges'] = [];
                     let row = 0;
+                    const COLS = 8; // A–H (0–7)
 
-                    // Title row
-                    ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
-                        v: `Planning – ${employee.nom} – ${monthName} ${year}`,
-                        t: 's',
-                        s: { font: titleFont, fill: titleFill, alignment: { horizontal: 'center', vertical: 'center', wrapText: true }, border: titleBorder }
-                    };
-                    for (let c = 1; c <= 7; c++) {
-                        ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: titleFill, border: titleBorder } };
-                    }
-                    ws['!merges'] = ws['!merges'] || [];
-                    ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 7, r: row } });
+                    // ── ROW 0 : Titre ──
+                    ws[XLSX.utils.encode_cell({c:0,r:row})] = { v:`Planning – ${employee.nom} – ${monthName} ${year}`, t:'s',
+                        s:{ font:fTitle, fill:fill(BG_TITLE), alignment:{horizontal:'center',vertical:'center'}, border:bTitle } };
+                    for(let c=1;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(BG_TITLE), border:bTitle } };
+                    ws['!merges'].push({ s:{c:0,r:row}, e:{c:COLS-1,r:row} });
                     row++;
 
-                    // CP summary row
-                    const cpBorderMed = { style: 'medium', color: { rgb: primaryHex } };
-                    const cpRowBorder = { top: cpBorderMed, bottom: cpBorderMed, left: cpBorderMed, right: cpBorderMed };
-                    ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: `CP Base: ${cpBal.base} | Accumulés: +${cpBal.accumulated} | Utilisés: ${cpBal.used} | Solde: ${cpBal.balance}`, t: 's', s: { font: { bold: true, sz: 10, name: 'Calibri', color: { rgb: primaryHex } }, fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, alignment: { horizontal: 'center' }, border: cpRowBorder } };
-                    for (let c = 1; c <= 7; c++) {
-                        ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: cpRowBorder } };
-                    }
-                    ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 7, r: row } });
+                    // ── ROW 1–4 : CP en 4 cases côte à côte ──
+                    // On fait 2 lignes : labels puis valeurs, sur 4 colonnes (A-B et C-D fusionnées par paires)
+                    const cpItems = [
+                        { label:'CP de base (année)', value: String(cpBal.base) },
+                        { label:'Accumulés (+2.5/mois)', value: '+' + cpBal.accumulated },
+                        { label:'Utilisés', value: String(cpBal.used) },
+                        { label:'Solde CP', value: String(cpBal.balance) }
+                    ];
+                    // Ligne labels
+                    cpItems.forEach((item, i) => {
+                        const c = i * 2;
+                        ws[XLSX.utils.encode_cell({c, r:row})] = { v:item.label, t:'s',
+                            s:{ font:fCpLabel, fill:fill(BG_CP), alignment:centerH, border:bTotals } };
+                        ws[XLSX.utils.encode_cell({c:c+1, r:row})] = { v:'', t:'s',
+                            s:{ fill:fill(BG_CP), border:bTotals } };
+                        ws['!merges'].push({ s:{c,r:row}, e:{c:c+1,r:row} });
+                    });
                     row++;
-
-                    // Headers
-                    const headers = ['Date', 'Jour', 'Heures', 'Chantier', 'Zone', 'Panier (€)', 'Retard (min)', 'Absence'];
-                    headers.forEach((h, c) => {
-                        ws[XLSX.utils.encode_cell({ c, r: row })] = { v: h, t: 's', s: { font: headerFont, fill: headerFill, alignment: { horizontal: 'center', vertical: 'center' }, border: headerBorder } };
+                    // Ligne valeurs
+                    cpItems.forEach((item, i) => {
+                        const c = i * 2;
+                        const isNeg = cpBal.balance < 0 && i === 3;
+                        ws[XLSX.utils.encode_cell({c, r:row})] = { v:item.value, t:'s',
+                            s:{ font:{ ...fCpValue, color:{rgb: isNeg ? 'EF4444' : P} }, fill:fill(BG_CP), alignment:centerH, border:bTotals } };
+                        ws[XLSX.utils.encode_cell({c:c+1, r:row})] = { v:'', t:'s',
+                            s:{ fill:fill(BG_CP), border:bTotals } };
+                        ws['!merges'].push({ s:{c,r:row}, e:{c:c+1,r:row} });
                     });
                     row++;
 
-                    let totalHeures = 0, totalPanier = 0, totalHeuresSupp = 0, totalRetards = 0, totalConges = 0;
+                    // ── En-tête colonnes ──
+                    const headers = ['Date', 'Jour', 'Heures', 'Chantier', 'Zone', 'Panier (€)', 'Retard (min)', 'Absence'];
+                    headers.forEach((h, c) => {
+                        ws[XLSX.utils.encode_cell({c, r:row})] = { v:h, t:'s',
+                            s:{ font:fHdr, fill:fill(BG_HDR), alignment:centerH, border:bHdr } };
+                    });
+                    row++;
+                    const dataStartRow = row;
+
+                    // ── Données jour par jour ──
+                    let totalHeures=0, totalPanier=0, totalHeuresSupp=0, totalRetards=0, totalConges=0;
                     let absencesByMotif = {};
 
-                    for (let day = 1; day <= daysInMonth; day++) {
+                    for (let day=1; day<=daysInMonth; day++) {
                         const date = new Date(year, monthIndex, day);
                         const dateStr = date.toISOString().split('T')[0];
-                        const dayNames = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-                        const dayNamesLower = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
-                        const dayOfWeek = dayNames[date.getDay()];
-                        const dayName = dayNamesLower[date.getDay()];
-                        const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                        const dayNames    = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+                        const dayNamesLow = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+                        const dayOfWeek   = dayNames[date.getDay()];
+                        const dayName     = dayNamesLow[date.getDay()];
+                        const isWeekend   = date.getDay()===0 || date.getDay()===6;
+                        const isLastDay   = (day === daysInMonth);
 
-                        // Check absence
-                        const absence = absences.find(a => a.employeeId === employeeId && new Date(a.dateDebut+'T00:00:00') <= date && new Date(a.dateFin+'T00:00:00') >= date);
+                        // Date formatée en français : "05 janvier 2026"
+                        const dateFormatted = `${String(day).padStart(2,'0')} ${monthName.toLowerCase()} ${year}`;
 
-                        let rowData, rowStyle;
+                        const absence = absences.find(a => a.employeeId===employeeId && new Date(a.dateDebut+'T00:00:00')<=date && new Date(a.dateFin+'T00:00:00')>=date);
+
+                        let rowData, bg, font;
+                        // Alternance de fond : impair=blanc, pair=gris très clair
+                        const altBg = (day % 2 === 0) ? BG_ROW_B : BG_ROW_A;
+
                         if (absence) {
-                            rowData = [dateStr, dayOfWeek, 0, '', '', 0, 0, absence.motif];
-                            if (absence.motif === 'Congés payés') { totalConges++; rowStyle = { patternType: 'solid', fgColor: { rgb: lightGreen } }; }
-                            else { rowStyle = { patternType: 'solid', fgColor: { rgb: lightRed } }; }
-                            absencesByMotif[absence.motif] = (absencesByMotif[absence.motif] || 0) + 1;
+                            rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', absence.motif];
+                            bg = (absence.motif === 'Congés payés') ? BG_CP_OK : BG_ABSENT;
+                            font = fAbsent;
+                            if (absence.motif==='Congés payés') totalConges++;
+                            absencesByMotif[absence.motif] = (absencesByMotif[absence.motif]||0)+1;
                         } else if (isWeekend) {
-                            rowData = [dateStr, dayOfWeek, '', '', '', '', '', 'Repos'];
-                            rowStyle = { patternType: 'solid', fgColor: { rgb: lightGray } };
+                            rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', 'Repos'];
+                            bg = BG_WEEKEND;
+                            font = fWeekend;
                         } else {
                             const schedule = employee.horaires?.[dayName];
                             if (!schedule || !schedule.debut || !schedule.fin) {
-                                rowData = [dateStr, dayOfWeek, 0, '', '', 0, 0, 'Repos'];
-                                rowStyle = { patternType: 'solid', fgColor: { rgb: lightGray } };
+                                rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', 'Jour off'];
+                                bg = BG_WEEKEND;
+                                font = fWeekend;
                             } else {
                                 const debut = new Date(`2000-01-01T${schedule.debut}`);
-                                const fin = new Date(`2000-01-01T${schedule.fin}`);
-                                let heures = (fin - debut) / (1000 * 60 * 60);
+                                const fin   = new Date(`2000-01-01T${schedule.fin}`);
+                                let heures  = (fin - debut) / (1000*60*60);
 
                                 const chantierAssignment = chantiers.find(c => {
-                                    const hasEmp = c.employees?.some(e => e.employeeId === employeeId && new Date(e.dateDebut+'T00:00:00') <= date && new Date(e.dateFin+'T00:00:00') >= date);
-                                    return hasEmp && new Date(c.dateDebut+'T00:00:00') <= date && new Date(c.dateFin+'T00:00:00') >= date;
+                                    const hasEmp = c.employees?.some(e => e.employeeId===employeeId && new Date(e.dateDebut+'T00:00:00')<=date && new Date(e.dateFin+'T00:00:00')>=date);
+                                    return hasEmp && new Date(c.dateDebut+'T00:00:00')<=date && new Date(c.dateFin+'T00:00:00')>=date;
                                 });
-
                                 const chantierNom = chantierAssignment?.nom || '';
-                                const zone = chantierAssignment?.zone !== undefined ? chantierAssignment.zone : '';
+                                const zone   = chantierAssignment?.zone !== undefined ? chantierAssignment.zone : '';
                                 const panier = chantierAssignment?.panier || 0;
 
-                                const retard = retards.find(r => r.employeeId === employeeId && r.date === dateStr);
+                                const retard = retards.find(r => r.employeeId===employeeId && r.date===dateStr);
                                 const retardMinutes = retard?.minutes || 0;
 
-                                const hSupp = heuresSupp.find(h => h.employeeId === employeeId && h.date === dateStr);
+                                const hSupp = heuresSupp.find(h => h.employeeId===employeeId && h.date===dateStr);
                                 if (hSupp) {
-                                    if (hSupp.type === 'arrivee') { const hr = new Date(`2000-01-01T${hSupp.heureReelle}`); heures += (debut - hr) / (1000*60*60); }
-                                    else { const hr = new Date(`2000-01-01T${hSupp.heureReelle}`); heures += (hr - fin) / (1000*60*60); }
-                                    totalHeuresSupp += Math.abs(hSupp.heureReelle && schedule[hSupp.type==='arrivee'?'debut':'fin'] ? (new Date(`2000-01-01T${hSupp.heureReelle}`) - new Date(`2000-01-01T${schedule[hSupp.type==='arrivee'?'debut':'fin']}`)) / (1000*60*60) : 0);
+                                    if (hSupp.type==='arrivee') { const hr=new Date(`2000-01-01T${hSupp.heureReelle}`); heures+=(debut-hr)/(1000*60*60); }
+                                    else { const hr=new Date(`2000-01-01T${hSupp.heureReelle}`); heures+=(hr-fin)/(1000*60*60); }
+                                    totalHeuresSupp += Math.abs(hSupp.heureReelle && schedule[hSupp.type==='arrivee'?'debut':'fin'] ? (new Date(`2000-01-01T${hSupp.heureReelle}`)-new Date(`2000-01-01T${schedule[hSupp.type==='arrivee'?'debut':'fin']}`))/(1000*60*60) : 0);
                                 }
 
                                 totalHeures += heures; totalPanier += panier; totalRetards += retardMinutes;
-                                rowData = [dateStr, dayOfWeek, parseFloat(heures.toFixed(2)), chantierNom, zone, panier, retardMinutes, ''];
-                                rowStyle = retardMinutes > 0 ? { patternType: 'solid', fgColor: { rgb: lightOrange } } : { patternType: 'solid', fgColor: { rgb: whiteHex } };
+                                rowData = [dateFormatted, dayOfWeek, parseFloat(heures.toFixed(2)), chantierNom, zone, panier, retardMinutes, ''];
+                                bg   = retardMinutes > 0 ? BG_RETARD : altBg;
+                                font = retardMinutes > 0 ? fBold : fNormal;
                             }
                         }
 
-                        const usedFont = absence ? absenceFont : (isWeekend ? reposFont : normalFont);
+                        // Bordure : dernière ligne du mois → bordure bas épaisse
+                        const rowBorder = isLastDay ? bLastData : bCell;
+
                         rowData.forEach((val, c) => {
-                            ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                                v: val, t: typeof val === 'number' ? 'n' : 's',
-                                s: { font: usedFont, fill: rowStyle, border: cellBorder, alignment: { horizontal: c === 0 || c === 1 ? 'left' : 'center' } }
+                            const isNum = typeof val === 'number';
+                            // colonnes 2,5,6 = nombres → aligner à droite
+                            const align = (c===0||c===1||c===3||c===7) ? leftH : rightH;
+                            ws[XLSX.utils.encode_cell({c, r:row})] = {
+                                v: val, t: isNum ? 'n' : 's',
+                                s: { font, fill:fill(bg), border:rowBorder, alignment:align,
+                                     numFmt: (c===2||c===6) ? '0.00' : (c===5 ? '#,##0.00' : undefined) }
                             };
                         });
                         row++;
                     }
 
-                    // Totals section
+                    // ── Ligne vide séparateur ──
                     row++;
+
+                    // ── RÉSUMÉ DU MOIS ──
+                    // Titre du résumé
+                    ws[XLSX.utils.encode_cell({c:0,r:row})] = { v:'RÉSUMÉ DU MOIS', t:'s',
+                        s:{ font:{ bold:true, sz:12, color:{rgb:W}, name:'Calibri' }, fill:fill(BG_HDR), alignment:centerH, border:bTotals } };
+                    for(let c=1;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(BG_HDR), border:bTotals } };
+                    ws['!merges'].push({ s:{c:0,r:row}, e:{c:COLS-1,r:row} });
+                    row++;
+
+                    // Totaux en grille 2 colonnes (label | valeur) sur 4 colonnes fusionnées
                     const totalsData = [
-                        ['Total heures travaillées', totalHeures.toFixed(2)],
-                        ['Montant paniers', `${totalPanier.toFixed(2)} €`],
-                        ['Heures supplémentaires', totalHeuresSupp.toFixed(2)],
-                        ['Congés payés (jours)', totalConges],
-                        ['Total retards (min)', totalRetards]
+                        ['Total heures travaillées', totalHeures.toFixed(2) + ' h'],
+                        ['Montant paniers',          totalPanier.toFixed(2) + ' €'],
+                        ['Heures supplémentaires',  totalHeuresSupp.toFixed(2) + ' h'],
+                        ['Congés payés utilisés',   totalConges + ' jour' + (totalConges!==1?'s':'')],
+                        ['Total retards',           totalRetards + ' min']
                     ];
 
-                    ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: 'RÉSUMÉ DU MOIS', t: 's', s: { font: { bold: true, sz: 12, name: 'Calibri', color: { rgb: whiteHex } }, fill: headerFill, alignment: { horizontal: 'center' }, border: totalBorder } };
-                    for (let c = 1; c <= 7; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: headerFill, border: totalBorder } };
-                    ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 7, r: row } });
-                    row++;
+                    totalsData.forEach(([label, value], idx) => {
+                        // Chaque ligne : col 0-1 = label (fusionné), col 2-3 = valeur (fusionné)
+                        // On décale : paires sur 4 colonnes, puis on laisse les colonnes 4-7 vides avec le même fond
+                        ws[XLSX.utils.encode_cell({c:0, r:row})] = { v:label, t:'s',
+                            s:{ font:fTotLabel, fill:fill(BG_TOTALS), alignment:leftH, border:bTotals } };
+                        ws[XLSX.utils.encode_cell({c:1, r:row})] = { v:'', t:'s',
+                            s:{ fill:fill(BG_TOTALS), border:bTotals } };
+                        ws['!merges'].push({ s:{c:0,r:row}, e:{c:1,r:row} });
 
-                    totalsData.forEach(([label, value]) => {
-                        ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: label, t: 's', s: { font: totalLabelFont, fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: totalBorder } };
-                        ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: value, t: 's', s: { font: totalValueFont, fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: totalBorder, alignment: { horizontal: 'right' } } };
-                        for (let c = 2; c <= 7; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: totalBorder } };
-                        ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 0, r: row } });
-                        ws['!merges'].push({ s: { c: 1, r: row }, e: { c: 7, r: row } });
+                        ws[XLSX.utils.encode_cell({c:2, r:row})] = { v:value, t:'s',
+                            s:{ font:fTotValue, fill:fill(BG_TOTALS), alignment:rightH, border:bTotals } };
+                        ws[XLSX.utils.encode_cell({c:3, r:row})] = { v:'', t:'s',
+                            s:{ fill:fill(BG_TOTALS), border:bTotals } };
+                        ws['!merges'].push({ s:{c:2,r:row}, e:{c:3,r:row} });
+
+                        // Colonnes 4–7 : fond identique, bordure
+                        for(let c=4;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(BG_TOTALS), border:bTotals } };
                         row++;
                     });
 
+                    // ── ABSENCES PAR MOTIF ──
                     if (Object.keys(absencesByMotif).length > 0) {
+                        row++; // ligne vide
+
+                        // Sous-titre
+                        ws[XLSX.utils.encode_cell({c:0,r:row})] = { v:'ABSENCES PAR MOTIF', t:'s',
+                            s:{ font:{ bold:true, sz:11, color:{rgb:W}, name:'Calibri' }, fill:fill(P), alignment:centerH, border:bTotals } };
+                        for(let c=1;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(P), border:bTotals } };
+                        ws['!merges'].push({ s:{c:0,r:row}, e:{c:COLS-1,r:row} });
                         row++;
-                        // Sub-header "ABSENCES PAR MOTIF"
-                        const subHdrFill = { patternType: 'solid', fgColor: { rgb: 'E9D5FF' } };   // lavender
-                        const subHdrBorder = { style: 'medium', color: { rgb: primaryHex } };
-                        const subHdrCell  = { top: subHdrBorder, bottom: subHdrBorder, left: subHdrBorder, right: subHdrBorder };
-                        ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: 'ABSENCES PAR MOTIF', t: 's', s: { font: { bold: true, sz: 11, name: 'Calibri', color: { rgb: primaryHex } }, fill: subHdrFill, border: subHdrCell } };
-                        ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: 'Jours', t: 's', s: { font: { bold: true, sz: 11, name: 'Calibri', color: { rgb: primaryHex } }, fill: subHdrFill, border: subHdrCell, alignment: { horizontal: 'center' } } };
-                        for (let c = 2; c <= 7; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: subHdrFill, border: subHdrCell } };
-                        ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 0, r: row } });
-                        ws['!merges'].push({ s: { c: 1, r: row }, e: { c: 7, r: row } });
+
+                        // En-tête : Motif | Jours
+                        ws[XLSX.utils.encode_cell({c:0,r:row})] = { v:'Motif', t:'s',
+                            s:{ font:fMotifHdr, fill:fill(BG_MOTIF), alignment:leftH, border:bTotals } };
+                        ws[XLSX.utils.encode_cell({c:1,r:row})] = { v:'Jours', t:'s',
+                            s:{ font:fMotifHdr, fill:fill(BG_MOTIF), alignment:centerH, border:bTotals } };
+                        for(let c=2;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(BG_MOTIF), border:bTotals } };
+                        ws['!merges'].push({ s:{c:2,r:row}, e:{c:COLS-1,r:row} });
                         row++;
+
+                        // Lignes de données
                         Object.entries(absencesByMotif).forEach(([motif, count]) => {
-                            ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: motif, t: 's', s: { font: { bold: true, sz: 10, name: 'Calibri', color: { rgb: '2A2547' } }, fill: { patternType: 'solid', fgColor: { rgb: lightGray } }, border: cellBorder } };
-                            ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: count, t: 'n', s: { font: { bold: true, sz: 11, name: 'Calibri', color: { rgb: primaryHex } }, fill: { patternType: 'solid', fgColor: { rgb: lightGray } }, border: cellBorder, alignment: { horizontal: 'center' } } };
-                            for (let c = 2; c <= 7; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: { patternType: 'solid', fgColor: { rgb: lightGray } }, border: cellBorder } };
+                            const motifBg = motif==='Congés payés' ? BG_CP_OK : motif==='Maladie' ? BG_ABSENT : BG_RETARD;
+                            ws[XLSX.utils.encode_cell({c:0,r:row})] = { v:motif, t:'s',
+                                s:{ font:fBold, fill:fill(motifBg), alignment:leftH, border:bCell } };
+                            ws[XLSX.utils.encode_cell({c:1,r:row})] = { v:count, t:'n',
+                                s:{ font:{ bold:true, sz:11, color:{rgb:P}, name:'Calibri' }, fill:fill(motifBg), alignment:centerH, border:bCell } };
+                            for(let c=2;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(motifBg), border:bCell } };
                             row++;
                         });
                     }
 
-                    if (row > range.e.r) range.e.r = row - 1;
-                    ws['!ref'] = XLSX.utils.encode_range(range);
-                    ws['!cols'] = [{ wch: 14 }, { wch: 12 }, { wch: 10 }, { wch: 22 }, { wch: 8 }, { wch: 12 }, { wch: 12 }, { wch: 16 }];
+                    // ── Dimensions ──
+                    ws['!ref'] = XLSX.utils.encode_range({ s:{c:0,r:0}, e:{c:COLS-1, r:row-1} });
+                    ws['!cols'] = [
+                        { wch:18 },  // Date
+                        { wch:13 },  // Jour
+                        { wch:10 },  // Heures
+                        { wch:24 },  // Chantier
+                        { wch:8  },  // Zone
+                        { wch:13 },  // Panier
+                        { wch:13 },  // Retard
+                        { wch:18 }   // Absence
+                    ];
                     ws['!rows'] = [];
-                    for (let r = 0; r <= row; r++) {
-                        if (r === 0) ws['!rows'].push({ ht: 32 });       // titre
-                        else if (r === 1) ws['!rows'].push({ ht: 24 }); // CP
-                        else if (r === 2) ws['!rows'].push({ ht: 22 }); // en-tête colonnes
-                        else ws['!rows'].push({ ht: 20 });              // données
+                    for (let r=0; r<row; r++) {
+                        if (r===0)  ws['!rows'].push({ ht:30 });  // titre
+                        else if (r<=2) ws['!rows'].push({ ht:22 }); // CP labels + valeurs
+                        else if (r===3) ws['!rows'].push({ ht:22 }); // en-tête
+                        else ws['!rows'].push({ ht:19 });
                     }
 
                     XLSX.utils.book_append_sheet(wb, ws, monthName);
@@ -854,8 +925,7 @@
                             {needsSave && <span className="unsaved-badge">⚠️ Non sauvegardé</span>}
                             <input type="file" id="fileInput" accept=".json" style={{ display: 'none' }} onChange={loadDataFromFile} />
                             <button className="logout-btn" onClick={() => document.getElementById('fileInput').click()}>📂 Charger</button>
-                            <button className="logout-btn" onClick={saveDataQuick} style={needsSave ? { background: 'rgba(255,193,7,0.3)', borderColor: 'rgba(255,193,7,0.5)', animation: 'pulse 2s infinite' } : {}}>💾 Enregistrer</button>
-                            <button className="logout-btn" onClick={saveDataToFile}>💾 Enregistrer sous…</button>
+                            <button className="logout-btn" onClick={saveDataToFile} style={needsSave ? { background: 'rgba(255,193,7,0.3)', borderColor: 'rgba(255,193,7,0.5)', animation: 'pulse 2s infinite' } : {}}>💾 Enregistrer sous…</button>
                             <button className="logout-btn" onClick={() => setShowPasswordModal(true)}>🔐 Mot de passe</button>
                             <button className="logout-btn" onClick={() => setAuthenticated(false)}>Déconnexion</button>
                         </div>
