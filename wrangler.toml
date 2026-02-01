@@ -1,2 +1,6 @@
 name = "gestionedt"
 compatibility_date = "2026-02-01"
+
+[assets]
+directory = "."          # ← racine du projet (où est index.html)
+not_found_handling = "single-page-application"   # optionnel : bon pour les SPA React-like
