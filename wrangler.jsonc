@@ -1,7 +1,5 @@
 {
-  "name": "GestionEDT",
-  "compatibility_date": "2026-02-01",
-  "assets": {
-    "directory": "./public"
-  }
+  "name": "gestion-edt",
+  "main": "index.html",
+  "compatibility_date": "2025-01-01"
 }
