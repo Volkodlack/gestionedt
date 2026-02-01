@@ -915,8 +915,9 @@
                 <div className="app">
                     <header className="header">
                         <div className="header-left">
-                             <img src="logo.png" alt="tclogo">
+                            <img className="header-logo" src={`data:image/webp;base64,${LOGO_B64}`} alt="Logo" />
                             <div className="header-title">
+                                <h1>Thierry Carles</h1>
                                 <p>Gestion du Personnel</p>
                             </div>
                         </div>
@@ -972,7 +973,7 @@
                 <div className="login-page">
                     <div className="login-container">
                         <div className="login-logo-wrap">
-                            <img src="logo.png" alt="tclogo">
+                            <img className="login-logo" src={`data:image/webp;base64,${LOGO_B64}`} alt="Logo Thierry Carles" />
                         </div>
                         <h2>Connexion</h2>
                         <p>Accédez à la gestion du personnel</p>
