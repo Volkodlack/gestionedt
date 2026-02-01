@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,13 +25,11 @@
             --danger: #ef4444;
             --border: #e8e6f0;
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: linear-gradient(135deg, var(--bg-light) 0%, #fff 100%);
@@ -40,7 +37,6 @@
             line-height: 1.6;
             min-height: 100vh;
         }
-
         .app {
             max-width: 1400px;
             margin: 0 auto;
@@ -60,7 +56,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .header::before {
             content: '';
             position: absolute;
@@ -71,7 +66,6 @@
             background: radial-gradient(circle, rgba(232, 69, 151, 0.15) 0%, transparent 70%);
             border-radius: 50%;
         }
-
         .header-left {
             display: flex;
             align-items: center;
@@ -79,28 +73,23 @@
             position: relative;
             z-index: 1;
         }
-
         .header-logo {
             height: 48px;
         }
-
         .header-title {
             color: white;
             font-family: 'Manrope', sans-serif;
         }
-
         .header-title h1 {
             font-size: 24px;
             font-weight: 800;
             margin-bottom: 2px;
         }
-
         .header-title p {
             font-size: 13px;
             opacity: 0.8;
             font-weight: 400;
         }
-
         .header-actions {
             display: flex;
             gap: 8px;
@@ -110,7 +99,6 @@
             flex-wrap: wrap;
             justify-content: flex-end;
         }
-
         .logout-btn {
             background: rgba(255, 255, 255, 0.15);
             color: white;
@@ -123,12 +111,10 @@
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
-
         .logout-btn:hover {
             background: rgba(255, 255, 255, 0.25);
             transform: translateY(-1px);
         }
-
         .unsaved-badge {
             background: rgba(255, 193, 7, 0.2);
             color: #fff;
@@ -149,7 +135,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .login-page::before {
             content: '';
             position: absolute;
@@ -160,7 +145,6 @@
             background: radial-gradient(circle, rgba(232, 69, 151, 0.12) 0%, transparent 70%);
             border-radius: 50%;
         }
-
         .login-page::after {
             content: '';
             position: absolute;
@@ -171,7 +155,6 @@
             background: radial-gradient(circle, rgba(61, 53, 115, 0.3) 0%, transparent 70%);
             border-radius: 50%;
         }
-
         .login-container {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
@@ -183,16 +166,13 @@
             position: relative;
             z-index: 1;
         }
-
         .login-logo-wrap {
             text-align: center;
             margin-bottom: 28px;
         }
-
         .login-logo {
             height: 70px;
         }
-
         .login-container h2 {
             color: var(--primary);
             margin-bottom: 6px;
@@ -201,18 +181,15 @@
             font-family: 'Manrope', sans-serif;
             text-align: center;
         }
-
         .login-container>p {
             color: var(--text-light);
             margin-bottom: 28px;
             font-size: 14px;
             text-align: center;
         }
-
         .input-group {
             margin-bottom: 20px;
         }
-
         .input-group label {
             display: block;
             margin-bottom: 7px;
@@ -220,7 +197,6 @@
             font-weight: 600;
             font-size: 13px;
         }
-
         .input-group input {
             width: 100%;
             padding: 13px 15px;
@@ -230,13 +206,11 @@
             transition: all 0.3s ease;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-
         .input-group input:focus {
             outline: none;
             border-color: var(--secondary);
             box-shadow: 0 0 0 4px rgba(232, 69, 151, 0.1);
         }
-
         .primary-btn {
             width: 100%;
             background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
@@ -250,7 +224,6 @@
             transition: all 0.3s ease;
             box-shadow: 0 8px 20px rgba(232, 69, 151, 0.3);
         }
-
         .primary-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 12px 28px rgba(232, 69, 151, 0.4);
@@ -266,7 +239,6 @@
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
-
         .tab {
             flex: 1;
             padding: 12px 16px;
@@ -280,13 +252,11 @@
             transition: all 0.3s ease;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-
         .tab.active {
             background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
             color: white;
             box-shadow: 0 4px 12px rgba(232, 69, 151, 0.3);
         }
-
         .tab:hover:not(.active) {
             background: var(--bg-light);
         }
@@ -299,7 +269,6 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
             margin-bottom: 20px;
         }
-
         .card h3 {
             color: var(--primary);
             margin-bottom: 18px;
@@ -315,7 +284,6 @@
             gap: 16px;
             margin-bottom: 24px;
         }
-
         .stat-card {
             background: white;
             padding: 24px;
@@ -324,24 +292,19 @@
             border-left: 4px solid var(--primary);
             transition: all 0.3s ease;
         }
-
         .stat-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
-
         .stat-card.present {
             border-left-color: var(--success);
         }
-
         .stat-card.late {
             border-left-color: var(--warning);
         }
-
         .stat-card.absent {
             border-left-color: var(--danger);
         }
-
         .stat-card h4 {
             color: var(--text-light);
             font-size: 12px;
@@ -350,7 +313,6 @@
             letter-spacing: 0.5px;
             margin-bottom: 10px;
         }
-
         .stat-card .value {
             font-size: 38px;
             font-weight: 800;
@@ -358,7 +320,6 @@
             font-family: 'Manrope', sans-serif;
             margin-bottom: 6px;
         }
-
         .stat-card .list {
             color: var(--text-light);
             font-size: 13px;
@@ -366,12 +327,96 @@
             overflow-y: auto;
         }
 
+        /* ===== CHANTIERS EN COURS (DASHBOARD) ===== */
+        .chantiers-dashboard {
+            background: white;
+            padding: 28px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            margin-bottom: 20px;
+        }
+        .chantiers-dashboard h3 {
+            color: var(--primary);
+            margin-bottom: 18px;
+            font-size: 20px;
+            font-weight: 700;
+            font-family: 'Manrope', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chantier-dashboard-item {
+            background: linear-gradient(135deg, var(--bg-light) 0%, white 100%);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--secondary);
+            transition: all 0.3s ease;
+        }
+        .chantier-dashboard-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(232, 69, 151, 0.15);
+        }
+        .chantier-dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 14px;
+        }
+        .chantier-dashboard-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        .chantier-dashboard-lieu {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+        .chantier-dashboard-dates {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        .chantier-dashboard-zone-badge {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .chantier-employees-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .chantier-employee-badge {
+            background: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chantier-employee-badge::before {
+            content: '👷';
+            font-size: 16px;
+        }
+
         /* ===== EMPLOYEES ===== */
         .employee-list {
             display: grid;
             gap: 12px;
         }
-
         .employee-item {
             background: var(--bg-light);
             padding: 16px 20px;
@@ -381,24 +426,20 @@
             align-items: center;
             transition: all 0.3s ease;
         }
-
         .employee-item:hover {
             background: #f0eef8;
             transform: translateX(3px);
         }
-
         .employee-info h4 {
             color: var(--text-dark);
             margin-bottom: 4px;
             font-weight: 600;
             font-size: 15px;
         }
-
         .employee-info p {
             color: var(--text-light);
             font-size: 12px;
         }
-
         .employee-actions {
             display: flex;
             gap: 6px;
@@ -415,42 +456,34 @@
             transition: all 0.3s ease;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-
         .btn-edit {
             background: var(--primary);
             color: white;
         }
-
         .btn-edit:hover {
             background: #2d2558;
             transform: translateY(-1px);
         }
-
         .btn-delete {
             background: var(--danger);
             color: white;
         }
-
         .btn-delete:hover {
             background: #dc2626;
             transform: translateY(-1px);
         }
-
         .btn-secondary {
             background: var(--bg-light);
             color: var(--text-dark);
             border: 2px solid var(--border);
         }
-
         .btn-secondary:hover {
             background: #f0eef8;
         }
-
         .btn-success {
             background: var(--success);
             color: white;
         }
-
         .btn-success:hover {
             background: #059669;
             transform: translateY(-1px);
@@ -463,11 +496,9 @@
             gap: 16px;
             margin-bottom: 20px;
         }
-
         .form-group {
             margin-bottom: 16px;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 6px;
@@ -475,7 +506,6 @@
             font-weight: 600;
             font-size: 13px;
         }
-
         .form-group input,
         .form-group select,
         .form-group textarea {
@@ -487,7 +517,6 @@
             transition: all 0.3s ease;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
@@ -502,7 +531,6 @@
             gap: 8px;
             margin-top: 12px;
         }
-
         .schedule-day {
             display: grid;
             grid-template-columns: 100px 1fr 1fr;
@@ -512,19 +540,16 @@
             background: var(--bg-light);
             border-radius: 10px;
         }
-
         .schedule-day label {
             font-weight: 600;
             color: var(--text-dark);
             font-size: 13px;
         }
-
         .time-inputs {
             display: flex;
             gap: 6px;
             align-items: center;
         }
-
         .time-inputs input {
             flex: 1;
             padding: 7px 10px;
@@ -547,7 +572,6 @@
             z-index: 1000;
             backdrop-filter: blur(4px);
         }
-
         .modal {
             background: white;
             padding: 36px;
@@ -558,7 +582,6 @@
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
-
         .modal h3 {
             color: var(--primary);
             margin-bottom: 20px;
@@ -566,13 +589,11 @@
             font-weight: 700;
             font-family: 'Manrope', sans-serif;
         }
-
         .modal-actions {
             display: flex;
             gap: 10px;
             margin-top: 24px;
         }
-
         .modal-actions button {
             flex: 1;
         }
@@ -585,20 +606,17 @@
             margin-bottom: 14px;
             border-left: 4px solid var(--primary);
         }
-
         .chantier-item h4 {
             color: var(--text-dark);
             margin-bottom: 6px;
             font-weight: 600;
             font-size: 15px;
         }
-
         .chantier-item p {
             color: var(--text-light);
             font-size: 13px;
             margin-bottom: 3px;
         }
-
         .badge {
             display: inline-block;
             padding: 3px 10px;
@@ -607,12 +625,10 @@
             font-weight: 600;
             margin-left: 6px;
         }
-
         .badge-zone {
             background: rgba(232, 69, 151, 0.15);
             color: var(--accent);
         }
-
         .employee-assignments {
             margin-top: 14px;
             padding: 14px;
@@ -620,14 +636,12 @@
             border-radius: 10px;
             border: 2px solid var(--border);
         }
-
         .assignment-item {
             padding: 10px;
             background: var(--bg-light);
             border-radius: 8px;
             margin-bottom: 8px;
         }
-
         .assignment-item:last-child {
             margin-bottom: 0;
         }
@@ -639,7 +653,6 @@
             border-radius: 16px;
             border: 2px dashed var(--border);
         }
-
         .export-section h4 {
             color: var(--primary);
             margin-bottom: 12px;
@@ -657,7 +670,6 @@
             font-size: 13px;
             border-left: 4px solid var(--danger);
         }
-
         .success-message {
             background: rgba(16, 185, 129, 0.1);
             color: var(--success);
@@ -675,7 +687,6 @@
             gap: 12px;
             margin-top: 16px;
         }
-
         .cp-card {
             background: linear-gradient(135deg, #f0eef8, white);
             border-radius: 12px;
@@ -683,7 +694,6 @@
             text-align: center;
             border: 1px solid var(--border);
         }
-
         .cp-card .cp-label {
             font-size: 11px;
             font-weight: 600;
@@ -692,18 +702,15 @@
             letter-spacing: 0.5px;
             margin-bottom: 6px;
         }
-
         .cp-card .cp-value {
             font-size: 24px;
             font-weight: 800;
             font-family: 'Manrope', sans-serif;
             color: var(--primary);
         }
-
         .cp-card .cp-value.danger {
             color: var(--danger);
         }
-
         .cp-card .cp-value.warning {
             color: var(--warning);
         }
@@ -716,7 +723,6 @@
             overflow: hidden;
             margin-top: 16px;
         }
-
         .detail-panel-header {
             background: linear-gradient(135deg, var(--primary), #2d2558);
             color: white;
@@ -725,23 +731,19 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .detail-panel-header h4 {
             font-size: 15px;
             font-weight: 700;
             font-family: 'Manrope', sans-serif;
         }
-
         .detail-panel-body {
             padding: 20px;
         }
-
         .detail-tabs {
             display: flex;
             gap: 6px;
             margin-bottom: 16px;
         }
-
         .detail-tab {
             padding: 7px 14px;
             border: none;
@@ -754,16 +756,13 @@
             transition: all 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-
         .detail-tab.active {
             background: var(--primary);
             color: white;
         }
-
         .detail-tab:hover:not(.active) {
             background: #e8e6f0;
         }
-
         .absence-list-item {
             display: flex;
             justify-content: space-between;
@@ -773,24 +772,20 @@
             border-radius: 8px;
             margin-bottom: 6px;
         }
-
         .absence-list-item .motif-tag {
             padding: 3px 10px;
             border-radius: 12px;
             font-size: 11px;
             font-weight: 600;
         }
-
         .motif-cp {
             background: rgba(16, 185, 129, 0.15);
             color: var(--success);
         }
-
         .motif-maladie {
             background: rgba(239, 68, 68, 0.15);
             color: var(--danger);
         }
-
         .motif-other {
             background: rgba(245, 158, 11, 0.15);
             color: var(--warning);
@@ -801,17 +796,14 @@
             width: 6px;
             height: 6px;
         }
-
         ::-webkit-scrollbar-track {
             background: var(--bg-light);
             border-radius: 3px;
         }
-
         ::-webkit-scrollbar-thumb {
             background: var(--text-light);
             border-radius: 3px;
         }
-
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary);
         }
@@ -823,40 +815,28 @@
                 gap: 14px;
                 text-align: center;
             }
-
             .tabs {
                 flex-direction: column;
             }
-
             .form-grid {
                 grid-template-columns: 1fr;
             }
-
             .schedule-day {
                 grid-template-columns: 1fr;
             }
-
             .login-container {
                 padding: 36px 28px 32px;
             }
         }
-
         @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.7;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
     </style>
 </head>
-
 <body>
     <div id="root"></div>
+
     <script type="text/babel">
         const { useState, useEffect, useCallback } = React;
 
@@ -897,12 +877,10 @@
         }
 
         function getMonthlyCP(absences, employeeId, year, month) {
-            // month is 0-indexed
             return absences.filter(a => {
                 if (a.employeeId !== employeeId || a.motif !== 'Congés payés') return false;
                 const start = new Date(a.dateDebut + 'T00:00:00');
                 const end = new Date(a.dateFin + 'T00:00:00');
-                // check overlap with month
                 const mStart = new Date(year, month, 1);
                 const mEnd = new Date(year, month + 1, 0);
                 return start <= mEnd && end >= mStart;
@@ -925,25 +903,56 @@
         function computeCPBalance(employee, absences) {
             const now = new Date();
             const year = now.getFullYear();
-            const currentMonth = now.getMonth(); // 0-indexed
-            // Determine employee start month — use first month of current year if not set
+            const currentMonth = now.getMonth();
             const startMonth = employee.cpStartMonth !== undefined ? employee.cpStartMonth : 0;
             const cpBase = employee.cpBase || 25;
-            // Accumulated = 2.5 per month from startMonth up to and including currentMonth
             const monthsElapsed = currentMonth - startMonth + 1;
             const accumulated = Math.max(0, monthsElapsed) * 2.5;
-            // Used = sum of CP days in absences for this year
             let used = 0;
             for (let m = 0; m <= 11; m++) {
                 used += getMonthlyCP(absences, employee.id, year, m);
             }
-            return { base: cpBase, accumulated: parseFloat(accumulated.toFixed(1)), used, balance: parseFloat((cpBase + accumulated - used).toFixed(1)) };
+            return {
+                base: cpBase,
+                accumulated: parseFloat(accumulated.toFixed(1)),
+                used,
+                balance: parseFloat((cpBase + accumulated - used).toFixed(1))
+            };
         }
 
         // ─── GEOLOCATION ───
         const COMPANY_LAT = 50.3333, COMPANY_LON = 3.5833;
-        function calculateDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2 - lat1) * Math.PI / 180; const dLon = (lon2 - lon1) * Math.PI / 180; const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2); return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); }
-        function getZone(address) { const postalCode = address.match(/\d{5}/)?.[0]; if (!postalCode) return { zone: 1, panier: 0 }; const lat = 50.3 + Math.random() * 2; const lon = 3.5 + Math.random() * 2; const distance = calculateDistance(COMPANY_LAT, COMPANY_LON, lat, lon); if (distance < 10) return { zone: 0, panier: 0 }; if (distance < 30) return { zone: 1, panier: 7.5 }; if (distance < 60) return { zone: 2, panier: 12.5 }; return { zone: 3, panier: 17.5 }; }
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        }
+        function getZone(address) {
+            const postalCode = address.match(/\d{5}/)?.[0];
+            if (!postalCode) return { zone: 1, panier: 0 };
+            const lat = 50.3 + Math.random() * 2;
+            const lon = 3.5 + Math.random() * 2;
+            const distance = calculateDistance(COMPANY_LAT, COMPANY_LON, lat, lon);
+            if (distance < 10) return { zone: 0, panier: 0 };
+            if (distance < 30) return { zone: 1, panier: 7.5 };
+            if (distance < 60) return { zone: 2, panier: 12.5 };
+            return { zone: 3, panier: 17.5 };
+        }
+
+        // ─── NOUVELLE FONCTION CHANTIERS ACTIFS ───
+        const getActiveChantiers = (chantiers) => {
+            const today = new Date().toISOString().split('T')[0];
+            return chantiers.filter(c => {
+                const start = new Date(c.dateDebut + 'T00:00:00');
+                const end = new Date(c.dateFin + 'T00:00:00');
+                const todayDate = new Date(today + 'T00:00:00');
+                return todayDate >= start && todayDate <= end;
+            });
+        };
 
         // ─── APP ───
         function App() {
@@ -962,7 +971,6 @@
             const [needsSave, setNeedsSave] = useState(false);
             const [showPasswordModal, setShowPasswordModal] = useState(false);
 
-            // Auto-load from localStorage on mount
             useEffect(() => {
                 const saved = getStoredData();
                 if (saved) {
@@ -974,44 +982,36 @@
                 }
             }, []);
 
-            // Auto-save to localStorage whenever data changes
             useEffect(() => {
                 const allData = { employees, chantiers, absences, retards, heuresSupp, lastSaved: new Date().toISOString() };
                 setStoredData(allData);
-                // needsSave tracks if there's unsaved manual export
                 if (employees.length > 0 || chantiers.length > 0 || absences.length > 0) {
                     setNeedsSave(true);
                 }
             }, [employees, chantiers, absences, retards, heuresSupp]);
 
             // ─── SAVE / LOAD FILE ───
-            const fileHandleRef = React.useRef(null); // persists the chosen file handle across renders
-
+            const fileHandleRef = React.useRef(null);
             const getDataBlob = () => {
                 const allData = { employees, chantiers, absences, retards, heuresSupp, lastSaved: new Date().toISOString() };
                 return new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
             };
 
-            // "Enregistrer sous" – opens native Save As dialog (File System Access API)
             const saveDataToFile = async () => {
                 try {
                     if (window.showSaveFilePicker) {
                         const handle = await window.showSaveFilePicker({
                             suggestedName: 'thierry-carles-data.json',
-                            types: [{
-                                description: 'Fichier données JSON',
-                                accept: { 'application/json': ['.json'] }
-                            }]
+                            types: [{ description: 'Fichier données JSON', accept: { 'application/json': ['.json'] } }]
                         });
                         const writable = await handle.createWritable();
                         await writable.write(getDataBlob());
                         await writable.close();
-                        fileHandleRef.current = handle; // remember for quick-save
+                        fileHandleRef.current = handle;
                         setNeedsSave(false);
                         setMessage({ type: 'success', text: `Enregistré : ${handle.name}` });
                         setTimeout(() => setMessage(null), 3000);
                     } else {
-                        // Fallback pour les navigateurs qui ne supportent pas showSaveFilePicker
                         const url = URL.createObjectURL(getDataBlob());
                         const link = document.createElement('a');
                         link.href = url; link.download = 'thierry-carles-data.json'; link.click();
@@ -1025,9 +1025,6 @@
                     }
                 }
             };
-
-
-
 
             const loadDataFromFile = (event) => {
                 const file = event.target.files[0];
@@ -1093,8 +1090,14 @@
                 const present = employees.length - todayAbsences.length;
                 const late = todayRetards.length;
                 const absent = todayAbsences.length;
-                const lateEmployees = todayRetards.map(r => { const emp = employees.find(e => e.id === r.employeeId); return emp ? `${emp.nom} (${r.minutes} min)` : ''; }).filter(Boolean);
-                const absentEmployees = todayAbsences.map(a => { const emp = employees.find(e => e.id === a.employeeId); return emp ? `${emp.nom} (${a.motif})` : ''; }).filter(Boolean);
+                const lateEmployees = todayRetards.map(r => {
+                    const emp = employees.find(e => e.id === r.employeeId);
+                    return emp ? `${emp.nom} (${r.minutes} min)` : '';
+                }).filter(Boolean);
+                const absentEmployees = todayAbsences.map(a => {
+                    const emp = employees.find(e => e.id === a.employeeId);
+                    return emp ? `${emp.nom} (${a.motif})` : '';
+                }).filter(Boolean);
                 return { present, late, absent, lateEmployees, absentEmployees };
             };
 
@@ -1145,58 +1148,55 @@
                 }
             };
 
-            // ─── EXPORT (colored & styled) ───
+            // ─── EXPORT AMÉLIORÉ ───
             const exportEmployee = (employeeId) => {
                 const employee = employees.find(e => e.id === employeeId);
                 if (!employee) return;
+
                 const wb = XLSX.utils.book_new();
                 const year = new Date().getFullYear();
                 const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
-                // ── Palette ──
-                const P = '3D3573';          // violet principal
-                const S = 'E84597';          // rose
+                const P = '3D3573';
+                const S = 'E84597';
                 const W = 'FFFFFF';
                 const BG_TITLE = S;
-                const BG_CP = 'F3E8FF';  // lavender clair
+                const BG_CP = 'F3E8FF';
                 const BG_HDR = P;
-                const BG_ROW_A = 'FFFFFF';  // blanc
-                const BG_ROW_B = 'F5F3FA';  // violet très clair – alternance
-                const BG_WEEKEND = 'ECECEC';  // gris neutre
-                const BG_CP_OK = 'D1FAE5';  // vert clair
-                const BG_ABSENT = 'FEE2E2';  // rouge clair
-                const BG_RETARD = 'FEF3C7';  // jaune clair
-                const BG_TOTALS = 'EDE9F5';  // lavender
-                const BG_MOTIF = 'F0E6FF';  // lavender + sombre
+                const BG_ROW_A = 'FFFFFF';
+                const BG_ROW_B = 'F5F3FA';
+                const BG_WEEKEND = 'ECECEC';
+                const BG_CP_OK = 'D1FAE5';
+                const BG_ABSENT = 'FEE2E2';
+                const BG_RETARD = 'FEF3C7';
+                const BG_TOTALS = 'EDE9F5';
+                const BG_MOTIF = 'F0E6FF';
 
-                // ── Fonts ──
-                const fTitle = { bold: true, color: { rgb: W }, sz: 14, name: 'Calibri' };
-                const fCpLabel = { bold: true, color: { rgb: P }, sz: 10, name: 'Calibri' };
-                const fCpValue = { bold: true, color: { rgb: P }, sz: 12, name: 'Calibri' };
-                const fHdr = { bold: true, color: { rgb: W }, sz: 11, name: 'Calibri' };
-                const fNormal = { color: { rgb: '2A2547' }, sz: 10, name: 'Calibri' };
-                const fBold = { bold: true, color: { rgb: '2A2547' }, sz: 10, name: 'Calibri' };
-                const fWeekend = { color: { rgb: '6B7280' }, sz: 10, name: 'Calibri', italic: true };
-                const fAbsent = { bold: true, color: { rgb: 'B91C1C' }, sz: 10, name: 'Calibri' };
-                const fTotLabel = { bold: true, color: { rgb: P }, sz: 11, name: 'Calibri' };
-                const fTotValue = { bold: true, color: { rgb: P }, sz: 12, name: 'Calibri' };
-                const fMotifHdr = { bold: true, color: { rgb: W }, sz: 10, name: 'Calibri' };
-
-                // ── Borders ──
+                // Bordures améliorées
                 const bThin = { style: 'thin', color: { rgb: 'B0AEC0' } };
                 const bMed = { style: 'medium', color: { rgb: P } };
                 const bThick = { style: 'thick', color: { rgb: P } };
                 const bWhite = { style: 'thin', color: { rgb: W } };
-                const bNone = { style: 'thin', color: { rgb: 'FFFFFF' } };
-
                 const bAll = (s) => ({ top: s, bottom: s, left: s, right: s });
                 const bCell = bAll(bThin);
                 const bHdr = bAll(bWhite);
-                const bTitle = { top: bMed, bottom: bMed, left: bMed, right: bMed };
+                const bTitle = bAll(bThick);
                 const bTotals = bAll(bMed);
-                const bLastData = { top: bThin, bottom: bThick, left: bThin, right: bThin }; // dernière ligne avant totaux
+                const bLastData = { top: bThin, bottom: bThick, left: bThin, right: bThin };
 
-                // ── Helpers ──
+                // Polices agrandies
+                const fTitle = { bold: true, color: { rgb: W }, sz: 16, name: 'Calibri' };
+                const fCpLabel = { bold: true, color: { rgb: P }, sz: 11, name: 'Calibri' };
+                const fCpValue = { bold: true, color: { rgb: P }, sz: 14, name: 'Calibri' };
+                const fHdr = { bold: true, color: { rgb: W }, sz: 12, name: 'Calibri' };
+                const fNormal = { color: { rgb: '2A2547' }, sz: 11, name: 'Calibri' };
+                const fBold = { bold: true, color: { rgb: '2A2547' }, sz: 11, name: 'Calibri' };
+                const fWeekend = { color: { rgb: '6B7280' }, sz: 11, name: 'Calibri', italic: true };
+                const fAbsent = { bold: true, color: { rgb: 'B91C1C' }, sz: 11, name: 'Calibri' };
+                const fTotLabel = { bold: true, color: { rgb: P }, sz: 12, name: 'Calibri' };
+                const fTotValue = { bold: true, color: { rgb: P }, sz: 14, name: 'Calibri' };
+                const fMotifHdr = { bold: true, color: { rgb: W }, sz: 11, name: 'Calibri' };
+
                 const fill = (hex) => ({ patternType: 'solid', fgColor: { rgb: hex } });
                 const centerH = { horizontal: 'center', vertical: 'center' };
                 const leftH = { horizontal: 'left', vertical: 'center' };
@@ -1209,40 +1209,38 @@
                     const ws = {};
                     ws['!merges'] = [];
                     let row = 0;
-                    const COLS = 8; // A–H (0–7)
+                    const COLS = 8;
 
-                    // ── ROW 0 : Titre ──
+                    // ROW 0 : Titre avec bordure épaisse
                     ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
                         v: `Planning – ${employee.nom} – ${monthName} ${year}`, t: 's',
-                        s: { font: fTitle, fill: fill(BG_TITLE), alignment: { horizontal: 'center', vertical: 'center' }, border: bTitle }
+                        s: { font: fTitle, fill: fill(BG_TITLE), alignment: centerH, border: bTitle }
                     };
-                    for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: fill(BG_TITLE), border: bTitle } };
+                    for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                        v: '', t: 's', s: { fill: fill(BG_TITLE), border: bTitle }
+                    };
                     ws['!merges'].push({ s: { c: 0, r: row }, e: { c: COLS - 1, r: row } });
                     row++;
 
-                    // ── ROW 1–4 : CP en 4 cases côte à côte ──
-                    // On fait 2 lignes : labels puis valeurs, sur 4 colonnes (A-B et C-D fusionnées par paires)
+                    // CP résumé (inchangé sauf polices)
                     const cpItems = [
                         { label: 'CP de base (année)', value: String(cpBal.base) },
                         { label: 'Accumulés (+2.5/mois)', value: '+' + cpBal.accumulated },
                         { label: 'Utilisés', value: String(cpBal.used) },
                         { label: 'Solde CP', value: String(cpBal.balance) }
                     ];
-                    // Ligne labels
+
                     cpItems.forEach((item, i) => {
                         const c = i * 2;
                         ws[XLSX.utils.encode_cell({ c, r: row })] = {
                             v: item.label, t: 's',
                             s: { font: fCpLabel, fill: fill(BG_CP), alignment: centerH, border: bTotals }
                         };
-                        ws[XLSX.utils.encode_cell({ c: c + 1, r: row })] = {
-                            v: '', t: 's',
-                            s: { fill: fill(BG_CP), border: bTotals }
-                        };
+                        ws[XLSX.utils.encode_cell({ c: c + 1, r: row })] = { v: '', t: 's', s: { fill: fill(BG_CP), border: bTotals } };
                         ws['!merges'].push({ s: { c, r: row }, e: { c: c + 1, r: row } });
                     });
                     row++;
-                    // Ligne valeurs
+
                     cpItems.forEach((item, i) => {
                         const c = i * 2;
                         const isNeg = cpBal.balance < 0 && i === 3;
@@ -1250,15 +1248,12 @@
                             v: item.value, t: 's',
                             s: { font: { ...fCpValue, color: { rgb: isNeg ? 'EF4444' : P } }, fill: fill(BG_CP), alignment: centerH, border: bTotals }
                         };
-                        ws[XLSX.utils.encode_cell({ c: c + 1, r: row })] = {
-                            v: '', t: 's',
-                            s: { fill: fill(BG_CP), border: bTotals }
-                        };
+                        ws[XLSX.utils.encode_cell({ c: c + 1, r: row })] = { v: '', t: 's', s: { fill: fill(BG_CP), border: bTotals } };
                         ws['!merges'].push({ s: { c, r: row }, e: { c: c + 1, r: row } });
                     });
                     row++;
 
-                    // ── En-tête colonnes ──
+                    // En-tête
                     const headers = ['Date', 'Jour', 'Heures', 'Chantier', 'Zone', 'Panier (€)', 'Retard (min)', 'Absence'];
                     headers.forEach((h, c) => {
                         ws[XLSX.utils.encode_cell({ c, r: row })] = {
@@ -1267,9 +1262,9 @@
                         };
                     });
                     row++;
+
                     const dataStartRow = row;
 
-                    // ── Données jour par jour ──
                     let totalHeures = 0, totalPanier = 0, totalHeuresSupp = 0, totalRetards = 0, totalConges = 0;
                     let absencesByMotif = {};
 
@@ -1282,14 +1277,13 @@
                         const dayName = dayNamesLow[date.getDay()];
                         const isWeekend = date.getDay() === 0 || date.getDay() === 6;
                         const isLastDay = (day === daysInMonth);
-
-                        // Date formatée en français : "05 janvier 2026"
                         const dateFormatted = `${String(day).padStart(2, '0')} ${monthName.toLowerCase()} ${year}`;
 
-                        const absence = absences.find(a => a.employeeId === employeeId && new Date(a.dateDebut + 'T00:00:00') <= date && new Date(a.dateFin + 'T00:00:00') >= date);
+                        const absence = absences.find(a => a.employeeId === employeeId &&
+                            new Date(a.dateDebut + 'T00:00:00') <= date &&
+                            new Date(a.dateFin + 'T00:00:00') >= date);
 
                         let rowData, bg, font;
-                        // Alternance de fond : impair=blanc, pair=gris très clair
                         const altBg = (day % 2 === 0) ? BG_ROW_B : BG_ROW_A;
 
                         if (absence) {
@@ -1314,9 +1308,13 @@
                                 let heures = (fin - debut) / (1000 * 60 * 60);
 
                                 const chantierAssignment = chantiers.find(c => {
-                                    const hasEmp = c.employees?.some(e => e.employeeId === employeeId && new Date(e.dateDebut + 'T00:00:00') <= date && new Date(e.dateFin + 'T00:00:00') >= date);
-                                    return hasEmp && new Date(c.dateDebut + 'T00:00:00') <= date && new Date(c.dateFin + 'T00:00:00') >= date;
+                                    const hasEmp = c.employees?.some(e => e.employeeId === employeeId &&
+                                        new Date(e.dateDebut + 'T00:00:00') <= date &&
+                                        new Date(e.dateFin + 'T00:00:00') >= date);
+                                    return hasEmp && new Date(c.dateDebut + 'T00:00:00') <= date &&
+                                        new Date(c.dateFin + 'T00:00:00') >= date;
                                 });
+
                                 const chantierNom = chantierAssignment?.nom || '';
                                 const zone = chantierAssignment?.zone !== undefined ? chantierAssignment.zone : '';
                                 const panier = chantierAssignment?.panier || 0;
@@ -1326,29 +1324,41 @@
 
                                 const hSupp = heuresSupp.find(h => h.employeeId === employeeId && h.date === dateStr);
                                 if (hSupp) {
-                                    if (hSupp.type === 'arrivee') { const hr = new Date(`2000-01-01T${hSupp.heureReelle}`); heures += (debut - hr) / (1000 * 60 * 60); }
-                                    else { const hr = new Date(`2000-01-01T${hSupp.heureReelle}`); heures += (hr - fin) / (1000 * 60 * 60); }
-                                    totalHeuresSupp += Math.abs(hSupp.heureReelle && schedule[hSupp.type === 'arrivee' ? 'debut' : 'fin'] ? (new Date(`2000-01-01T${hSupp.heureReelle}`) - new Date(`2000-01-01T${schedule[hSupp.type === 'arrivee' ? 'debut' : 'fin']}`)) / (1000 * 60 * 60) : 0);
+                                    if (hSupp.type === 'arrivee') {
+                                        const hr = new Date(`2000-01-01T${hSupp.heureReelle}`);
+                                        heures += (debut - hr) / (1000 * 60 * 60);
+                                    } else {
+                                        const hr = new Date(`2000-01-01T${hSupp.heureReelle}`);
+                                        heures += (hr - fin) / (1000 * 60 * 60);
+                                    }
+                                    totalHeuresSupp += Math.abs(
+                                        hSupp.heureReelle && schedule[hSupp.type === 'arrivee' ? 'debut' : 'fin'] ?
+                                        (new Date(`2000-01-01T${hSupp.heureReelle}`) -
+                                         new Date(`2000-01-01T${schedule[hSupp.type === 'arrivee' ? 'debut' : 'fin']}`)) / (1000 * 60 * 60) : 0
+                                    );
                                 }
 
-                                totalHeures += heures; totalPanier += panier; totalRetards += retardMinutes;
+                                totalHeures += heures;
+                                totalPanier += panier;
+                                totalRetards += retardMinutes;
+
                                 rowData = [dateFormatted, dayOfWeek, parseFloat(heures.toFixed(2)), chantierNom, zone, panier, retardMinutes, ''];
                                 bg = retardMinutes > 0 ? BG_RETARD : altBg;
                                 font = retardMinutes > 0 ? fBold : fNormal;
                             }
                         }
 
-                        // Bordure : dernière ligne du mois → bordure bas épaisse
                         const rowBorder = isLastDay ? bLastData : bCell;
-
                         rowData.forEach((val, c) => {
                             const isNum = typeof val === 'number';
-                            // colonnes 2,5,6 = nombres → aligner à droite
                             const align = (c === 0 || c === 1 || c === 3 || c === 7) ? leftH : rightH;
                             ws[XLSX.utils.encode_cell({ c, r: row })] = {
                                 v: val, t: isNum ? 'n' : 's',
                                 s: {
-                                    font, fill: fill(bg), border: rowBorder, alignment: align,
+                                    font,
+                                    fill: fill(bg),
+                                    border: rowBorder,
+                                    alignment: align,
                                     numFmt: (c === 2 || c === 6) ? '0.00' : (c === 5 ? '#,##0.00' : undefined)
                                 }
                             };
@@ -1356,20 +1366,20 @@
                         row++;
                     }
 
-                    // ── Ligne vide séparateur ──
-                    row++;
+                    row++; // ligne vide
 
-                    // ── RÉSUMÉ DU MOIS ──
-                    // Titre du résumé
+                    // RÉSUMÉ DU MOIS avec bordure épaisse
                     ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
                         v: 'RÉSUMÉ DU MOIS', t: 's',
-                        s: { font: { bold: true, sz: 12, color: { rgb: W }, name: 'Calibri' }, fill: fill(BG_HDR), alignment: centerH, border: bTotals }
+                        s: { font: { bold: true, sz: 14, color: { rgb: W }, name: 'Calibri' },
+                             fill: fill(BG_HDR), alignment: centerH, border: bThick }
                     };
-                    for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: fill(BG_HDR), border: bTotals } };
+                    for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                        v: '', t: 's', s: { fill: fill(BG_HDR), border: bThick }
+                    };
                     ws['!merges'].push({ s: { c: 0, r: row }, e: { c: COLS - 1, r: row } });
                     row++;
 
-                    // Totaux en grille 2 colonnes (label | valeur) sur 4 colonnes fusionnées
                     const totalsData = [
                         ['Total heures travaillées', totalHeures.toFixed(2) + ' h'],
                         ['Montant paniers', totalPanier.toFixed(2) + ' €'],
@@ -1379,47 +1389,39 @@
                     ];
 
                     totalsData.forEach(([label, value], idx) => {
-                        // Chaque ligne : col 0-1 = label (fusionné), col 2-3 = valeur (fusionné)
-                        // On décale : paires sur 4 colonnes, puis on laisse les colonnes 4-7 vides avec le même fond
                         ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
                             v: label, t: 's',
                             s: { font: fTotLabel, fill: fill(BG_TOTALS), alignment: leftH, border: bTotals }
                         };
-                        ws[XLSX.utils.encode_cell({ c: 1, r: row })] = {
-                            v: '', t: 's',
-                            s: { fill: fill(BG_TOTALS), border: bTotals }
-                        };
+                        ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: '', t: 's', s: { fill: fill(BG_TOTALS), border: bTotals } };
                         ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 1, r: row } });
 
                         ws[XLSX.utils.encode_cell({ c: 2, r: row })] = {
                             v: value, t: 's',
                             s: { font: fTotValue, fill: fill(BG_TOTALS), alignment: rightH, border: bTotals }
                         };
-                        ws[XLSX.utils.encode_cell({ c: 3, r: row })] = {
-                            v: '', t: 's',
-                            s: { fill: fill(BG_TOTALS), border: bTotals }
-                        };
+                        ws[XLSX.utils.encode_cell({ c: 3, r: row })] = { v: '', t: 's', s: { fill: fill(BG_TOTALS), border: bTotals } };
                         ws['!merges'].push({ s: { c: 2, r: row }, e: { c: 3, r: row } });
 
-                        // Colonnes 4–7 : fond identique, bordure
-                        for (let c = 4; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: fill(BG_TOTALS), border: bTotals } };
+                        for (let c = 4; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                            v: '', t: 's', s: { fill: fill(BG_TOTALS), border: bTotals }
+                        };
                         row++;
                     });
 
-                    // ── ABSENCES PAR MOTIF ──
                     if (Object.keys(absencesByMotif).length > 0) {
-                        row++; // ligne vide
-
-                        // Sous-titre
+                        row++;
                         ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
                             v: 'ABSENCES PAR MOTIF', t: 's',
-                            s: { font: { bold: true, sz: 11, color: { rgb: W }, name: 'Calibri' }, fill: fill(P), alignment: centerH, border: bTotals }
+                            s: { font: { bold: true, sz: 13, color: { rgb: W }, name: 'Calibri' },
+                                 fill: fill(P), alignment: centerH, border: bThick }
                         };
-                        for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: fill(P), border: bTotals } };
+                        for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                            v: '', t: 's', s: { fill: fill(P), border: bThick }
+                        };
                         ws['!merges'].push({ s: { c: 0, r: row }, e: { c: COLS - 1, r: row } });
                         row++;
 
-                        // En-tête : Motif | Jours
                         ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
                             v: 'Motif', t: 's',
                             s: { font: fMotifHdr, fill: fill(BG_MOTIF), alignment: leftH, border: bTotals }
@@ -1428,11 +1430,12 @@
                             v: 'Jours', t: 's',
                             s: { font: fMotifHdr, fill: fill(BG_MOTIF), alignment: centerH, border: bTotals }
                         };
-                        for (let c = 2; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: fill(BG_MOTIF), border: bTotals } };
+                        for (let c = 2; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                            v: '', t: 's', s: { fill: fill(BG_MOTIF), border: bTotals }
+                        };
                         ws['!merges'].push({ s: { c: 2, r: row }, e: { c: COLS - 1, r: row } });
                         row++;
 
-                        // Lignes de données
                         Object.entries(absencesByMotif).forEach(([motif, count]) => {
                             const motifBg = motif === 'Congés payés' ? BG_CP_OK : motif === 'Maladie' ? BG_ABSENT : BG_RETARD;
                             ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
@@ -1443,29 +1446,25 @@
                                 v: count, t: 'n',
                                 s: { font: { bold: true, sz: 11, color: { rgb: P }, name: 'Calibri' }, fill: fill(motifBg), alignment: centerH, border: bCell }
                             };
-                            for (let c = 2; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: fill(motifBg), border: bCell } };
+                            for (let c = 2; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                                v: '', t: 's', s: { fill: fill(motifBg), border: bCell }
+                            };
                             row++;
                         });
                     }
 
-                    // ── Dimensions ──
                     ws['!ref'] = XLSX.utils.encode_range({ s: { c: 0, r: 0 }, e: { c: COLS - 1, r: row - 1 } });
                     ws['!cols'] = [
-                        { wch: 18 },  // Date
-                        { wch: 13 },  // Jour
-                        { wch: 10 },  // Heures
-                        { wch: 24 },  // Chantier
-                        { wch: 8 },  // Zone
-                        { wch: 13 },  // Panier
-                        { wch: 13 },  // Retard
-                        { wch: 18 }   // Absence
+                        { wch: 18 }, { wch: 13 }, { wch: 10 }, { wch: 24 },
+                        { wch: 8 },  { wch: 13 }, { wch: 13 }, { wch: 18 }
                     ];
+
                     ws['!rows'] = [];
                     for (let r = 0; r < row; r++) {
-                        if (r === 0) ws['!rows'].push({ ht: 30 });  // titre
-                        else if (r <= 2) ws['!rows'].push({ ht: 22 }); // CP labels + valeurs
-                        else if (r === 3) ws['!rows'].push({ ht: 22 }); // en-tête
-                        else ws['!rows'].push({ ht: 19 });
+                        if (r === 0) ws['!rows'].push({ ht: 35 });
+                        else if (r <= 2) ws['!rows'].push({ ht: 24 });
+                        else if (r === 3) ws['!rows'].push({ ht: 24 });
+                        else ws['!rows'].push({ ht: 20 });
                     }
 
                     XLSX.utils.book_append_sheet(wb, ws, monthName);
@@ -1482,6 +1481,7 @@
             }
 
             const stats = getTodayStats();
+            const activeChantiersToday = getActiveChantiers(chantiers);
 
             return (
                 <div className="app">
@@ -1499,38 +1499,90 @@
                         </div>
                     </header>
 
-                    {message && <div className={message.type === 'error' ? 'error-message' : 'success-message'}>{message.text}</div>}
+                    {message && (
+                        <div className={message.type === 'error' ? 'error-message' : 'success-message'}>
+                            {message.text}
+                        </div>
+                    )}
 
                     <div className="tabs">
                         {[['dashboard', 'Tableau de Bord'], ['employees', 'Employés'], ['modifications', 'Modifications'], ['chantiers', 'Chantiers'], ['export', 'Export']].map(([key, label]) => (
-                            <button key={key} className={`tab ${activeTab === key ? 'active' : ''}`} onClick={() => setActiveTab(key)}>{label}</button>
+                            <button key={key} className={`tab ${activeTab === key ? 'active' : ''}`} onClick={() => setActiveTab(key)}>
+                                {label}
+                            </button>
                         ))}
                     </div>
 
-                    {activeTab === 'dashboard' && <Dashboard stats={stats} />}
+                    {activeTab === 'dashboard' && (
+                        <Dashboard
+                            stats={stats}
+                            activeChantiers={activeChantiersToday}
+                            employees={employees}
+                        />
+                    )}
+
                     {activeTab === 'employees' && (
-                        <EmployeesTab employees={employees} absences={absences}
+                        <EmployeesTab
+                            employees={employees}
+                            absences={absences}
                             onAdd={() => { setEditingEmployee(null); setShowModal(true); }}
                             onEdit={(emp) => { setEditingEmployee(emp); setShowModal(true); }}
                             onDelete={deleteEmployee}
                         />
                     )}
+
                     {activeTab === 'modifications' && (
-                        <ModificationsTab employees={employees} absences={absences} setAbsences={setAbsences}
-                            retards={retards} setRetards={setRetards}
-                            heuresSupp={heuresSupp} setHeuresSupp={setHeuresSupp} setMessage={setMessage} />
+                        <ModificationsTab
+                            employees={employees}
+                            absences={absences}
+                            setAbsences={setAbsences}
+                            retards={retards}
+                            setRetards={setRetards}
+                            heuresSupp={heuresSupp}
+                            setHeuresSupp={setHeuresSupp}
+                            setMessage={setMessage}
+                        />
                     )}
+
                     {activeTab === 'chantiers' && (
-                        <ChantiersTab chantiers={chantiers} employees={employees}
+                        <ChantiersTab
+                            chantiers={chantiers}
+                            employees={employees}
                             onAdd={() => { setEditingChantier(null); setShowChantierModal(true); }}
                             onEdit={(ch) => { setEditingChantier(ch); setShowChantierModal(true); }}
-                            onDelete={deleteChantier} setChantiers={setChantiers} setMessage={setMessage} />
+                            onDelete={deleteChantier}
+                            setChantiers={setChantiers}
+                            setMessage={setMessage}
+                        />
                     )}
-                    {activeTab === 'export' && <ExportTab employees={employees} onExport={exportEmployee} />}
 
-                    {showModal && <EmployeeModal employee={editingEmployee} onSave={saveEmployee} onClose={() => { setShowModal(false); setEditingEmployee(null); }} />}
-                    {showChantierModal && <ChantierModal chantier={editingChantier} employees={employees} onSave={saveChantier} onClose={() => { setShowChantierModal(false); setEditingChantier(null); }} />}
-                    {showPasswordModal && <PasswordModal onSave={changePassword} onClose={() => setShowPasswordModal(false)} />}
+                    {activeTab === 'export' && (
+                        <ExportTab employees={employees} onExport={exportEmployee} />
+                    )}
+
+                    {showModal && (
+                        <EmployeeModal
+                            employee={editingEmployee}
+                            onSave={saveEmployee}
+                            onClose={() => { setShowModal(false); setEditingEmployee(null); }}
+                        />
+                    )}
+
+                    {showChantierModal && (
+                        <ChantierModal
+                            chantier={editingChantier}
+                            employees={employees}
+                            onSave={saveChantier}
+                            onClose={() => { setShowChantierModal(false); setEditingChantier(null); }}
+                        />
+                    )}
+
+                    {showPasswordModal && (
+                        <PasswordModal
+                            onSave={changePassword}
+                            onClose={() => setShowPasswordModal(false)}
+                        />
+                    )}
                 </div>
             );
         }
@@ -1606,22 +1658,98 @@
         }
 
         // ─── DASHBOARD ───
-        function Dashboard({ stats }) {
+        function Dashboard({ stats, activeChantiers, employees }) {
+            const today = new Date().toISOString().split('T')[0];
+
             return (
-                <div className="stats-grid">
-                    <div className="stat-card present">
-                        <h4>Présents</h4>
-                        <div className="value">{stats.present}</div>
+                <div>
+                    <div className="stats-grid">
+                        <div className="stat-card present">
+                            <h4>Présents</h4>
+                            <div className="value">{stats.present}</div>
+                        </div>
+                        <div className="stat-card late">
+                            <h4>Retards aujourd'hui</h4>
+                            <div className="value">{stats.late}</div>
+                            <div className="list">{stats.lateEmployees.length > 0 ? stats.lateEmployees.join(', ') : 'Aucun retard'}</div>
+                        </div>
+                        <div className="stat-card absent">
+                            <h4>Absents</h4>
+                            <div className="value">{stats.absent}</div>
+                            <div className="list">{stats.absentEmployees.length > 0 ? stats.absentEmployees.join(', ') : 'Aucune absence'}</div>
+                        </div>
                     </div>
-                    <div className="stat-card late">
-                        <h4>Retards aujourd'hui</h4>
-                        <div className="value">{stats.late}</div>
-                        <div className="list">{stats.lateEmployees.length > 0 ? stats.lateEmployees.join(', ') : 'Aucun retard'}</div>
-                    </div>
-                    <div className="stat-card absent">
-                        <h4>Absents</h4>
-                        <div className="value">{stats.absent}</div>
-                        <div className="list">{stats.absentEmployees.length > 0 ? stats.absentEmployees.join(', ') : 'Aucune absence'}</div>
+
+                    <div className="chantiers-dashboard">
+                        <h3>🏗️ Chantiers en cours aujourd'hui</h3>
+                        {activeChantiers.length === 0 ? (
+                            <p style={{ textAlign: 'center', color: 'var(--text-light)', padding: '36px 0', fontSize: '14px' }}>
+                                Aucun chantier actif aujourd'hui
+                            </p>
+                        ) : (
+                            activeChantiers.map(chantier => {
+                                const assignedToday = (chantier.employees || []).filter(assignment => {
+                                    const start = new Date(assignment.dateDebut + 'T00:00:00');
+                                    const end = new Date(assignment.dateFin + 'T00:00:00');
+                                    const todayDate = new Date(today + 'T00:00:00');
+                                    return todayDate >= start && todayDate <= end;
+                                });
+
+                                return (
+                                    <div key={chantier.id} className="chantier-dashboard-item">
+                                        <div className="chantier-dashboard-header">
+                                            <div>
+                                                <div className="chantier-dashboard-title">{chantier.nom}</div>
+                                                <div className="chantier-dashboard-lieu">📍 {chantier.lieu}</div>
+                                                <div className="chantier-dashboard-dates">
+                                                    Du {new Date(chantier.dateDebut + 'T00:00:00').toLocaleDateString('fr-FR')}
+                                                    au {new Date(chantier.dateFin + 'T00:00:00').toLocaleDateString('fr-FR')}
+                                                </div>
+                                            </div>
+                                            <div className="chantier-dashboard-zone-badge">
+                                                Zone {chantier.zone} • {chantier.panier}€
+                                            </div>
+                                        </div>
+
+                                        {assignedToday.length > 0 && (
+                                            <div>
+                                                <div style={{
+                                                    fontSize: '12px',
+                                                    fontWeight: '600',
+                                                    color: 'var(--text-light)',
+                                                    marginBottom: '10px',
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '0.5px'
+                                                }}>
+                                                    Employés assignés ({assignedToday.length})
+                                                </div>
+                                                <div className="chantier-employees-list">
+                                                    {assignedToday.map(assignment => {
+                                                        const emp = employees.find(e => e.id === assignment.employeeId);
+                                                        return emp ? (
+                                                            <div key={assignment.id} className="chantier-employee-badge">
+                                                                {emp.nom}
+                                                            </div>
+                                                        ) : null;
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {assignedToday.length === 0 && (
+                                            <div style={{
+                                                fontSize: '13px',
+                                                color: 'var(--text-light)',
+                                                fontStyle: 'italic',
+                                                marginTop: '10px'
+                                            }}>
+                                                Aucun employé assigné aujourd'hui
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })
+                        )}
                     </div>
                 </div>
             );
@@ -1631,7 +1759,6 @@
         function EmployeesTab({ employees, absences, onAdd, onEdit, onDelete }) {
             const [selectedEmp, setSelectedEmp] = useState(null);
             const [detailTab, setDetailTab] = useState('absences');
-
             const empAbsences = selectedEmp ? absences.filter(a => a.employeeId === selectedEmp.id) : [];
             const cpBal = selectedEmp ? computeCPBalance(selectedEmp, absences) : null;
 
@@ -1711,11 +1838,6 @@
                                                     </div>
                                                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                                         <span className={`motif-tag ${motifClass}`}>{abs.motif}</span>
-                                                        <button className="btn btn-delete" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={() => {
-                                                            // We need a way to delete — pass setAbsences via props or use a callback
-                                                            // For simplicity, we'll use a custom event approach; but since we have no direct access here,
-                                                            // we'll handle it via a global-like approach. For now, just show.
-                                                        }}>×</button>
                                                     </div>
                                                 </div>
                                             );
@@ -1751,12 +1873,33 @@
         // ─── EMPLOYEE MODAL ───
         function EmployeeModal({ employee, onSave, onClose }) {
             const [formData, setFormData] = useState(employee || {
-                nom: '', cpBase: 25,
-                horaires: { lundi: { debut: '', fin: '' }, mardi: { debut: '', fin: '' }, mercredi: { debut: '', fin: '' }, jeudi: { debut: '', fin: '' }, vendredi: { debut: '', fin: '' }, samedi: { debut: '', fin: '' }, dimanche: { debut: '', fin: '' } }
+                nom: '',
+                cpBase: 25,
+                horaires: {
+                    lundi: { debut: '', fin: '' },
+                    mardi: { debut: '', fin: '' },
+                    mercredi: { debut: '', fin: '' },
+                    jeudi: { debut: '', fin: '' },
+                    vendredi: { debut: '', fin: '' },
+                    samedi: { debut: '', fin: '' },
+                    dimanche: { debut: '', fin: '' }
+                }
             });
 
-            const handleSubmit = (e) => { e.preventDefault(); onSave(formData); };
-            const updateHoraire = (jour, type, value) => setFormData({ ...formData, horaires: { ...formData.horaires, [jour]: { ...formData.horaires[jour], [type]: value } } });
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                onSave(formData);
+            };
+
+            const updateHoraire = (jour, type, value) => {
+                setFormData({
+                    ...formData,
+                    horaires: {
+                        ...formData.horaires,
+                        [jour]: { ...formData.horaires[jour], [type]: value }
+                    }
+                });
+            };
 
             const jours = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
 
@@ -1771,8 +1914,14 @@
                             </div>
                             <div className="form-group">
                                 <label>Nombre de CP de base (jours/an)</label>
-                                <input type="number" value={formData.cpBase || 25} min="0" max="50" step="0.5"
-                                    onChange={e => setFormData({ ...formData, cpBase: parseFloat(e.target.value) || 0 })} />
+                                <input
+                                    type="number"
+                                    value={formData.cpBase || 25}
+                                    min="0"
+                                    max="50"
+                                    step="0.5"
+                                    onChange={e => setFormData({ ...formData, cpBase: parseFloat(e.target.value) || 0 })}
+                                />
                             </div>
                             <h4 style={{ marginTop: '20px', marginBottom: '12px', color: 'var(--primary)', fontSize: '14px' }}>Horaires hebdomadaires</h4>
                             <div className="schedule-grid">
@@ -1780,10 +1929,18 @@
                                     <div key={jour} className="schedule-day">
                                         <label style={{ textTransform: 'capitalize' }}>{jour}</label>
                                         <div className="time-inputs">
-                                            <input type="time" value={formData.horaires[jour]?.debut || ''} onChange={e => updateHoraire(jour, 'debut', e.target.value)} />
+                                            <input
+                                                type="time"
+                                                value={formData.horaires[jour]?.debut || ''}
+                                                onChange={e => updateHoraire(jour, 'debut', e.target.value)}
+                                            />
                                         </div>
                                         <div className="time-inputs">
-                                            <input type="time" value={formData.horaires[jour]?.fin || ''} onChange={e => updateHoraire(jour, 'fin', e.target.value)} />
+                                            <input
+                                                type="time"
+                                                value={formData.horaires[jour]?.fin || ''}
+                                                onChange={e => updateHoraire(jour, 'fin', e.target.value)}
+                                            />
                                         </div>
                                     </div>
                                 ))}
@@ -1807,7 +1964,6 @@
 
             const motifsAbsence = ['Congés payés', 'Maladie', 'Congé sans solde', 'Formation', 'Événement familial', 'Autre'];
 
-            // When user selects employee, filter all forms
             const empAbsences = selectedEmp ? absences.filter(a => a.employeeId === selectedEmp) : [];
             const empRetards = selectedEmp ? retards.filter(r => r.employeeId === selectedEmp) : [];
             const empHeuresSupp = selectedEmp ? heuresSupp.filter(h => h.employeeId === selectedEmp) : [];
@@ -1864,7 +2020,6 @@
 
             return (
                 <div>
-                    {/* Employee selector */}
                     <div className="card">
                         <h3>Sélectionner un employé</h3>
                         <div className="form-group" style={{ marginBottom: 0 }}>
@@ -1877,7 +2032,6 @@
 
                     {selectedEmp && (
                         <>
-                            {/* Absences */}
                             <div className="card">
                                 <h3>Absences – {empName}</h3>
                                 <form onSubmit={handleAbsenceSubmit}>
@@ -1899,6 +2053,7 @@
                                     </div>
                                     <button type="submit" className="btn btn-edit">+ Ajouter absence</button>
                                 </form>
+
                                 {empAbsences.length > 0 && (
                                     <div style={{ marginTop: '16px' }}>
                                         <p style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-light)', textTransform: 'uppercase', marginBottom: '8px' }}>Liste des absences</p>
@@ -1907,8 +2062,12 @@
                                             return (
                                                 <div key={abs.id} className="absence-list-item">
                                                     <div>
-                                                        <span style={{ fontSize: '13px', fontWeight: '600' }}>{new Date(abs.dateDebut + 'T00:00:00').toLocaleDateString('fr-FR')} → {new Date(abs.dateFin + 'T00:00:00').toLocaleDateString('fr-FR')}</span>
-                                                        <span style={{ fontSize: '11px', color: 'var(--text-light)', marginLeft: '8px' }}>({countWorkDays(abs.dateDebut, abs.dateFin)} jour{countWorkDays(abs.dateDebut, abs.dateFin) > 1 ? 's' : ''})</span>
+                                                        <span style={{ fontSize: '13px', fontWeight: '600' }}>
+                                                            {new Date(abs.dateDebut + 'T00:00:00').toLocaleDateString('fr-FR')} → {new Date(abs.dateFin + 'T00:00:00').toLocaleDateString('fr-FR')}
+                                                        </span>
+                                                        <span style={{ fontSize: '11px', color: 'var(--text-light)', marginLeft: '8px' }}>
+                                                            ({countWorkDays(abs.dateDebut, abs.dateFin)} jour{countWorkDays(abs.dateDebut, abs.dateFin) > 1 ? 's' : ''})
+                                                        </span>
                                                     </div>
                                                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                                         <span className={`motif-tag ${motifClass}`}>{abs.motif}</span>
@@ -1921,7 +2080,6 @@
                                 )}
                             </div>
 
-                            {/* Retards */}
                             <div className="card">
                                 <h3>Retards & Départs anticipés – {empName}</h3>
                                 <form onSubmit={handleRetardSubmit}>
@@ -1937,12 +2095,15 @@
                                     </div>
                                     <button type="submit" className="btn btn-edit">+ Ajouter retard</button>
                                 </form>
+
                                 {empRetards.length > 0 && (
                                     <div style={{ marginTop: '16px' }}>
                                         <p style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-light)', textTransform: 'uppercase', marginBottom: '8px' }}>Liste des retards</p>
                                         {empRetards.map(ret => (
                                             <div key={ret.id} className="absence-list-item">
-                                                <span style={{ fontSize: '13px', fontWeight: '600' }}>{new Date(ret.date + 'T00:00:00').toLocaleDateString('fr-FR')} – {ret.minutes > 0 ? `+${ret.minutes} min` : `${ret.minutes} min`}</span>
+                                                <span style={{ fontSize: '13px', fontWeight: '600' }}>
+                                                    {new Date(ret.date + 'T00:00:00').toLocaleDateString('fr-FR')} – {ret.minutes > 0 ? `+${ret.minutes} min` : `${ret.minutes} min`}
+                                                </span>
                                                 <button className="btn btn-delete" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={() => deleteRetard(ret.id)}>Supprimer</button>
                                             </div>
                                         ))}
@@ -1950,7 +2111,6 @@
                                 )}
                             </div>
 
-                            {/* Heures Supp */}
                             <div className="card">
                                 <h3>Heures Supplémentaires – {empName}</h3>
                                 <form onSubmit={handleHeureSuppSubmit}>
@@ -1973,12 +2133,15 @@
                                     </div>
                                     <button type="submit" className="btn btn-edit">+ Ajouter</button>
                                 </form>
+
                                 {empHeuresSupp.length > 0 && (
                                     <div style={{ marginTop: '16px' }}>
                                         <p style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-light)', textTransform: 'uppercase', marginBottom: '8px' }}>Liste des heures supplémentaires</p>
                                         {empHeuresSupp.map(hs => (
                                             <div key={hs.id} className="absence-list-item">
-                                                <span style={{ fontSize: '13px', fontWeight: '600' }}>{new Date(hs.date + 'T00:00:00').toLocaleDateString('fr-FR')} – {hs.type === 'arrivee' ? 'Arrivée' : 'Départ'} à {hs.heureReelle}</span>
+                                                <span style={{ fontSize: '13px', fontWeight: '600' }}>
+                                                    {new Date(hs.date + 'T00:00:00').toLocaleDateString('fr-FR')} – {hs.type === 'arrivee' ? 'Arrivée' : 'Départ'} à {hs.heureReelle}
+                                                </span>
                                                 <button className="btn btn-delete" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={() => deleteHeureSupp(hs.id)}>Supprimer</button>
                                             </div>
                                         ))}
@@ -1997,20 +2160,31 @@
             const [selectedChantier, setSelectedChantier] = useState(null);
             const [assignForm, setAssignForm] = useState({ employeeId: '', dateDebut: '', dateFin: '' });
 
-            const handleAssignEmployee = (chantier) => { setSelectedChantier(chantier); setShowAssignModal(true); setAssignForm({ employeeId: '', dateDebut: '', dateFin: '' }); };
+            const handleAssignEmployee = (chantier) => {
+                setSelectedChantier(chantier);
+                setShowAssignModal(true);
+                setAssignForm({ employeeId: '', dateDebut: '', dateFin: '' });
+            };
 
             const submitAssignment = (e) => {
                 e.preventDefault();
                 if (!assignForm.employeeId || !assignForm.dateDebut || !assignForm.dateFin) return;
-                setChantiers(chantiers.map(c => c.id === selectedChantier.id ? { ...c, employees: [...(c.employees || []), { id: Date.now().toString(), ...assignForm }] } : c));
-                setShowAssignModal(false); setSelectedChantier(null);
+                setChantiers(chantiers.map(c => c.id === selectedChantier.id ? {
+                    ...c,
+                    employees: [...(c.employees || []), { id: Date.now().toString(), ...assignForm }]
+                } : c));
+                setShowAssignModal(false);
+                setSelectedChantier(null);
                 setMessage({ type: 'success', text: 'Employé assigné au chantier' });
                 setTimeout(() => setMessage(null), 3000);
             };
 
             const removeAssignment = (chantierId, assignmentId) => {
                 if (confirm('Retirer cet employé ?')) {
-                    setChantiers(chantiers.map(c => c.id === chantierId ? { ...c, employees: c.employees.filter(e => e.id !== assignmentId) } : c));
+                    setChantiers(chantiers.map(c => c.id === chantierId ? {
+                        ...c,
+                        employees: c.employees.filter(e => e.id !== assignmentId)
+                    } : c));
                     setMessage({ type: 'success', text: 'Assignation supprimée' });
                     setTimeout(() => setMessage(null), 3000);
                 }
@@ -2022,6 +2196,7 @@
                         <h3>Gestion des Chantiers</h3>
                         <button className="btn btn-edit" onClick={onAdd}>+ Nouveau chantier</button>
                     </div>
+
                     {chantiers.length === 0 ? (
                         <p style={{ textAlign: 'center', color: 'var(--text-light)', padding: '36px' }}>Aucun chantier enregistré</p>
                     ) : chantiers.map(chantier => (
@@ -2039,6 +2214,7 @@
                                     <button className="btn btn-delete" onClick={() => onDelete(chantier.id)}>Supprimer</button>
                                 </div>
                             </div>
+
                             {chantier.employees && chantier.employees.length > 0 && (
                                 <div className="employee-assignments">
                                     <h4 style={{ fontSize: '13px', marginBottom: '10px', color: 'var(--primary)' }}>Employés assignés :</h4>
@@ -2079,11 +2255,25 @@
                                     <div className="form-grid">
                                         <div className="form-group">
                                             <label>Date de début</label>
-                                            <input type="date" value={assignForm.dateDebut} onChange={e => setAssignForm({ ...assignForm, dateDebut: e.target.value })} min={selectedChantier.dateDebut} max={selectedChantier.dateFin} required />
+                                            <input
+                                                type="date"
+                                                value={assignForm.dateDebut}
+                                                onChange={e => setAssignForm({ ...assignForm, dateDebut: e.target.value })}
+                                                min={selectedChantier.dateDebut}
+                                                max={selectedChantier.dateFin}
+                                                required
+                                            />
                                         </div>
                                         <div className="form-group">
                                             <label>Date de fin</label>
-                                            <input type="date" value={assignForm.dateFin} onChange={e => setAssignForm({ ...assignForm, dateFin: e.target.value })} min={selectedChantier.dateDebut} max={selectedChantier.dateFin} required />
+                                            <input
+                                                type="date"
+                                                value={assignForm.dateFin}
+                                                onChange={e => setAssignForm({ ...assignForm, dateFin: e.target.value })}
+                                                min={selectedChantier.dateDebut}
+                                                max={selectedChantier.dateFin}
+                                                required
+                                            />
                                         </div>
                                     </div>
                                     <div className="modal-actions">
@@ -2101,7 +2291,11 @@
         // ─── CHANTIER MODAL ───
         function ChantierModal({ chantier, employees, onSave, onClose }) {
             const [formData, setFormData] = useState(chantier || { nom: '', lieu: '', dateDebut: '', dateFin: '', employees: [] });
-            const handleSubmit = (e) => { e.preventDefault(); onSave(formData); };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                onSave(formData);
+            };
 
             return (
                 <div className="modal-overlay">
@@ -2157,7 +2351,12 @@
                                 </select>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                                <button className="btn btn-edit" onClick={() => selectedEmployee && onExport(selectedEmployee)} disabled={!selectedEmployee} style={{ width: '100%' }}>
+                                <button
+                                    className="btn btn-edit"
+                                    onClick={() => selectedEmployee && onExport(selectedEmployee)}
+                                    disabled={!selectedEmployee}
+                                    style={{ width: '100%' }}
+                                >
                                     📥 Exporter le planning
                                 </button>
                             </div>
@@ -2170,5 +2369,4 @@
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
-
 </html>
