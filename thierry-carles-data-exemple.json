@@ -1,0 +1,76 @@
+{
+  "employees": [
+    {
+      "id": "1",
+      "nom": "Dupont Jean",
+      "horaires": {
+        "lundi": { "debut": "08:00", "fin": "17:00" },
+        "mardi": { "debut": "08:00", "fin": "17:00" },
+        "mercredi": { "debut": "08:00", "fin": "17:00" },
+        "jeudi": { "debut": "08:00", "fin": "17:00" },
+        "vendredi": { "debut": "08:00", "fin": "16:00" },
+        "samedi": { "debut": "", "fin": "" },
+        "dimanche": { "debut": "", "fin": "" }
+      }
+    },
+    {
+      "id": "2",
+      "nom": "Martin Sophie",
+      "horaires": {
+        "lundi": { "debut": "07:30", "fin": "16:30" },
+        "mardi": { "debut": "07:30", "fin": "16:30" },
+        "mercredi": { "debut": "07:30", "fin": "16:30" },
+        "jeudi": { "debut": "07:30", "fin": "16:30" },
+        "vendredi": { "debut": "07:30", "fin": "15:30" },
+        "samedi": { "debut": "", "fin": "" },
+        "dimanche": { "debut": "", "fin": "" }
+      }
+    }
+  ],
+  "chantiers": [
+    {
+      "id": "1001",
+      "nom": "Rénovation Mairie Douai",
+      "lieu": "Place d'Armes, 59500 Douai",
+      "dateDebut": "2026-02-01",
+      "dateFin": "2026-02-28",
+      "zone": 1,
+      "panier": 7.5,
+      "employees": [
+        {
+          "id": "assign1",
+          "employeeId": "1",
+          "dateDebut": "2026-02-01",
+          "dateFin": "2026-02-28"
+        }
+      ]
+    }
+  ],
+  "absences": [
+    {
+      "id": "abs1",
+      "employeeId": "2",
+      "dateDebut": "2026-02-10",
+      "dateFin": "2026-02-14",
+      "motif": "Congés payés"
+    }
+  ],
+  "retards": [
+    {
+      "id": "ret1",
+      "employeeId": "1",
+      "date": "2026-02-03",
+      "minutes": 15
+    }
+  ],
+  "heuresSupp": [
+    {
+      "id": "hs1",
+      "employeeId": "1",
+      "date": "2026-02-05",
+      "type": "depart",
+      "heureReelle": "19:00"
+    }
+  ],
+  "lastSaved": "2026-02-01T10:00:00.000Z"
+}
