@@ -1,0 +1,13 @@
+# wrangler.toml
+
+name = "gestion-edt-thierry-carles"     # ← minuscule, tirets seulement, change si tu veux
+compatibility_date = "2025-02-01"       # date récente pour activer les features modernes
+pages_build_output_dir = "."            # ← très important : ton HTML est à la racine
+
+# Optionnel : si tu veux une URL custom plus tard
+# [site]
+# bucket = "."                          # pas nécessaire ici
+
+# Si tu veux activer le mode "single page app" (SPA) pour que les refresh fonctionnent
+[build]
+command = ""                            # pas besoin de build car c'est statique
