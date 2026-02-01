@@ -127,19 +127,12 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
         }
 
-        .login-logo {
-            width: 200px;
-            margin: 0 auto 30px;
-            display: block;
-        }
-
         .login-container h2 {
             color: var(--primary);
             margin-bottom: 10px;
             font-size: 32px;
             font-weight: 800;
             font-family: 'Manrope', sans-serif;
-            text-align: center;
         }
 
         .login-container p {
@@ -702,14 +695,6 @@
             const [showChantierModal, setShowChantierModal] = useState(false);
             const [editingChantier, setEditingChantier] = useState(null);
             const [message, setMessage] = useState(null);
-            const [password, setPassword] = useState('admin');
-            const [showPasswordModal, setShowPasswordModal] = useState(false);
-            const [showPasswordModal, setShowPasswordModal] = useState(false);
-
-            // Charger le mot de passe stocké ou utiliser le défaut
-            const getStoredPassword = () => {
-                return localStorage.getItem('adminPassword') || 'admin';
-            };
 
             // Sauvegarder automatiquement les données dans un fichier
             const saveDataToFile = () => {
@@ -775,42 +760,12 @@
                 const username = e.target.username.value;
                 const password = e.target.password.value;
 
-                if (username === 'admin' && password === getStoredPassword()) {
+                if (username === 'admin' && password === 'admin') {
                     setAuthenticated(true);
                 } else {
                     setMessage({ type: 'error', text: 'Identifiants incorrects' });
                     setTimeout(() => setMessage(null), 3000);
                 }
-            };
-
-            const handlePasswordChange = (e) => {
-                e.preventDefault();
-                const currentPassword = e.target.currentPassword.value;
-                const newPassword = e.target.newPassword.value;
-                const confirmPassword = e.target.confirmPassword.value;
-
-                if (currentPassword !== getStoredPassword()) {
-                    setMessage({ type: 'error', text: 'Mot de passe actuel incorrect' });
-                    setTimeout(() => setMessage(null), 3000);
-                    return;
-                }
-
-                if (newPassword !== confirmPassword) {
-                    setMessage({ type: 'error', text: 'Les nouveaux mots de passe ne correspondent pas' });
-                    setTimeout(() => setMessage(null), 3000);
-                    return;
-                }
-
-                if (newPassword.length < 4) {
-                    setMessage({ type: 'error', text: 'Le mot de passe doit contenir au moins 4 caractères' });
-                    setTimeout(() => setMessage(null), 3000);
-                    return;
-                }
-
-                localStorage.setItem('adminPassword', newPassword);
-                setShowPasswordModal(false);
-                setMessage({ type: 'success', text: 'Mot de passe modifié avec succès' });
-                setTimeout(() => setMessage(null), 3000);
             };
 
             const getTodayStats = () => {
@@ -1018,88 +973,14 @@
                     
                     // Largeur des colonnes
                     ws['!cols'] = [
-                        { wch: 28 }, // Date
-                        { wch: 12 }, // Heures
-                        { wch: 25 }, // Chantier
-                        { wch: 10 },  // Zone
-                        { wch: 14 }, // Panier
-                        { wch: 14 }, // Retard
-                        { wch: 18 }  // Absence
+                        { wch: 25 }, // Date
+                        { wch: 10 }, // Heures
+                        { wch: 20 }, // Chantier
+                        { wch: 8 },  // Zone
+                        { wch: 12 }, // Panier
+                        { wch: 12 }, // Retard
+                        { wch: 15 }  // Absence
                     ];
-
-                    // Style pour l'en-tête
-                    const headerStyle = {
-                        font: { bold: true, color: { rgb: "FFFFFF" }, sz: 12 },
-                        fill: { fgColor: { rgb: "3D3573" } },
-                        alignment: { horizontal: "center", vertical: "center" }
-                    };
-
-                    // Appliquer le style à l'en-tête (première ligne)
-                    ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1'].forEach(cell => {
-                        if (ws[cell]) {
-                            ws[cell].s = headerStyle;
-                        }
-                    });
-
-                    // Colorer les lignes selon le type
-                    let rowIndex = 2;
-                    for (let day = 1; day <= daysInMonth; day++) {
-                        const cellA = `A${rowIndex}`;
-                        const cellB = `B${rowIndex}`;
-                        const cellC = `C${rowIndex}`;
-                        const cellD = `D${rowIndex}`;
-                        const cellE = `E${rowIndex}`;
-                        const cellF = `F${rowIndex}`;
-                        const cellG = `G${rowIndex}`;
-                        
-                        if (ws[cellG] && ws[cellG].v && ws[cellG].v !== '') {
-                            // Ligne d'absence - fond rouge clair
-                            const absenceStyle = {
-                                fill: { fgColor: { rgb: "FFE5E5" } },
-                                font: { color: { rgb: "DC2626" } }
-                            };
-                            [cellA, cellB, cellC, cellD, cellE, cellF, cellG].forEach(cell => {
-                                if (ws[cell]) ws[cell].s = absenceStyle;
-                            });
-                        } else if (ws[cellF] && ws[cellF].v && ws[cellF].v > 0) {
-                            // Ligne avec retard - fond orange clair
-                            const retardStyle = {
-                                fill: { fgColor: { rgb: "FFF3E0" } },
-                                font: { color: { rgb: "F59E0B" } }
-                            };
-                            [cellA, cellB, cellC, cellD, cellE, cellF, cellG].forEach(cell => {
-                                if (ws[cell]) ws[cell].s = retardStyle;
-                            });
-                        } else if (ws[cellE] && ws[cellE].v && ws[cellE].v > 0) {
-                            // Ligne avec panier - fond violet clair
-                            const panierStyle = {
-                                fill: { fgColor: { rgb: "F3F0FC" } },
-                                font: { color: { rgb: "3D3573" } }
-                            };
-                            [cellA, cellB, cellC, cellD, cellE, cellF, cellG].forEach(cell => {
-                                if (ws[cell]) ws[cell].s = panierStyle;
-                            });
-                        } else if (ws[cellB] && ws[cellB].v && ws[cellB].v > 0) {
-                            // Ligne normale - fond vert très clair
-                            const normalStyle = {
-                                fill: { fgColor: { rgb: "F0FDF4" } }
-                            };
-                            [cellA, cellB, cellC, cellD, cellE, cellF, cellG].forEach(cell => {
-                                if (ws[cell]) ws[cell].s = normalStyle;
-                            });
-                        }
-                        
-                        rowIndex++;
-                    }
-
-                    // Style pour la section totaux
-                    const totauxRow = rowIndex + 2;
-                    if (ws[`A${totauxRow}`]) {
-                        ws[`A${totauxRow}`].s = {
-                            font: { bold: true, sz: 14, color: { rgb: "3D3573" } },
-                            fill: { fgColor: { rgb: "E8E6F0" } }
-                        };
-                    }
 
                     XLSX.utils.book_append_sheet(wb, ws, monthName);
                 });
@@ -1195,7 +1076,7 @@
                     </div>
 
                     {activeTab === 'dashboard' && (
-                        <Dashboard stats={stats} onChangePassword={() => setShowPasswordModal(true)} />
+                        <Dashboard stats={stats} />
                     )}
 
                     {activeTab === 'employees' && (
@@ -1252,65 +1133,6 @@
                             onClose={() => { setShowChantierModal(false); setEditingChantier(null); }}
                         />
                     )}
-
-                    {showPasswordModal && (
-                        <PasswordModal
-                            onSave={handlePasswordChange}
-                            onClose={() => setShowPasswordModal(false)}
-                        />
-                    )}
-                </div>
-            );
-        }
-
-        function PasswordModal({ onSave, onClose }) {
-            return (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <h3>Changer le mot de passe</h3>
-                        <p style={{ color: 'var(--text-light)', marginBottom: '20px' }}>
-                            Saisissez votre mot de passe actuel puis le nouveau
-                        </p>
-                        <form onSubmit={onSave}>
-                            <div className="form-group">
-                                <label>Mot de passe actuel</label>
-                                <input
-                                    type="password"
-                                    name="currentPassword"
-                                    required
-                                    autoComplete="current-password"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Nouveau mot de passe</label>
-                                <input
-                                    type="password"
-                                    name="newPassword"
-                                    required
-                                    minLength="4"
-                                    autoComplete="new-password"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Confirmer le nouveau mot de passe</label>
-                                <input
-                                    type="password"
-                                    name="confirmPassword"
-                                    required
-                                    minLength="4"
-                                    autoComplete="new-password"
-                                />
-                            </div>
-                            <div className="modal-actions">
-                                <button type="button" className="btn btn-secondary" onClick={onClose}>
-                                    Annuler
-                                </button>
-                                <button type="submit" className="btn btn-edit">
-                                    Modifier le mot de passe
-                                </button>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             );
         }
@@ -1318,13 +1140,6 @@
         function LoginForm({ onLogin, message }) {
             return (
                 <div className="login-container">
-                    <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-                        <img 
-                            src="data:image/webp;base64,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" 
-                            alt="Thierry Carles"
-                            style={{ height: '80px', marginBottom: '10px' }}
-                        />
-                    </div>
                     <h2>Connexion</h2>
                     <p>Accédez à la gestion du personnel</p>
                     {message && message.type === 'error' && (
@@ -1345,7 +1160,7 @@
             );
         }
 
-        function Dashboard({ stats, onChangePassword }) {
+        function Dashboard({ stats }) {
             return (
                 <div>
                     <div className="stats-grid">
@@ -1367,16 +1182,6 @@
                                 {stats.absentEmployees.length > 0 ? stats.absentEmployees.join(', ') : 'Aucune absence'}
                             </div>
                         </div>
-                    </div>
-                    
-                    <div className="card">
-                        <h3>Paramètres de sécurité</h3>
-                        <p style={{ color: 'var(--text-light)', marginBottom: '16px' }}>
-                            Modifiez votre mot de passe pour sécuriser l'accès à l'application
-                        </p>
-                        <button className="btn btn-edit" onClick={onChangePassword}>
-                            🔒 Changer le mot de passe
-                        </button>
                     </div>
                 </div>
             );
