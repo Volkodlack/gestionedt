@@ -447,14 +447,63 @@
             }, [employees, chantiers, absences, retards, heuresSupp]);
 
             // ─── SAVE / LOAD FILE ───
-            const saveDataToFile = () => {
+            const fileHandleRef = React.useRef(null); // persists the chosen file handle across renders
+
+            const getDataBlob = () => {
                 const allData = { employees, chantiers, absences, retards, heuresSupp, lastSaved: new Date().toISOString() };
-                const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url; link.download = 'thierry-carles-data.json'; link.click();
-                URL.revokeObjectURL(url);
-                setNeedsSave(false);
+                return new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
+            };
+
+            // "Enregistrer sous" – opens native Save As dialog (File System Access API)
+            const saveDataToFile = async () => {
+                try {
+                    if (window.showSaveFilePicker) {
+                        const handle = await window.showSaveFilePicker({
+                            suggestedName: 'thierry-carles-data.json',
+                            types: [{
+                                description: 'Fichier données JSON',
+                                accept: { 'application/json': ['.json'] }
+                            }]
+                        });
+                        const writable = await handle.createWritable();
+                        await writable.write(getDataBlob());
+                        await writable.close();
+                        fileHandleRef.current = handle; // remember for quick-save
+                        setNeedsSave(false);
+                        setMessage({ type: 'success', text: `Enregistré : ${handle.name}` });
+                        setTimeout(() => setMessage(null), 3000);
+                    } else {
+                        // Fallback pour les navigateurs qui ne supportent pas showSaveFilePicker
+                        const url = URL.createObjectURL(getDataBlob());
+                        const link = document.createElement('a');
+                        link.href = url; link.download = 'thierry-carles-data.json'; link.click();
+                        URL.revokeObjectURL(url);
+                        setNeedsSave(false);
+                    }
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        setMessage({ type: 'error', text: 'Erreur lors de la sauvegarde' });
+                        setTimeout(() => setMessage(null), 3000);
+                    }
+                }
+            };
+
+            // "Enregistrer" – écrit directement dans le fichier déjà choisi (pas de dialogue)
+            const saveDataQuick = async () => {
+                if (!fileHandleRef.current) { return saveDataToFile(); } // rien choisi encore → ouvrir le dialogue
+                try {
+                    const writable = await fileHandleRef.current.createWritable();
+                    await writable.write(getDataBlob());
+                    await writable.close();
+                    setNeedsSave(false);
+                    setMessage({ type: 'success', text: `Enregistré : ${fileHandleRef.current.name}` });
+                    setTimeout(() => setMessage(null), 3000);
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        setMessage({ type: 'error', text: 'Erreur lors de la sauvegarde' });
+                        setTimeout(() => setMessage(null), 3000);
+                    }
+                }
             };
 
             const loadDataFromFile = (event) => {
@@ -585,11 +634,12 @@
                 const primaryHex = '3D3573';
                 const secondaryHex = 'E84597';
                 const lightPrimary = 'EDE9F5';
-                const lightGreen = 'EAFAF4';
-                const lightRed = 'FEF2F2';
-                const lightOrange = 'FFFBEB';
-                const lightGray = 'F8F7FC';
+                const lightGreen = 'D1FAE5';
+                const lightRed = 'FEE2E2';
+                const lightOrange = 'FEF3C7';
+                const lightGray = 'F3F4F6';
                 const whiteHex = 'FFFFFF';
+                const darkGray = '9CA3AF';
 
                 const headerFill = { patternType: 'solid', fgColor: { rgb: primaryHex } };
                 const headerFont = { bold: true, color: { rgb: whiteHex }, sz: 11, name: 'Calibri' };
@@ -597,13 +647,21 @@
                 const titleFont = { bold: true, color: { rgb: whiteHex }, sz: 14, name: 'Calibri' };
                 const subtitleFont = { bold: true, color: { rgb: primaryHex }, sz: 11, name: 'Calibri' };
                 const normalFont = { sz: 10, name: 'Calibri', color: { rgb: '2A2547' } };
-                const absenceFont = { sz: 10, name: 'Calibri', color: { rgb: 'EF4444' }, italic: true };
-                const reposFont = { sz: 10, name: 'Calibri', color: { rgb: '6B6885' }, italic: true };
+                const absenceFont = { sz: 10, name: 'Calibri', color: { rgb: 'B91C1C' }, bold: true };
+                const reposFont = { sz: 10, name: 'Calibri', color: { rgb: '6B7280' }, italic: true };
                 const totalLabelFont = { bold: true, sz: 11, name: 'Calibri', color: { rgb: primaryHex } };
-                const totalValueFont = { bold: true, sz: 11, name: 'Calibri', color: { rgb: '2A2547' } };
-                const borderThin = { style: 'thin', color: { rgb: 'E8E6F0' } };
-                const cellBorder = { top: borderThin, bottom: borderThin, left: borderThin, right: borderThin };
-                const headerBorder = { top: { style: 'thin', color: { rgb: whiteHex } }, bottom: { style: 'thin', color: { rgb: whiteHex } }, left: { style: 'thin', color: { rgb: whiteHex } }, right: { style: 'thin', color: { rgb: whiteHex } } };
+                const totalValueFont = { bold: true, sz: 12, name: 'Calibri', color: { rgb: primaryHex } };
+
+                // Borders – solid visible
+                const borderData = { style: 'thin', color: { rgb: '9CA3AF' } };       // données : gris médium
+                const borderHeader = { style: 'medium', color: { rgb: whiteHex } };   // en-tête : blanc sur fond violet
+                const borderTitle = { style: 'thin', color: { rgb: secondaryHex } };  // titre : rose
+                const borderTotals = { style: 'medium', color: { rgb: primaryHex } }; // totaux : violet fort
+
+                const cellBorder  = { top: borderData, bottom: borderData, left: borderData, right: borderData };
+                const headerBorder = { top: borderHeader, bottom: borderHeader, left: borderHeader, right: borderHeader };
+                const titleBorder  = { top: borderTitle, bottom: borderTitle, left: borderTitle, right: borderTitle };
+                const totalBorder  = { top: borderTotals, bottom: borderTotals, left: borderTotals, right: borderTotals };
 
                 const cpBal = computeCPBalance(employee, absences);
 
@@ -617,19 +675,21 @@
                     ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
                         v: `Planning – ${employee.nom} – ${monthName} ${year}`,
                         t: 's',
-                        s: { font: titleFont, fill: titleFill, alignment: { horizontal: 'center', vertical: 'center', wrapText: true }, border: cellBorder }
+                        s: { font: titleFont, fill: titleFill, alignment: { horizontal: 'center', vertical: 'center', wrapText: true }, border: titleBorder }
                     };
                     for (let c = 1; c <= 7; c++) {
-                        ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: titleFill, border: cellBorder } };
+                        ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: titleFill, border: titleBorder } };
                     }
                     ws['!merges'] = ws['!merges'] || [];
                     ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 7, r: row } });
                     row++;
 
                     // CP summary row
-                    ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: `CP Base: ${cpBal.base} | Accumulés: +${cpBal.accumulated} | Utilisés: ${cpBal.used} | Solde: ${cpBal.balance}`, t: 's', s: { font: { bold: true, sz: 10, name: 'Calibri', color: { rgb: primaryHex } }, fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, alignment: { horizontal: 'center' }, border: cellBorder } };
+                    const cpBorderMed = { style: 'medium', color: { rgb: primaryHex } };
+                    const cpRowBorder = { top: cpBorderMed, bottom: cpBorderMed, left: cpBorderMed, right: cpBorderMed };
+                    ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: `CP Base: ${cpBal.base} | Accumulés: +${cpBal.accumulated} | Utilisés: ${cpBal.used} | Solde: ${cpBal.balance}`, t: 's', s: { font: { bold: true, sz: 10, name: 'Calibri', color: { rgb: primaryHex } }, fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, alignment: { horizontal: 'center' }, border: cpRowBorder } };
                     for (let c = 1; c <= 7; c++) {
-                        ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: cellBorder } };
+                        ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: cpRowBorder } };
                     }
                     ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 7, r: row } });
                     row++;
@@ -720,15 +780,15 @@
                         ['Total retards (min)', totalRetards]
                     ];
 
-                    ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: 'RÉSUMÉ DU MOIS', t: 's', s: { font: { bold: true, sz: 12, name: 'Calibri', color: { rgb: whiteHex } }, fill: headerFill, alignment: { horizontal: 'center' }, border: cellBorder } };
-                    for (let c = 1; c <= 7; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: headerFill, border: cellBorder } };
+                    ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: 'RÉSUMÉ DU MOIS', t: 's', s: { font: { bold: true, sz: 12, name: 'Calibri', color: { rgb: whiteHex } }, fill: headerFill, alignment: { horizontal: 'center' }, border: totalBorder } };
+                    for (let c = 1; c <= 7; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: headerFill, border: totalBorder } };
                     ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 7, r: row } });
                     row++;
 
                     totalsData.forEach(([label, value]) => {
-                        ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: label, t: 's', s: { font: totalLabelFont, fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: cellBorder } };
-                        ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: value, t: 's', s: { font: totalValueFont, fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: cellBorder, alignment: { horizontal: 'right' } } };
-                        for (let c = 2; c <= 7; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: cellBorder } };
+                        ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: label, t: 's', s: { font: totalLabelFont, fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: totalBorder } };
+                        ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: value, t: 's', s: { font: totalValueFont, fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: totalBorder, alignment: { horizontal: 'right' } } };
+                        for (let c = 2; c <= 7; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: { patternType: 'solid', fgColor: { rgb: lightPrimary } }, border: totalBorder } };
                         ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 0, r: row } });
                         ws['!merges'].push({ s: { c: 1, r: row }, e: { c: 7, r: row } });
                         row++;
@@ -736,11 +796,20 @@
 
                     if (Object.keys(absencesByMotif).length > 0) {
                         row++;
-                        ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: 'ABSENCES PAR MOTIF', t: 's', s: { font: subtitleFont, border: cellBorder } };
+                        // Sub-header "ABSENCES PAR MOTIF"
+                        const subHdrFill = { patternType: 'solid', fgColor: { rgb: 'E9D5FF' } };   // lavender
+                        const subHdrBorder = { style: 'medium', color: { rgb: primaryHex } };
+                        const subHdrCell  = { top: subHdrBorder, bottom: subHdrBorder, left: subHdrBorder, right: subHdrBorder };
+                        ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: 'ABSENCES PAR MOTIF', t: 's', s: { font: { bold: true, sz: 11, name: 'Calibri', color: { rgb: primaryHex } }, fill: subHdrFill, border: subHdrCell } };
+                        ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: 'Jours', t: 's', s: { font: { bold: true, sz: 11, name: 'Calibri', color: { rgb: primaryHex } }, fill: subHdrFill, border: subHdrCell, alignment: { horizontal: 'center' } } };
+                        for (let c = 2; c <= 7; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: subHdrFill, border: subHdrCell } };
+                        ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 0, r: row } });
+                        ws['!merges'].push({ s: { c: 1, r: row }, e: { c: 7, r: row } });
                         row++;
                         Object.entries(absencesByMotif).forEach(([motif, count]) => {
-                            ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: motif, t: 's', s: { font: normalFont, fill: { patternType: 'solid', fgColor: { rgb: lightGray } }, border: cellBorder } };
-                            ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: count, t: 'n', s: { font: { ...normalFont, bold: true }, fill: { patternType: 'solid', fgColor: { rgb: lightGray } }, border: cellBorder } };
+                            ws[XLSX.utils.encode_cell({ c: 0, r: row })] = { v: motif, t: 's', s: { font: { bold: true, sz: 10, name: 'Calibri', color: { rgb: '2A2547' } }, fill: { patternType: 'solid', fgColor: { rgb: lightGray } }, border: cellBorder } };
+                            ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: count, t: 'n', s: { font: { bold: true, sz: 11, name: 'Calibri', color: { rgb: primaryHex } }, fill: { patternType: 'solid', fgColor: { rgb: lightGray } }, border: cellBorder, alignment: { horizontal: 'center' } } };
+                            for (let c = 2; c <= 7; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = { v: '', t: 's', s: { fill: { patternType: 'solid', fgColor: { rgb: lightGray } }, border: cellBorder } };
                             row++;
                         });
                     }
@@ -749,7 +818,12 @@
                     ws['!ref'] = XLSX.utils.encode_range(range);
                     ws['!cols'] = [{ wch: 14 }, { wch: 12 }, { wch: 10 }, { wch: 22 }, { wch: 8 }, { wch: 12 }, { wch: 12 }, { wch: 16 }];
                     ws['!rows'] = [];
-                    for (let r = 0; r <= row; r++) ws['!rows'].push({ ht: r === 0 ? 28 : 18 });
+                    for (let r = 0; r <= row; r++) {
+                        if (r === 0) ws['!rows'].push({ ht: 32 });       // titre
+                        else if (r === 1) ws['!rows'].push({ ht: 24 }); // CP
+                        else if (r === 2) ws['!rows'].push({ ht: 22 }); // en-tête colonnes
+                        else ws['!rows'].push({ ht: 20 });              // données
+                    }
 
                     XLSX.utils.book_append_sheet(wb, ws, monthName);
                 });
@@ -780,7 +854,8 @@
                             {needsSave && <span className="unsaved-badge">⚠️ Non sauvegardé</span>}
                             <input type="file" id="fileInput" accept=".json" style={{ display: 'none' }} onChange={loadDataFromFile} />
                             <button className="logout-btn" onClick={() => document.getElementById('fileInput').click()}>📂 Charger</button>
-                            <button className="logout-btn" onClick={saveDataToFile} style={needsSave ? { background: 'rgba(255,193,7,0.3)', borderColor: 'rgba(255,193,7,0.5)', animation: 'pulse 2s infinite' } : {}}>💾 Enregistrer sous</button>
+                            <button className="logout-btn" onClick={saveDataQuick} style={needsSave ? { background: 'rgba(255,193,7,0.3)', borderColor: 'rgba(255,193,7,0.5)', animation: 'pulse 2s infinite' } : {}}>💾 Enregistrer</button>
+                            <button className="logout-btn" onClick={saveDataToFile}>💾 Enregistrer sous…</button>
                             <button className="logout-btn" onClick={() => setShowPasswordModal(true)}>🔐 Mot de passe</button>
                             <button className="logout-btn" onClick={() => setAuthenticated(false)}>Déconnexion</button>
                         </div>
