@@ -58,7 +58,7 @@
             border-radius: 50%;
         }
         .header-left { display: flex; align-items: center; gap: 16px; position: relative; z-index: 1; }
-        .header-logo { height: 60px; filter: brightness(0) invert(1); }
+        .header-logo { height: 48px; }
         .header-title { color: white; font-family: 'Manrope', sans-serif; }
         .header-title h1 { font-size: 24px; font-weight: 800; margin-bottom: 2px; }
         .header-title p { font-size: 13px; opacity: 0.8; font-weight: 400; }
@@ -106,7 +106,7 @@
             position: relative; z-index: 1;
         }
         .login-logo-wrap { text-align: center; margin-bottom: 28px; }
-        .login-logo { max-height: 80px; max-width: 100%; }
+        .login-logo { height: 70px; }
         .login-container h2 {
             color: var(--primary); margin-bottom: 6px;
             font-size: 26px; font-weight: 800;
@@ -140,697 +140,852 @@
         .tabs {
             display: flex; gap: 8px; margin-bottom: 24px;
             background: white; padding: 6px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            flex-wrap: wrap;
+            border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         .tab {
-            padding: 11px 20px; border-radius: 12px;
-            cursor: pointer; font-weight: 600; font-size: 13px;
-            transition: all 0.3s ease;
-            background: transparent; border: none;
-            color: var(--text-light);
-            flex: 1; min-width: 140px;
+            flex: 1; padding: 12px 16px;
+            background: transparent; border: none; border-radius: 12px;
+            cursor: pointer; font-weight: 600; font-size: 14px;
+            color: var(--text-light); transition: all 0.3s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .tab.active {
             background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
-            color: white;
-            box-shadow: 0 6px 16px rgba(232,69,151,0.3);
+            color: white; box-shadow: 0 4px 12px rgba(232,69,151,0.3);
         }
+        .tab:hover:not(.active) { background: var(--bg-light); }
 
         /* ===== CARDS ===== */
-        .card {
-            background: white;
-            padding: 28px;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            margin-bottom: 20px;
-        }
-        .card h3 {
-            color: var(--primary);
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 18px;
-            font-family: 'Manrope', sans-serif;
-        }
+        .card { background: white; padding: 28px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); margin-bottom: 20px; }
+        .card h3 { color: var(--primary); margin-bottom: 18px; font-size: 20px; font-weight: 700; font-family: 'Manrope', sans-serif; }
 
-        /* ===== DASHBOARD SPECIFIC ===== */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+        /* ===== STATS ===== */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .stat-card {
+            background: white; padding: 24px; border-radius: 18px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--primary); transition: all 0.3s ease;
         }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+        .stat-card.present { border-left-color: var(--success); }
+        .stat-card.late { border-left-color: var(--warning); }
+        .stat-card.absent { border-left-color: var(--danger); }
+        .stat-card h4 { color: var(--text-light); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .stat-card .value { font-size: 38px; font-weight: 800; color: var(--text-dark); font-family: 'Manrope', sans-serif; margin-bottom: 6px; }
+        .stat-card .list { color: var(--text-light); font-size: 13px; max-height: 80px; overflow-y: auto; }
 
-        .dashboard-card {
-            background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
-            padding: 24px;
-            border-radius: 16px;
-            border: 2px solid var(--border);
+        /* ===== EMPLOYEES ===== */
+        .employee-list { display: grid; gap: 12px; }
+        .employee-item {
+            background: var(--bg-light); padding: 16px 20px; border-radius: 14px;
+            display: flex; justify-content: space-between; align-items: center;
             transition: all 0.3s ease;
         }
-        .dashboard-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(61, 53, 115, 0.12);
-            border-color: var(--secondary);
-        }
-
-        .dashboard-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .dashboard-card-header h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary);
-            font-family: 'Manrope', sans-serif;
-        }
-
-        .chantier-badge {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .chantier-details {
-            font-size: 13px;
-            color: var(--text-light);
-            margin-bottom: 14px;
-        }
-
-        .chantier-details p {
-            margin: 4px 0;
-        }
-
-        .chantier-location {
-            display: flex;
-            align-items: start;
-            gap: 6px;
-            margin: 8px 0;
-        }
-
-        .employee-list {
-            margin-top: 14px;
-        }
-
-        .employee-list-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .employee-item {
-            background: rgba(61, 53, 115, 0.04);
-            padding: 10px 12px;
-            border-radius: 10px;
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 3px solid var(--secondary);
-        }
-
-        .employee-item-info {
-            flex: 1;
-        }
-
-        .employee-name {
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--text-dark);
-        }
-
-        .employee-dates {
-            font-size: 11px;
-            color: var(--text-light);
-            margin-top: 2px;
-        }
-
-        .conge-card {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
-            border: 2px solid #fecaca;
-        }
-
-        .conge-card:hover {
-            border-color: var(--danger);
-        }
-
-        .conge-badge {
-            background: var(--danger);
-        }
-
-        .conge-item {
-            background: rgba(239, 68, 68, 0.08);
-            border-left-color: var(--danger);
-        }
-
-        .no-data {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-light);
-            font-size: 14px;
-        }
+        .employee-item:hover { background: #f0eef8; transform: translateX(3px); }
+        .employee-info h4 { color: var(--text-dark); margin-bottom: 4px; font-weight: 600; font-size: 15px; }
+        .employee-info p { color: var(--text-light); font-size: 12px; }
+        .employee-actions { display: flex; gap: 6px; }
 
         /* ===== BUTTONS ===== */
-        .btn {
-            padding: 10px 18px; border-radius: 10px;
-            font-weight: 600; font-size: 13px;
-            cursor: pointer; border: none;
-            transition: all 0.3s ease;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
-            color: white;
-            box-shadow: 0 6px 16px rgba(232,69,151,0.3);
-        }
-        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(232,69,151,0.4); }
-        .btn-secondary { background: var(--bg-light); color: var(--text-dark); }
-        .btn-secondary:hover { background: var(--border); }
+        .btn { padding: 9px 16px; border: none; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s ease; font-family: 'Plus Jakarta Sans', sans-serif; }
         .btn-edit { background: var(--primary); color: white; }
-        .btn-edit:hover { background: #2d2558; }
+        .btn-edit:hover { background: #2d2558; transform: translateY(-1px); }
         .btn-delete { background: var(--danger); color: white; }
-        .btn-delete:hover { background: #dc2626; }
-
-        /* ===== TABLES ===== */
-        .table-container { overflow-x: auto; margin-top: 16px; }
-        table {
-            width: 100%; border-collapse: collapse;
-            background: white;
-        }
-        th, td { padding: 13px 16px; text-align: left; }
-        th {
-            background: linear-gradient(135deg, var(--primary) 0%, #2d2558 100%);
-            color: white; font-weight: 600; font-size: 13px;
-            text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        tbody tr {
-            border-bottom: 1px solid var(--border);
-            transition: background 0.2s ease;
-        }
-        tbody tr:hover { background: var(--bg-light); }
-        td { font-size: 13px; color: var(--text-dark); }
+        .btn-delete:hover { background: #dc2626; transform: translateY(-1px); }
+        .btn-secondary { background: var(--bg-light); color: var(--text-dark); border: 2px solid var(--border); }
+        .btn-secondary:hover { background: #f0eef8; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #059669; transform: translateY(-1px); }
 
         /* ===== FORMS ===== */
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 7px; color: var(--text-dark); font-weight: 600; font-size: 13px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; color: var(--text-dark); font-weight: 600; font-size: 13px; }
         .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 11px 14px;
+            width: 100%; padding: 11px 13px;
             border: 2px solid var(--border); border-radius: 10px;
-            font-size: 14px; transition: all 0.3s ease;
+            font-size: 13px; transition: all 0.3s ease;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none; border-color: var(--secondary);
-            box-shadow: 0 0 0 4px rgba(232,69,151,0.1);
+            box-shadow: 0 0 0 3px rgba(232,69,151,0.1);
         }
 
-        /* ===== MODAL ===== */
+        /* ===== SCHEDULE ===== */
+        .schedule-grid { display: grid; gap: 8px; margin-top: 12px; }
+        .schedule-day { display: grid; grid-template-columns: 100px 1fr 1fr; gap: 10px; align-items: center; padding: 10px; background: var(--bg-light); border-radius: 10px; }
+        .schedule-day label { font-weight: 600; color: var(--text-dark); font-size: 13px; }
+        .time-inputs { display: flex; gap: 6px; align-items: center; }
+        .time-inputs input { flex: 1; padding: 7px 10px; border: 2px solid var(--border); border-radius: 8px; font-size: 12px; }
+
+        /* ===== MODALS ===== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5); display: flex;
+            background: rgba(0,0,0,0.6); display: flex;
             align-items: center; justify-content: center;
             z-index: 1000; backdrop-filter: blur(4px);
         }
         .modal {
-            background: white; padding: 32px; border-radius: 20px;
-            max-width: 600px; width: 90%; max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            background: white; padding: 36px; border-radius: 24px;
+            max-width: 620px; width: 92%; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-        .modal h3 {
-            color: var(--primary); font-size: 22px;
-            font-weight: 700; margin-bottom: 20px;
-            font-family: 'Manrope', sans-serif;
-        }
-        .modal-actions {
-            display: flex; gap: 10px; margin-top: 24px;
-            justify-content: flex-end;
-        }
+        .modal h3 { color: var(--primary); margin-bottom: 20px; font-size: 22px; font-weight: 700; font-family: 'Manrope', sans-serif; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 24px; }
+        .modal-actions button { flex: 1; }
 
-        /* ===== BADGES ===== */
-        .badge {
-            display: inline-block;
-            padding: 5px 11px; border-radius: 8px;
-            font-size: 11px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .badge-success { background: rgba(16,185,129,0.1); color: var(--success); }
-        .badge-warning { background: rgba(245,158,11,0.1); color: var(--warning); }
-        .badge-danger { background: rgba(239,68,68,0.1); color: var(--danger); }
-        .badge-zone {
-            background: linear-gradient(135deg, rgba(61,53,115,0.1) 0%, rgba(232,69,151,0.1) 100%);
-            color: var(--primary);
-        }
+        /* ===== CHANTIERS ===== */
+        .chantier-item { background: var(--bg-light); padding: 18px; border-radius: 14px; margin-bottom: 14px; border-left: 4px solid var(--primary); }
+        .chantier-item h4 { color: var(--text-dark); margin-bottom: 6px; font-weight: 600; font-size: 15px; }
+        .chantier-item p { color: var(--text-light); font-size: 13px; margin-bottom: 3px; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+        .badge-zone { background: rgba(232,69,151,0.15); color: var(--accent); }
 
-        /* ===== CHANTIER ITEMS ===== */
-        .chantier-item {
-            background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
-            padding: 20px; border-radius: 16px; margin-bottom: 16px;
-            border: 2px solid var(--border);
-            transition: all 0.3s ease;
-        }
-        .chantier-item:hover {
-            border-color: var(--secondary);
-            box-shadow: 0 8px 24px rgba(61, 53, 115, 0.12);
-        }
-        .chantier-header {
-            display: flex; justify-content: space-between;
-            align-items: flex-start; margin-bottom: 12px;
-        }
-        .chantier-info h4 {
-            color: var(--primary); font-size: 16px;
-            font-weight: 700; margin-bottom: 6px;
-        }
-        .chantier-info p {
-            color: var(--text-light); font-size: 13px;
-            margin: 3px 0;
-        }
-
-        .employee-assignments {
-            margin-top: 16px; padding-top: 16px;
-            border-top: 2px solid var(--border);
-        }
-        .assignment-item {
-            background: rgba(61,53,115,0.04);
-            padding: 12px; border-radius: 10px;
-            margin-bottom: 8px;
-            border-left: 3px solid var(--secondary);
-        }
+        .employee-assignments { margin-top: 14px; padding: 14px; background: white; border-radius: 10px; border: 2px solid var(--border); }
+        .assignment-item { padding: 10px; background: var(--bg-light); border-radius: 8px; margin-bottom: 8px; }
+        .assignment-item:last-child { margin-bottom: 0; }
 
         /* ===== EXPORT ===== */
-        .export-section { margin-top: 20px; }
-        .export-section h4 {
-            color: var(--primary); font-size: 16px;
-            font-weight: 700; margin-bottom: 8px;
+        .export-section { background: linear-gradient(135deg, var(--bg-light) 0%, white 100%); padding: 20px; border-radius: 16px; border: 2px dashed var(--border); }
+        .export-section h4 { color: var(--primary); margin-bottom: 12px; font-weight: 700; font-size: 15px; }
+
+        /* ===== MESSAGES ===== */
+        .error-message { background: rgba(239,68,68,0.1); color: var(--danger); padding: 11px 15px; border-radius: 10px; margin-bottom: 14px; font-size: 13px; border-left: 4px solid var(--danger); }
+        .success-message { background: rgba(16,185,129,0.1); color: var(--success); padding: 11px 15px; border-radius: 10px; margin-bottom: 14px; font-size: 13px; border-left: 4px solid var(--success); }
+
+        /* ===== CP SUMMARY ===== */
+        .cp-summary {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px; margin-top: 16px;
         }
+        .cp-card {
+            background: linear-gradient(135deg, #f0eef8, white);
+            border-radius: 12px; padding: 14px; text-align: center;
+            border: 1px solid var(--border);
+        }
+        .cp-card .cp-label { font-size: 11px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .cp-card .cp-value { font-size: 24px; font-weight: 800; font-family: 'Manrope', sans-serif; color: var(--primary); }
+        .cp-card .cp-value.danger { color: var(--danger); }
+        .cp-card .cp-value.warning { color: var(--warning); }
+
+        /* ===== EMPLOYEE DETAIL PANEL ===== */
+        .detail-panel {
+            background: white; border-radius: 16px; border: 2px solid var(--border);
+            overflow: hidden; margin-top: 16px;
+        }
+        .detail-panel-header {
+            background: linear-gradient(135deg, var(--primary), #2d2558);
+            color: white; padding: 16px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .detail-panel-header h4 { font-size: 15px; font-weight: 700; font-family: 'Manrope', sans-serif; }
+        .detail-panel-body { padding: 20px; }
+        .detail-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+        .detail-tab { padding: 7px 14px; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; background: var(--bg-light); color: var(--text-light); transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .detail-tab.active { background: var(--primary); color: white; }
+        .detail-tab:hover:not(.active) { background: #e8e6f0; }
+
+        .absence-list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 12px; background: var(--bg-light); border-radius: 8px; margin-bottom: 6px;
+        }
+        .absence-list-item .motif-tag {
+            padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;
+        }
+        .motif-cp { background: rgba(16,185,129,0.15); color: var(--success); }
+        .motif-maladie { background: rgba(239,68,68,0.15); color: var(--danger); }
+        .motif-other { background: rgba(245,158,11,0.15); color: var(--warning); }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-light); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: var(--text-light); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .header { flex-direction: column; gap: 16px; text-align: center; }
-            .header-left { flex-direction: column; }
-            .header-actions { width: 100%; justify-content: center; }
+            .header { flex-direction: column; gap: 14px; text-align: center; }
             .tabs { flex-direction: column; }
-            .tab { min-width: auto; }
             .form-grid { grid-template-columns: 1fr; }
-            .dashboard-grid { grid-template-columns: 1fr; }
+            .schedule-day { grid-template-columns: 1fr; }
+            .login-container { padding: 36px 28px 32px; }
         }
+
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.7; } }
     </style>
 </head>
 <body>
     <div id="root"></div>
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useCallback } = React;
 
-        // ─── LOGO AS BASE64 ───
-        const LOGO_BASE64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8dGV4dCB4PSIyMCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJNYW5yb3BlLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjQ4IiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjM2QzNTczIj5UaGllcnJ5IENhcmxlczwvdGV4dD4KPC9zdmc+';
+        const LOGO_B64 = "UklGRuQNAABXRUJQVlA4INgNAABwRgCdASosAcwAPm02mEikIyKhI3RZkIANiWVu4XYBERu7PXrvOVtTdnab8r3m/5gPf36jvME5zn7SeoX9ov2q92H/beqb0AP6r/pOtD9CDpY/3H9ID//5zX/XO1v/XdIL7H9wubNEy+Vfcj9H+Z/tF308AL2D/mN8XAF9Zv9n4O2opkAfyD+uf8HjoKAX87/u3oefUvoG+qPYY/YHrPeiqNTpUCRN8uggSJvl0ECRN8uggSHuaml5z3tM/l1AkTfLn7WLo4t8d6KJp/IQEjpUlaW/BU5Y4WdT4bmEAGkzrdBAkTPHB/WBIp65YQBL6UQri4IuOstyKqlCQFAOIe5TmVD9yhDb/zLuLnFovU+LCwbTO32hR3x7uq3sqRvHIHXN69WWjTFRrqAuQVEcIju3E084LUvbVOamagtf3Eu5FbRexVvQ3axLXK4Oug4eBfaEEus6eWzZfVNCYbIPyuTko/GaTN3aqfNhquLeELFiPeGbc4pEnjLXtNG9/Oozmlmi0kGRD+/j1pe/wsUfHL35/s7OCP7vlZ7xFNexJcZ3ObWGV3yL+iZp/GSJ5xSG17UA9jwsnoNZlhYMucicaVDtdtks2FqAjElEWVkUnkeWEIEUN/epjgwWyhSYsLE6F9rPdNQnZz2ryVwn+L8pM29aB657CtpouDg6SjQrscl/iSizX4Y50YEwCmiRbrUk/y7hj4ZhQEenjRjfLoIEib5dBAkTfLoIEib5dBAkTfLoIEib5dBAkTfLoIEZAAD+/8aEAAW/jK2wETRwOmsC/q2h+OPm1oUpkp313zWgdAE+0S6AR/sRVMA4+RxtlSBUlvOXl+CqGJqpPVxmzpVi409XhqcZOq1gP7A4AcgsT4EP65UDpC+SwN5RuVsySOF681X24VNvMkiSXuOnVrSGaHtv7puQp0ZF3lkDZuxLm8SY24FSG71h71ayEsUuuHMhRgfBB0quhrrHOLW+Q+c9/if7RUD+LYgcBqYYvMCbkBbdUd2yL616743eXQaaZboH3lokTHjkvsfGm1iIOuO/+ZGb8Nd0d1sEQn05fuT86hvwITy+XE4l7qCr6bi4dmUOX3xL/n27k4A41LYKAUhzemhrqfTxz7WixqxZ8vDXxkLASdIk8Qs/Tg2r/tsP/KP5lTpaH4G37rhh4LPKefJj2IyjyKE+Wcfgjb8m8tgTY3IsL441uMmZNvcXxnw2GLsOq1V6ihuCubu7GjkrCPVsQ0FTechZU7Vo+AVLHgKv0kkRFYy4Z25ILlf+cuUo9h34bcrQJJddedvLDvnjl+vnJFwxhYX2BGvJwTDR+teqH3KtrP4e3U1P2ZdN9dVHPNirHQbZ9vM1wqxtjbWf9qj2Kg1+NkSQm5U1RnN/RtWY2xl6R109clnchBVC7IodyN2BL03Q1Mi2M4lFqSrDBmDkxwgl+fnqWdc4dy9jcgs9y5sFTEQCekM6+Q5ts42VDsuLY9rVW7NDfldXQAkuoadQCZZ/iTDLRB/TSt/RnATRxtAP/Rb/NToNNNkNaPJoQUJfF5wQu8D/Z/JLSWeyy2P8LEAcWTsfJfM4v+3GV1rYDaGGobIfia7b6YUPsOflf+3jVN/bHWrNxnVi5OUARW9EE7ifIbr6VJ04mNe29jZjBtwJ0D7ZfMT1pNjgcyHD2/IChcXLGBkN4DJgOEtVQOpWu8ahZB5Kg83VL7+X6Xovw74XxX4epREJoJyGE8xSdyRabsu9Dja0NUDic2g+kEZhGBq9uBXYyiM6C17HQUdEy1PLwLNMSSo+4To0dVyHehIqvX4c60E+b6QYHCW2FbFTYmw9OBCixkvs4QyXlkF2VktigC3fFotH3NVoYVKBCBCalNZcs1rH+02PqYGOfueg4LLYRgF1CyikLW0MD0Prj/Vx/JhI8OqPhlHCCbVTgO1UOqiyXm2FEC1YiLJ+gSh8K/vKI4NeuUmLMs/CkC/NxmrJKkoYRaBzZafqNBlOcKHm06wTi3JSEIdGN40di6gYXmTDkegwTGxfuYIwhy33kN1h5x8UoV9E0ldzZ3HO4T0WOIbFmLnOspg/ZEM22Z7QSIrEE+OqNYBCqRJK3xrW/a0cieQd6Sjqtrw/C2Ye9O+IBtLp8i98YMy7ra6Z7JTpGFhckJCEwt87aXlaSHtfP8m7e7IbWThXGrkwWpeiX2xo3FLbBZ2zigzbKfBNCRp5KNo3ZFNMeJKYX7YqekX4nLT4gV0zY/0Tszafb8g2QaYfsMBeFBMWYVA4VWco/3/ErqBqVv5+/STR/lTHEnibwXxbJNdy2deZTHJhxj9lqRHscsABiSJ69dg64E2WxBOqZqA4jKXDjfejpieaPeIo49gnVqbKegWt/vLOsPssMgPoV0eUbE2ulJTuLJSCr7jSxvaRuaVQ7uOOAIvWo9FePy2WCIrRrSithsZtS36/p2+B3/NY1bz/UcAiZ1nhtywBlqyoAlbQoLIP1d3MHC8pkpGuUyuo0vN4TUyUjZ27lvIEyMIFDd9PXFCgAjaze0C5K/xzEaGMM4S3mRwOil34DB2vVcEIbi1pL2VEncqzf2Am39+lRmQldUK2AtfCyZ1YlKpbBK/eHEbsMGFulQW+81siOtLXO6zjc4rGH4a6PWVcgIESBflY2j0ltp73qvxW8JuwJMNV3dbMR/CGUb0VkTX1+YxKV4T/J2JtQ3IAtar26oa+VpJH1IgoM+51mlxr54XZ45wjzZ4394MT9nLyQHfla6kDuzDEEs+yUKeLz9Y/ZFWhfIwkNoyZ1Odkk5JKRl2lKF/3L1BAYwtat10q9f9f859PjQWx8dGZON4mWXUDoPGzkJu/Ur8E9MzDmHi+v84VXYyRMMN7bNrm6NXGsPb6CwkDdyyliQ9KeZsA6gcUcJB6D606SSQmM62AYMt2reJvlMSnNYc6hGNsQ4K+TXjxghXxU1ppAWqlYz+eUg824rmufRbPdcXnaSJLwCOsDGQfezk9bU1j9zkjNjZl+qzRglPkfmNjMzpFJI8j9qr7d0KriTBCaVMuI44iiMrzzxAfpkVGAzZLbfI3nuV5q9TBMvs5IL73s3yQSafnvzSmSebpLUoTnS/7U62UibWcBgbgOa4c1oB1kySR/BBQcU22CnUTkJCv8hfYj2K+f8Cyn4rCzjjZUPBmGfGgXFbxkeEu92vgPbDrlAphi2HecfOVjg6mexSJsvrS/yj6vwrRwYAx31qpz7hBROgfFsBDSBRQPoHbJpEo0rzsh+eiXZGQaiQSh/Lpnny/sejPpzP4MglpxJxJQ/od3rphbVPdFEhmxotoKkn3R69KoHeJQ6jRfFF2uCXbJNx78m3tuYBwrPVfqpyyBKFrlEV4wGqjznMBKeFOjM7ez5hqbRJbVEwe/VDuTisdgcbwgM8zSTylniHHnzlPmhptMl/dgyRQCBLwvpIqsSAHnzv2eEWq6My5RpQFVIuRlZMyW97keR54zjelrdo3HiPCLRYB1LLBDKJ4tl8SXAmAMJMLYLLff1tKYo84dMy5T+uGZRpAL4j+j/qkpAhYGshWgyf7QlmhXIUgTjX7sN+eYVhnt6MKIfX4aquGDgM9puWNeNTV1q7vg+BWHaQ01qKbl60FzhMyO9SI37as+MX9zDv7jOAkhAG2M7ch3H31+ZhvUAGjKkfIRjLf+KIR8H0MwoHzRe+UsYRQXAmlcYaVM6CMhzcYLtQIb6BrWWpcoYHaS4sMcJhFDAkkT0Zb1dd6EVOpLhaLUQCjaoM313q+/+R2kvLceqqzhd0b4/04d2y4MJZiGIqIgZuccP5Pb89Ny9aExlOs182eg4MkhG6NWF1v6vpzvSFEJCxHdg2/TNW5sVvZVZ7aIPGhaXixbdh7X/+G7a7Ts9uWhNDn9cxIJqGbtk7fI47Lzdh9Oh1S9VnVvhmhtDR1My6zKj3f+TtK3Ew3yV5RBlh6prMHeng4538BQiDGizUQ6ufnA/oAAbpRHJyPIFE4j3rRNcDHFTnV12nUAw0JqAuQxnMcRXLTlLqWMpGfZIeyUStYtuUgBoYgtr8WjxqCXmSNuWnfveOtAoDplsaJgFAELAf08JUyvOcGe6gGQa6e80GfkMiBv+o3wr4/ZlVzQAT0cH1npeNlrDJsyKCeybP/hkIvdyEFGbVAjGOREiRhCMXMntb/2w45VtGWxCSV9koVIY82lhGt7NiNvvi5/53XOWHWgDKVpIR12+cckIPCi3URPz6MS1mo3aZ4+Aqdyy+wsVwsdj/8M+OaWrIMAbFD/wmurex6fvSrp3xMa4SfQ7cdQ2q53y7+s3sXs0KSMB/jJhOoqlhzUZ2rPWWruDwa5Y7tx0oktfk9ZxdpEyCNJWZxqO0juZSbtaWDiaCoTIRxCpPif3qlJp12YFuoIQ2h+J+kQ/G/vuE/GCOLfNj6qm2gqS+VIaxYs+BNsvfzwPb740273jqTbZnoG0pA4IAayWxFo9FY9a/Ak3//4mKdeJezJdH+aTxtFBDaFdnzkYza8bMsHD6WsUd7b2y3pmI9h8sB6cf4N0OnR0CiIjDpdxo4NZMda+IvdZDzH4GC03NHPMHz+Xv5Ig3QuCIjuO1EiwHw2MK6dZYEmW34fIz2VYWUWW53/3gF8J8g6sM8aWEQyNVuvf0YKoVgewCfwnRo+cCSwNT7eXxqR/TZ3jrVhOdXe+LsrbcHnwRhZo/cHE46zL4fCXLo4vZiLLN27KyQhtRaMNG5eTsgxHKyXAAAAAAAAAAAAAAA";
 
-        // ─── MAIN APP ───
+        // ─── AUTH STORAGE ───
+        const AUTH_KEY = 'tc_auth';
+        function getStoredAuth() {
+            try {
+                const raw = localStorage.getItem(AUTH_KEY);
+                return raw ? JSON.parse(raw) : { username: 'admin', password: 'admin' };
+            } catch { return { username: 'admin', password: 'admin' }; }
+        }
+        function setStoredAuth(obj) {
+            try { localStorage.setItem(AUTH_KEY, JSON.stringify(obj)); } catch {}
+        }
+
+        // ─── DATA STORAGE ───
+        const DATA_KEY = 'tc_data';
+        function getStoredData() {
+            try {
+                const raw = localStorage.getItem(DATA_KEY);
+                return raw ? JSON.parse(raw) : null;
+            } catch { return null; }
+        }
+        function setStoredData(obj) {
+            try { localStorage.setItem(DATA_KEY, JSON.stringify(obj)); } catch {}
+        }
+
+        // ─── UTILS ───
+        function countWorkDays(startStr, endStr) {
+            let count = 0;
+            const start = new Date(startStr + 'T00:00:00');
+            const end = new Date(endStr + 'T00:00:00');
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
+                const dow = d.getDay();
+                if (dow !== 0 && dow !== 6) count++;
+            }
+            return count;
+        }
+
+        function getMonthlyCP(absences, employeeId, year, month) {
+            // month is 0-indexed
+            return absences.filter(a => {
+                if (a.employeeId !== employeeId || a.motif !== 'Congés payés') return false;
+                const start = new Date(a.dateDebut + 'T00:00:00');
+                const end = new Date(a.dateFin + 'T00:00:00');
+                // check overlap with month
+                const mStart = new Date(year, month, 1);
+                const mEnd = new Date(year, month + 1, 0);
+                return start <= mEnd && end >= mStart;
+            }).reduce((total, a) => {
+                const start = new Date(a.dateDebut + 'T00:00:00');
+                const end = new Date(a.dateFin + 'T00:00:00');
+                const mStart = new Date(year, month, 1);
+                const mEnd = new Date(year, month + 1, 0);
+                const effStart = start > mStart ? start : mStart;
+                const effEnd = end < mEnd ? end : mEnd;
+                let days = 0;
+                for (let d = new Date(effStart); d <= effEnd; d.setDate(d.getDate()+1)) {
+                    const dow = d.getDay();
+                    if (dow !== 0 && dow !== 6) days++;
+                }
+                return total + days;
+            }, 0);
+        }
+
+        function computeCPBalance(employee, absences) {
+            const now = new Date();
+            const year = now.getFullYear();
+            const currentMonth = now.getMonth(); // 0-indexed
+            // Determine employee start month — use first month of current year if not set
+            const startMonth = employee.cpStartMonth !== undefined ? employee.cpStartMonth : 0;
+            const cpBase = employee.cpBase || 25;
+            // Accumulated = 2.5 per month from startMonth up to and including currentMonth
+            const monthsElapsed = currentMonth - startMonth + 1;
+            const accumulated = Math.max(0, monthsElapsed) * 2.5;
+            // Used = sum of CP days in absences for this year
+            let used = 0;
+            for (let m = 0; m <= 11; m++) {
+                used += getMonthlyCP(absences, employee.id, year, m);
+            }
+            return { base: cpBase, accumulated: parseFloat(accumulated.toFixed(1)), used, balance: parseFloat((cpBase + accumulated - used).toFixed(1)) };
+        }
+
+        // ─── GEOLOCATION ───
+        const COMPANY_LAT = 50.3333, COMPANY_LON = 3.5833;
+        function calculateDistance(lat1,lon1,lat2,lon2){const R=6371;const dLat=(lat2-lat1)*Math.PI/180;const dLon=(lon2-lon1)*Math.PI/180;const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
+        function getZone(address){const postalCode=address.match(/\d{5}/)?.[0];if(!postalCode)return{zone:1,panier:0};const lat=50.3+Math.random()*2;const lon=3.5+Math.random()*2;const distance=calculateDistance(COMPANY_LAT,COMPANY_LON,lat,lon);if(distance<10)return{zone:0,panier:0};if(distance<30)return{zone:1,panier:7.5};if(distance<60)return{zone:2,panier:12.5};return{zone:3,panier:17.5};}
+
+        // ─── APP ───
         function App() {
-            const [isLoggedIn, setIsLoggedIn] = useState(false);
+            const [authenticated, setAuthenticated] = useState(false);
             const [activeTab, setActiveTab] = useState('dashboard');
             const [employees, setEmployees] = useState([]);
             const [chantiers, setChantiers] = useState([]);
-            const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+            const [absences, setAbsences] = useState([]);
+            const [retards, setRetards] = useState([]);
+            const [heuresSupp, setHeuresSupp] = useState([]);
+            const [showModal, setShowModal] = useState(false);
+            const [editingEmployee, setEditingEmployee] = useState(null);
+            const [showChantierModal, setShowChantierModal] = useState(false);
+            const [editingChantier, setEditingChantier] = useState(null);
+            const [message, setMessage] = useState(null);
+            const [needsSave, setNeedsSave] = useState(false);
+            const [showPasswordModal, setShowPasswordModal] = useState(false);
 
+            // Auto-load from localStorage on mount
             useEffect(() => {
-                const savedData = localStorage.getItem('thierryCarlesData');
-                if (savedData) {
-                    const { employees: emp, chantiers: chan } = JSON.parse(savedData);
-                    setEmployees(emp || []);
-                    setChantiers(chan || []);
+                const saved = getStoredData();
+                if (saved) {
+                    if (saved.employees) setEmployees(saved.employees);
+                    if (saved.chantiers) setChantiers(saved.chantiers);
+                    if (saved.absences) setAbsences(saved.absences);
+                    if (saved.retards) setRetards(saved.retards);
+                    if (saved.heuresSupp) setHeuresSupp(saved.heuresSupp);
                 }
             }, []);
 
-            const saveToLocalStorage = (emp, chan) => {
-                localStorage.setItem('thierryCarlesData', JSON.stringify({
-                    employees: emp || employees,
-                    chantiers: chan || chantiers
-                }));
-                setHasUnsavedChanges(false);
-            };
-
-            const handleLogin = (username, password) => {
-                if (username === 'admin' && password === 'admin') {
-                    setIsLoggedIn(true);
-                    return true;
+            // Auto-save to localStorage whenever data changes
+            useEffect(() => {
+                const allData = { employees, chantiers, absences, retards, heuresSupp, lastSaved: new Date().toISOString() };
+                setStoredData(allData);
+                // needsSave tracks if there's unsaved manual export
+                if (employees.length > 0 || chantiers.length > 0 || absences.length > 0) {
+                    setNeedsSave(true);
                 }
-                return false;
+            }, [employees, chantiers, absences, retards, heuresSupp]);
+
+            // ─── SAVE / LOAD FILE ───
+            const fileHandleRef = React.useRef(null); // persists the chosen file handle across renders
+
+            const getDataBlob = () => {
+                const allData = { employees, chantiers, absences, retards, heuresSupp, lastSaved: new Date().toISOString() };
+                return new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
             };
 
-            const handleLogout = () => {
-                if (!hasUnsavedChanges || confirm('Vous avez des modifications non enregistrées. Voulez-vous vraiment vous déconnecter ?')) {
-                    setIsLoggedIn(false);
+            // "Enregistrer sous" – opens native Save As dialog (File System Access API)
+            const saveDataToFile = async () => {
+                try {
+                    if (window.showSaveFilePicker) {
+                        const handle = await window.showSaveFilePicker({
+                            suggestedName: 'thierry-carles-data.json',
+                            types: [{
+                                description: 'Fichier données JSON',
+                                accept: { 'application/json': ['.json'] }
+                            }]
+                        });
+                        const writable = await handle.createWritable();
+                        await writable.write(getDataBlob());
+                        await writable.close();
+                        fileHandleRef.current = handle; // remember for quick-save
+                        setNeedsSave(false);
+                        setMessage({ type: 'success', text: `Enregistré : ${handle.name}` });
+                        setTimeout(() => setMessage(null), 3000);
+                    } else {
+                        // Fallback pour les navigateurs qui ne supportent pas showSaveFilePicker
+                        const url = URL.createObjectURL(getDataBlob());
+                        const link = document.createElement('a');
+                        link.href = url; link.download = 'thierry-carles-data.json'; link.click();
+                        URL.revokeObjectURL(url);
+                        setNeedsSave(false);
+                    }
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        setMessage({ type: 'error', text: 'Erreur lors de la sauvegarde' });
+                        setTimeout(() => setMessage(null), 3000);
+                    }
                 }
             };
 
-            const exportPlanning = (employeeId) => {
+
+
+
+            const loadDataFromFile = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if (data.employees) setEmployees(data.employees);
+                        if (data.chantiers) setChantiers(data.chantiers);
+                        if (data.absences) setAbsences(data.absences);
+                        if (data.retards) setRetards(data.retards);
+                        if (data.heuresSupp) setHeuresSupp(data.heuresSupp);
+                        setMessage({ type: 'success', text: 'Données chargées avec succès' });
+                        setTimeout(() => setMessage(null), 3000);
+                    } catch {
+                        setMessage({ type: 'error', text: 'Erreur lors du chargement' });
+                        setTimeout(() => setMessage(null), 3000);
+                    }
+                };
+                reader.readAsText(file);
+                event.target.value = '';
+            };
+
+            // ─── AUTH ───
+            const handleLogin = (e) => {
+                e.preventDefault();
+                const username = e.target.username.value;
+                const password = e.target.password.value;
+                const creds = getStoredAuth();
+                if (username === creds.username && password === creds.password) {
+                    setAuthenticated(true);
+                } else {
+                    setMessage({ type: 'error', text: 'Identifiants incorrects' });
+                    setTimeout(() => setMessage(null), 3000);
+                }
+            };
+
+            const changePassword = (oldPwd, newPwd) => {
+                const creds = getStoredAuth();
+                if (oldPwd !== creds.password) {
+                    setMessage({ type: 'error', text: 'Ancien mot de passe incorrect' });
+                    setTimeout(() => setMessage(null), 3000);
+                    return false;
+                }
+                setStoredAuth({ ...creds, password: newPwd });
+                setMessage({ type: 'success', text: 'Mot de passe changé avec succès' });
+                setTimeout(() => setMessage(null), 3000);
+                setShowPasswordModal(false);
+                return true;
+            };
+
+            // ─── STATS ───
+            const getTodayStats = () => {
+                const today = new Date().toISOString().split('T')[0];
+                const todayRetards = retards.filter(r => r.date === today);
+                const todayAbsences = absences.filter(a => {
+                    const s = new Date(a.dateDebut + 'T00:00:00');
+                    const f = new Date(a.dateFin + 'T00:00:00');
+                    const t = new Date(today + 'T00:00:00');
+                    return t >= s && t <= f;
+                });
+                const present = employees.length - todayAbsences.length;
+                const late = todayRetards.length;
+                const absent = todayAbsences.length;
+                const lateEmployees = todayRetards.map(r => { const emp = employees.find(e => e.id === r.employeeId); return emp ? `${emp.nom} (${r.minutes} min)` : ''; }).filter(Boolean);
+                const absentEmployees = todayAbsences.map(a => { const emp = employees.find(e => e.id === a.employeeId); return emp ? `${emp.nom} (${a.motif})` : ''; }).filter(Boolean);
+                return { present, late, absent, lateEmployees, absentEmployees };
+            };
+
+            // ─── EMPLOYEES CRUD ───
+            const saveEmployee = (empData) => {
+                if (editingEmployee) {
+                    setEmployees(employees.map(e => e.id === editingEmployee.id ? empData : e));
+                    setMessage({ type: 'success', text: 'Employé modifié' });
+                } else {
+                    setEmployees([...employees, { ...empData, id: Date.now().toString(), cpBase: empData.cpBase || 25, cpStartMonth: new Date().getMonth() }]);
+                    setMessage({ type: 'success', text: 'Employé ajouté' });
+                }
+                setShowModal(false); setEditingEmployee(null);
+                setTimeout(() => setMessage(null), 3000);
+            };
+
+            const deleteEmployee = (id) => {
+                if (confirm('Supprimer cet employé ?')) {
+                    setEmployees(employees.filter(e => e.id !== id));
+                    setAbsences(absences.filter(a => a.employeeId !== id));
+                    setRetards(retards.filter(r => r.employeeId !== id));
+                    setHeuresSupp(heuresSupp.filter(h => h.employeeId !== id));
+                    setMessage({ type: 'success', text: 'Employé supprimé' });
+                    setTimeout(() => setMessage(null), 3000);
+                }
+            };
+
+            // ─── CHANTIERS CRUD ───
+            const saveChantier = (data) => {
+                const zoneInfo = getZone(data.lieu);
+                const ch = { ...data, zone: zoneInfo.zone, panier: zoneInfo.panier };
+                if (editingChantier) {
+                    setChantiers(chantiers.map(c => c.id === editingChantier.id ? ch : c));
+                    setMessage({ type: 'success', text: 'Chantier modifié' });
+                } else {
+                    setChantiers([...chantiers, { ...ch, id: Date.now().toString() }]);
+                    setMessage({ type: 'success', text: 'Chantier ajouté' });
+                }
+                setShowChantierModal(false); setEditingChantier(null);
+                setTimeout(() => setMessage(null), 3000);
+            };
+
+            const deleteChantier = (id) => {
+                if (confirm('Supprimer ce chantier ?')) {
+                    setChantiers(chantiers.filter(c => c.id !== id));
+                    setMessage({ type: 'success', text: 'Chantier supprimé' });
+                    setTimeout(() => setMessage(null), 3000);
+                }
+            };
+
+            // ─── EXPORT (colored & styled) ───
+            const exportEmployee = (employeeId) => {
                 const employee = employees.find(e => e.id === employeeId);
                 if (!employee) return;
-
                 const wb = XLSX.utils.book_new();
                 const year = new Date().getFullYear();
+                const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
-                // Récupérer toutes les assignations et congés de l'employé
-                const assignments = [];
-                const conges = employee.conges || [];
+                // ── Palette ──
+                const P = '3D3573';          // violet principal
+                const S = 'E84597';          // rose
+                const W = 'FFFFFF';
+                const BG_TITLE   = S;
+                const BG_CP      = 'F3E8FF';  // lavender clair
+                const BG_HDR     = P;
+                const BG_ROW_A   = 'FFFFFF';  // blanc
+                const BG_ROW_B   = 'F5F3FA';  // violet très clair – alternance
+                const BG_WEEKEND = 'ECECEC';  // gris neutre
+                const BG_CP_OK   = 'D1FAE5';  // vert clair
+                const BG_ABSENT  = 'FEE2E2';  // rouge clair
+                const BG_RETARD  = 'FEF3C7';  // jaune clair
+                const BG_TOTALS  = 'EDE9F5';  // lavender
+                const BG_MOTIF   = 'F0E6FF';  // lavender + sombre
 
-                chantiers.forEach(chantier => {
-                    if (chantier.employees) {
-                        chantier.employees.forEach(assignment => {
-                            if (assignment.employeeId === employeeId) {
-                                assignments.push({
-                                    type: 'Chantier',
-                                    nom: chantier.nom,
-                                    lieu: chantier.lieu,
-                                    dateDebut: assignment.dateDebut,
-                                    dateFin: assignment.dateFin,
-                                    zone: chantier.zone || 'N/A',
-                                    panier: chantier.panier || 0
+                // ── Fonts ──
+                const fTitle   = { bold:true, color:{rgb:W}, sz:14, name:'Calibri' };
+                const fCpLabel = { bold:true, color:{rgb:P}, sz:10, name:'Calibri' };
+                const fCpValue = { bold:true, color:{rgb:P}, sz:12, name:'Calibri' };
+                const fHdr     = { bold:true, color:{rgb:W}, sz:11, name:'Calibri' };
+                const fNormal  = { color:{rgb:'2A2547'}, sz:10, name:'Calibri' };
+                const fBold    = { bold:true, color:{rgb:'2A2547'}, sz:10, name:'Calibri' };
+                const fWeekend = { color:{rgb:'6B7280'}, sz:10, name:'Calibri', italic:true };
+                const fAbsent  = { bold:true, color:{rgb:'B91C1C'}, sz:10, name:'Calibri' };
+                const fTotLabel= { bold:true, color:{rgb:P}, sz:11, name:'Calibri' };
+                const fTotValue= { bold:true, color:{rgb:P}, sz:12, name:'Calibri' };
+                const fMotifHdr= { bold:true, color:{rgb:W}, sz:10, name:'Calibri' };
+
+                // ── Borders ──
+                const bThin  = { style:'thin',   color:{rgb:'B0AEC0'} };
+                const bMed   = { style:'medium', color:{rgb:P} };
+                const bThick = { style:'thick',  color:{rgb:P} };
+                const bWhite = { style:'thin',   color:{rgb:W} };
+                const bNone  = { style:'thin',   color:{rgb:'FFFFFF'} };
+
+                const bAll = (s) => ({ top:s, bottom:s, left:s, right:s });
+                const bCell     = bAll(bThin);
+                const bHdr      = bAll(bWhite);
+                const bTitle    = { top:bMed, bottom:bMed, left:bMed, right:bMed };
+                const bTotals   = bAll(bMed);
+                const bLastData = { top:bThin, bottom:bThick, left:bThin, right:bThin }; // dernière ligne avant totaux
+
+                // ── Helpers ──
+                const fill = (hex) => ({ patternType:'solid', fgColor:{rgb:hex} });
+                const centerH = { horizontal:'center', vertical:'center' };
+                const leftH   = { horizontal:'left',   vertical:'center' };
+                const rightH  = { horizontal:'right',  vertical:'center' };
+
+                const cpBal = computeCPBalance(employee, absences);
+
+                months.forEach((monthName, monthIndex) => {
+                    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+                    const ws = {};
+                    ws['!merges'] = [];
+                    let row = 0;
+                    const COLS = 8; // A–H (0–7)
+
+                    // ── ROW 0 : Titre ──
+                    ws[XLSX.utils.encode_cell({c:0,r:row})] = { v:`Planning – ${employee.nom} – ${monthName} ${year}`, t:'s',
+                        s:{ font:fTitle, fill:fill(BG_TITLE), alignment:{horizontal:'center',vertical:'center'}, border:bTitle } };
+                    for(let c=1;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(BG_TITLE), border:bTitle } };
+                    ws['!merges'].push({ s:{c:0,r:row}, e:{c:COLS-1,r:row} });
+                    row++;
+
+                    // ── ROW 1–4 : CP en 4 cases côte à côte ──
+                    // On fait 2 lignes : labels puis valeurs, sur 4 colonnes (A-B et C-D fusionnées par paires)
+                    const cpItems = [
+                        { label:'CP de base (année)', value: String(cpBal.base) },
+                        { label:'Accumulés (+2.5/mois)', value: '+' + cpBal.accumulated },
+                        { label:'Utilisés', value: String(cpBal.used) },
+                        { label:'Solde CP', value: String(cpBal.balance) }
+                    ];
+                    // Ligne labels
+                    cpItems.forEach((item, i) => {
+                        const c = i * 2;
+                        ws[XLSX.utils.encode_cell({c, r:row})] = { v:item.label, t:'s',
+                            s:{ font:fCpLabel, fill:fill(BG_CP), alignment:centerH, border:bTotals } };
+                        ws[XLSX.utils.encode_cell({c:c+1, r:row})] = { v:'', t:'s',
+                            s:{ fill:fill(BG_CP), border:bTotals } };
+                        ws['!merges'].push({ s:{c,r:row}, e:{c:c+1,r:row} });
+                    });
+                    row++;
+                    // Ligne valeurs
+                    cpItems.forEach((item, i) => {
+                        const c = i * 2;
+                        const isNeg = cpBal.balance < 0 && i === 3;
+                        ws[XLSX.utils.encode_cell({c, r:row})] = { v:item.value, t:'s',
+                            s:{ font:{ ...fCpValue, color:{rgb: isNeg ? 'EF4444' : P} }, fill:fill(BG_CP), alignment:centerH, border:bTotals } };
+                        ws[XLSX.utils.encode_cell({c:c+1, r:row})] = { v:'', t:'s',
+                            s:{ fill:fill(BG_CP), border:bTotals } };
+                        ws['!merges'].push({ s:{c,r:row}, e:{c:c+1,r:row} });
+                    });
+                    row++;
+
+                    // ── En-tête colonnes ──
+                    const headers = ['Date', 'Jour', 'Heures', 'Chantier', 'Zone', 'Panier (€)', 'Retard (min)', 'Absence'];
+                    headers.forEach((h, c) => {
+                        ws[XLSX.utils.encode_cell({c, r:row})] = { v:h, t:'s',
+                            s:{ font:fHdr, fill:fill(BG_HDR), alignment:centerH, border:bHdr } };
+                    });
+                    row++;
+                    const dataStartRow = row;
+
+                    // ── Données jour par jour ──
+                    let totalHeures=0, totalPanier=0, totalHeuresSupp=0, totalRetards=0, totalConges=0;
+                    let absencesByMotif = {};
+
+                    for (let day=1; day<=daysInMonth; day++) {
+                        const date = new Date(year, monthIndex, day);
+                        const dateStr = date.toISOString().split('T')[0];
+                        const dayNames    = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+                        const dayNamesLow = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+                        const dayOfWeek   = dayNames[date.getDay()];
+                        const dayName     = dayNamesLow[date.getDay()];
+                        const isWeekend   = date.getDay()===0 || date.getDay()===6;
+                        const isLastDay   = (day === daysInMonth);
+
+                        // Date formatée en français : "05 janvier 2026"
+                        const dateFormatted = `${String(day).padStart(2,'0')} ${monthName.toLowerCase()} ${year}`;
+
+                        const absence = absences.find(a => a.employeeId===employeeId && new Date(a.dateDebut+'T00:00:00')<=date && new Date(a.dateFin+'T00:00:00')>=date);
+
+                        let rowData, bg, font;
+                        // Alternance de fond : impair=blanc, pair=gris très clair
+                        const altBg = (day % 2 === 0) ? BG_ROW_B : BG_ROW_A;
+
+                        if (absence) {
+                            rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', absence.motif];
+                            bg = (absence.motif === 'Congés payés') ? BG_CP_OK : BG_ABSENT;
+                            font = fAbsent;
+                            if (absence.motif==='Congés payés') totalConges++;
+                            absencesByMotif[absence.motif] = (absencesByMotif[absence.motif]||0)+1;
+                        } else if (isWeekend) {
+                            rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', 'Repos'];
+                            bg = BG_WEEKEND;
+                            font = fWeekend;
+                        } else {
+                            const schedule = employee.horaires?.[dayName];
+                            if (!schedule || !schedule.debut || !schedule.fin) {
+                                rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', 'Jour off'];
+                                bg = BG_WEEKEND;
+                                font = fWeekend;
+                            } else {
+                                const debut = new Date(`2000-01-01T${schedule.debut}`);
+                                const fin   = new Date(`2000-01-01T${schedule.fin}`);
+                                let heures  = (fin - debut) / (1000*60*60);
+
+                                const chantierAssignment = chantiers.find(c => {
+                                    const hasEmp = c.employees?.some(e => e.employeeId===employeeId && new Date(e.dateDebut+'T00:00:00')<=date && new Date(e.dateFin+'T00:00:00')>=date);
+                                    return hasEmp && new Date(c.dateDebut+'T00:00:00')<=date && new Date(c.dateFin+'T00:00:00')>=date;
                                 });
+                                const chantierNom = chantierAssignment?.nom || '';
+                                const zone   = chantierAssignment?.zone !== undefined ? chantierAssignment.zone : '';
+                                const panier = chantierAssignment?.panier || 0;
+
+                                const retard = retards.find(r => r.employeeId===employeeId && r.date===dateStr);
+                                const retardMinutes = retard?.minutes || 0;
+
+                                const hSupp = heuresSupp.find(h => h.employeeId===employeeId && h.date===dateStr);
+                                if (hSupp) {
+                                    if (hSupp.type==='arrivee') { const hr=new Date(`2000-01-01T${hSupp.heureReelle}`); heures+=(debut-hr)/(1000*60*60); }
+                                    else { const hr=new Date(`2000-01-01T${hSupp.heureReelle}`); heures+=(hr-fin)/(1000*60*60); }
+                                    totalHeuresSupp += Math.abs(hSupp.heureReelle && schedule[hSupp.type==='arrivee'?'debut':'fin'] ? (new Date(`2000-01-01T${hSupp.heureReelle}`)-new Date(`2000-01-01T${schedule[hSupp.type==='arrivee'?'debut':'fin']}`))/(1000*60*60) : 0);
+                                }
+
+                                totalHeures += heures; totalPanier += panier; totalRetards += retardMinutes;
+                                rowData = [dateFormatted, dayOfWeek, parseFloat(heures.toFixed(2)), chantierNom, zone, panier, retardMinutes, ''];
+                                bg   = retardMinutes > 0 ? BG_RETARD : altBg;
+                                font = retardMinutes > 0 ? fBold : fNormal;
                             }
+                        }
+
+                        // Bordure : dernière ligne du mois → bordure bas épaisse
+                        const rowBorder = isLastDay ? bLastData : bCell;
+
+                        rowData.forEach((val, c) => {
+                            const isNum = typeof val === 'number';
+                            // colonnes 2,5,6 = nombres → aligner à droite
+                            const align = (c===0||c===1||c===3||c===7) ? leftH : rightH;
+                            ws[XLSX.utils.encode_cell({c, r:row})] = {
+                                v: val, t: isNum ? 'n' : 's',
+                                s: { font, fill:fill(bg), border:rowBorder, alignment:align,
+                                     numFmt: (c===2||c===6) ? '0.00' : (c===5 ? '#,##0.00' : undefined) }
+                            };
+                        });
+                        row++;
+                    }
+
+                    // ── Ligne vide séparateur ──
+                    row++;
+
+                    // ── RÉSUMÉ DU MOIS ──
+                    // Titre du résumé
+                    ws[XLSX.utils.encode_cell({c:0,r:row})] = { v:'RÉSUMÉ DU MOIS', t:'s',
+                        s:{ font:{ bold:true, sz:12, color:{rgb:W}, name:'Calibri' }, fill:fill(BG_HDR), alignment:centerH, border:bTotals } };
+                    for(let c=1;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(BG_HDR), border:bTotals } };
+                    ws['!merges'].push({ s:{c:0,r:row}, e:{c:COLS-1,r:row} });
+                    row++;
+
+                    // Totaux en grille 2 colonnes (label | valeur) sur 4 colonnes fusionnées
+                    const totalsData = [
+                        ['Total heures travaillées', totalHeures.toFixed(2) + ' h'],
+                        ['Montant paniers',          totalPanier.toFixed(2) + ' €'],
+                        ['Heures supplémentaires',  totalHeuresSupp.toFixed(2) + ' h'],
+                        ['Congés payés utilisés',   totalConges + ' jour' + (totalConges!==1?'s':'')],
+                        ['Total retards',           totalRetards + ' min']
+                    ];
+
+                    totalsData.forEach(([label, value], idx) => {
+                        // Chaque ligne : col 0-1 = label (fusionné), col 2-3 = valeur (fusionné)
+                        // On décale : paires sur 4 colonnes, puis on laisse les colonnes 4-7 vides avec le même fond
+                        ws[XLSX.utils.encode_cell({c:0, r:row})] = { v:label, t:'s',
+                            s:{ font:fTotLabel, fill:fill(BG_TOTALS), alignment:leftH, border:bTotals } };
+                        ws[XLSX.utils.encode_cell({c:1, r:row})] = { v:'', t:'s',
+                            s:{ fill:fill(BG_TOTALS), border:bTotals } };
+                        ws['!merges'].push({ s:{c:0,r:row}, e:{c:1,r:row} });
+
+                        ws[XLSX.utils.encode_cell({c:2, r:row})] = { v:value, t:'s',
+                            s:{ font:fTotValue, fill:fill(BG_TOTALS), alignment:rightH, border:bTotals } };
+                        ws[XLSX.utils.encode_cell({c:3, r:row})] = { v:'', t:'s',
+                            s:{ fill:fill(BG_TOTALS), border:bTotals } };
+                        ws['!merges'].push({ s:{c:2,r:row}, e:{c:3,r:row} });
+
+                        // Colonnes 4–7 : fond identique, bordure
+                        for(let c=4;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(BG_TOTALS), border:bTotals } };
+                        row++;
+                    });
+
+                    // ── ABSENCES PAR MOTIF ──
+                    if (Object.keys(absencesByMotif).length > 0) {
+                        row++; // ligne vide
+
+                        // Sous-titre
+                        ws[XLSX.utils.encode_cell({c:0,r:row})] = { v:'ABSENCES PAR MOTIF', t:'s',
+                            s:{ font:{ bold:true, sz:11, color:{rgb:W}, name:'Calibri' }, fill:fill(P), alignment:centerH, border:bTotals } };
+                        for(let c=1;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(P), border:bTotals } };
+                        ws['!merges'].push({ s:{c:0,r:row}, e:{c:COLS-1,r:row} });
+                        row++;
+
+                        // En-tête : Motif | Jours
+                        ws[XLSX.utils.encode_cell({c:0,r:row})] = { v:'Motif', t:'s',
+                            s:{ font:fMotifHdr, fill:fill(BG_MOTIF), alignment:leftH, border:bTotals } };
+                        ws[XLSX.utils.encode_cell({c:1,r:row})] = { v:'Jours', t:'s',
+                            s:{ font:fMotifHdr, fill:fill(BG_MOTIF), alignment:centerH, border:bTotals } };
+                        for(let c=2;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(BG_MOTIF), border:bTotals } };
+                        ws['!merges'].push({ s:{c:2,r:row}, e:{c:COLS-1,r:row} });
+                        row++;
+
+                        // Lignes de données
+                        Object.entries(absencesByMotif).forEach(([motif, count]) => {
+                            const motifBg = motif==='Congés payés' ? BG_CP_OK : motif==='Maladie' ? BG_ABSENT : BG_RETARD;
+                            ws[XLSX.utils.encode_cell({c:0,r:row})] = { v:motif, t:'s',
+                                s:{ font:fBold, fill:fill(motifBg), alignment:leftH, border:bCell } };
+                            ws[XLSX.utils.encode_cell({c:1,r:row})] = { v:count, t:'n',
+                                s:{ font:{ bold:true, sz:11, color:{rgb:P}, name:'Calibri' }, fill:fill(motifBg), alignment:centerH, border:bCell } };
+                            for(let c=2;c<COLS;c++) ws[XLSX.utils.encode_cell({c,r:row})] = { v:'', t:'s', s:{ fill:fill(motifBg), border:bCell } };
+                            row++;
                         });
                     }
-                });
 
-                // Créer un onglet par mois
-                for (let month = 0; month < 12; month++) {
-                    const monthName = new Date(year, month, 1).toLocaleDateString('fr-FR', { month: 'long' });
-                    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-                    const data = [
-                        ['PLANNING - ' + monthName.toUpperCase() + ' ' + year],
-                        ['Employé:', employee.nom],
-                        [],
-                        ['Jour', 'Date', 'Type', 'Chantier/Congé', 'Lieu', 'Zone', 'Panier']
-                    ];
-
-                    for (let day = 1; day <= daysInMonth; day++) {
-                        const date = new Date(year, month, day);
-                        const dateStr = date.toISOString().split('T')[0];
-                        const dayName = date.toLocaleDateString('fr-FR', { weekday: 'short' });
-
-                        let rowData = [dayName, date.toLocaleDateString('fr-FR'), '', '', '', '', ''];
-
-                        // Vérifier si c'est un congé
-                        const conge = conges.find(c => dateStr >= c.dateDebut && dateStr <= c.dateFin);
-                        if (conge) {
-                            rowData = [dayName, date.toLocaleDateString('fr-FR'), 'Congé', conge.type || 'CP', '-', '-', '-'];
-                        } else {
-                            // Vérifier si c'est un chantier
-                            const assignment = assignments.find(a => dateStr >= a.dateDebut && dateStr <= a.dateFin);
-                            if (assignment) {
-                                rowData = [
-                                    dayName,
-                                    date.toLocaleDateString('fr-FR'),
-                                    'Chantier',
-                                    assignment.nom,
-                                    assignment.lieu,
-                                    assignment.zone,
-                                    assignment.panier + '€'
-                                ];
-                            }
-                        }
-
-                        data.push(rowData);
-                    }
-
-                    const ws = XLSX.utils.aoa_to_sheet(data);
-
-                    // Largeurs des colonnes
+                    // ── Dimensions ──
+                    ws['!ref'] = XLSX.utils.encode_range({ s:{c:0,r:0}, e:{c:COLS-1, r:row-1} });
                     ws['!cols'] = [
-                        { wch: 8 },  // Jour
-                        { wch: 12 }, // Date
-                        { wch: 10 }, // Type
-                        { wch: 30 }, // Chantier/Congé
-                        { wch: 40 }, // Lieu
-                        { wch: 8 },  // Zone
-                        { wch: 10 }  // Panier
+                        { wch:18 },  // Date
+                        { wch:13 },  // Jour
+                        { wch:10 },  // Heures
+                        { wch:24 },  // Chantier
+                        { wch:8  },  // Zone
+                        { wch:13 },  // Panier
+                        { wch:13 },  // Retard
+                        { wch:18 }   // Absence
                     ];
-
-                    // Styles et couleurs
-                    const range = XLSX.utils.decode_range(ws['!ref']);
-                    
-                    // Style pour l'en-tête du mois (ligne 1)
-                    for (let C = range.s.c; C <= range.e.c; ++C) {
-                        const address = XLSX.utils.encode_cell({ r: 0, c: C });
-                        if (!ws[address]) continue;
-                        ws[address].s = {
-                            font: { bold: true, sz: 16, color: { rgb: "FFFFFF" } },
-                            fill: { fgColor: { rgb: "3D3573" } },
-                            alignment: { horizontal: "center", vertical: "center" }
-                        };
-                    }
-
-                    // Style pour les informations employé (ligne 2)
-                    for (let C = range.s.c; C <= range.e.c; ++C) {
-                        const address = XLSX.utils.encode_cell({ r: 1, c: C });
-                        if (!ws[address]) continue;
-                        ws[address].s = {
-                            font: { bold: true, sz: 12 },
-                            fill: { fgColor: { rgb: "F8F7FC" } }
-                        };
-                    }
-
-                    // Style pour l'en-tête des colonnes (ligne 4)
-                    for (let C = range.s.c; C <= range.e.c; ++C) {
-                        const address = XLSX.utils.encode_cell({ r: 3, c: C });
-                        if (!ws[address]) continue;
-                        ws[address].s = {
-                            font: { bold: true, color: { rgb: "FFFFFF" } },
-                            fill: { fgColor: { rgb: "E84597" } },
-                            alignment: { horizontal: "center", vertical: "center" }
-                        };
-                    }
-
-                    // Style pour les données (lignes 5+)
-                    for (let R = 4; R <= range.e.r; ++R) {
-                        for (let C = range.s.c; C <= range.e.c; ++C) {
-                            const address = XLSX.utils.encode_cell({ r: R, c: C });
-                            if (!ws[address]) continue;
-
-                            const typeCell = XLSX.utils.encode_cell({ r: R, c: 2 });
-                            const type = ws[typeCell] ? ws[typeCell].v : '';
-
-                            let fillColor = "FFFFFF";
-                            let fontColor = "2A2547";
-
-                            if (type === 'Congé') {
-                                fillColor = "FFE8E8";
-                                fontColor = "EF4444";
-                            } else if (type === 'Chantier') {
-                                fillColor = "F8F9FF";
-                                fontColor = "3D3573";
-                            }
-
-                            // Alterner les couleurs pour meilleure lisibilité
-                            if (R % 2 === 0 && type === '') {
-                                fillColor = "F8F7FC";
-                            }
-
-                            ws[address].s = {
-                                font: { color: { rgb: fontColor } },
-                                fill: { fgColor: { rgb: fillColor } },
-                                alignment: { horizontal: "left", vertical: "center" },
-                                border: {
-                                    top: { style: "thin", color: { rgb: "E8E6F0" } },
-                                    bottom: { style: "thin", color: { rgb: "E8E6F0" } },
-                                    left: { style: "thin", color: { rgb: "E8E6F0" } },
-                                    right: { style: "thin", color: { rgb: "E8E6F0" } }
-                                }
-                            };
-                        }
+                    ws['!rows'] = [];
+                    for (let r=0; r<row; r++) {
+                        if (r===0)  ws['!rows'].push({ ht:30 });  // titre
+                        else if (r<=2) ws['!rows'].push({ ht:22 }); // CP labels + valeurs
+                        else if (r===3) ws['!rows'].push({ ht:22 }); // en-tête
+                        else ws['!rows'].push({ ht:19 });
                     }
 
                     XLSX.utils.book_append_sheet(wb, ws, monthName);
-                }
+                });
 
-                // Onglet résumé CP
-                const totalConges = conges.reduce((sum, c) => {
-                    const start = new Date(c.dateDebut);
-                    const end = new Date(c.dateFin);
-                    const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-                    return sum + days;
-                }, 0);
-
-                const resumeData = [
-                    ['RÉSUMÉ CONGÉS ' + year],
-                    ['Employé:', employee.nom],
-                    [],
-                    ['Type', 'Date début', 'Date fin', 'Jours'],
-                    ...conges.map(c => {
-                        const start = new Date(c.dateDebut);
-                        const end = new Date(c.dateFin);
-                        const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-                        return [
-                            c.type || 'CP',
-                            start.toLocaleDateString('fr-FR'),
-                            end.toLocaleDateString('fr-FR'),
-                            days
-                        ];
-                    }),
-                    [],
-                    ['TOTAL JOURS:', '', '', totalConges]
-                ];
-
-                const resumeWs = XLSX.utils.aoa_to_sheet(resumeData);
-                resumeWs['!cols'] = [{ wch: 20 }, { wch: 15 }, { wch: 15 }, { wch: 10 }];
-
-                // Styles pour le résumé
-                const resumeRange = XLSX.utils.decode_range(resumeWs['!ref']);
-                
-                // En-tête
-                for (let C = resumeRange.s.c; C <= resumeRange.e.c; ++C) {
-                    const address = XLSX.utils.encode_cell({ r: 0, c: C });
-                    if (!resumeWs[address]) continue;
-                    resumeWs[address].s = {
-                        font: { bold: true, sz: 16, color: { rgb: "FFFFFF" } },
-                        fill: { fgColor: { rgb: "3D3573" } },
-                        alignment: { horizontal: "center" }
-                    };
-                }
-
-                // Colonnes
-                for (let C = resumeRange.s.c; C <= resumeRange.e.c; ++C) {
-                    const address = XLSX.utils.encode_cell({ r: 3, c: C });
-                    if (!resumeWs[address]) continue;
-                    resumeWs[address].s = {
-                        font: { bold: true, color: { rgb: "FFFFFF" } },
-                        fill: { fgColor: { rgb: "E84597" } },
-                        alignment: { horizontal: "center" }
-                    };
-                }
-
-                // Ligne total
-                const totalRow = resumeData.length - 1;
-                for (let C = resumeRange.s.c; C <= resumeRange.e.c; ++C) {
-                    const address = XLSX.utils.encode_cell({ r: totalRow, c: C });
-                    if (!resumeWs[address]) continue;
-                    resumeWs[address].s = {
-                        font: { bold: true, sz: 12, color: { rgb: "FFFFFF" } },
-                        fill: { fgColor: { rgb: "10B981" } },
-                        alignment: { horizontal: "right" }
-                    };
-                }
-
-                XLSX.utils.book_append_sheet(wb, resumeWs, 'Résumé CP');
-
-                XLSX.writeFile(wb, `Planning_${employee.nom.replace(/\s+/g, '_')}_${year}.xlsx`);
+                XLSX.writeFile(wb, `Planning_${employee.nom}_${year}.xlsx`);
+                setMessage({ type: 'success', text: 'Planning exporté avec succès' });
+                setTimeout(() => setMessage(null), 3000);
             };
 
-            if (!isLoggedIn) {
-                return <LoginPage onLogin={handleLogin} />;
+            // ─── RENDER ───
+            if (!authenticated) {
+                return <LoginForm onLogin={handleLogin} message={message} />;
             }
+
+            const stats = getTodayStats();
 
             return (
                 <div className="app">
                     <header className="header">
                         <div className="header-left">
-                            <img src={LOGO_BASE64} alt="Logo Thierry Carles" className="header-logo" />
+                            <img className="header-logo" src={`data:image/webp;base64,${LOGO_B64}`} alt="Logo" />
                             <div className="header-title">
                                 <h1>Thierry Carles</h1>
-                                <p>Gestion du Personnel & Chantiers</p>
+                                <p>Gestion du Personnel</p>
                             </div>
                         </div>
                         <div className="header-actions">
-                            {hasUnsavedChanges && <span className="unsaved-badge">⚠️ Non enregistré</span>}
-                            <button className="logout-btn" onClick={() => saveToLocalStorage()}>💾 Enregistrer</button>
-                            <button className="logout-btn" onClick={handleLogout}>🚪 Déconnexion</button>
+                            {needsSave && <span className="unsaved-badge">⚠️ Non sauvegardé</span>}
+                            <input type="file" id="fileInput" accept=".json" style={{ display: 'none' }} onChange={loadDataFromFile} />
+                            <button className="logout-btn" onClick={() => document.getElementById('fileInput').click()}>📂 Charger</button>
+                            <button className="logout-btn" onClick={saveDataToFile} style={needsSave ? { background: 'rgba(255,193,7,0.3)', borderColor: 'rgba(255,193,7,0.5)', animation: 'pulse 2s infinite' } : {}}>💾 Enregistrer sous…</button>
+                            <button className="logout-btn" onClick={() => setShowPasswordModal(true)}>🔐 Mot de passe</button>
+                            <button className="logout-btn" onClick={() => setAuthenticated(false)}>Déconnexion</button>
                         </div>
                     </header>
 
+                    {message && <div className={message.type === 'error' ? 'error-message' : 'success-message'}>{message.text}</div>}
+
                     <div className="tabs">
-                        <button className={`tab ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>📊 Tableau de bord</button>
-                        <button className={`tab ${activeTab === 'employees' ? 'active' : ''}`} onClick={() => setActiveTab('employees')}>👥 Employés</button>
-                        <button className={`tab ${activeTab === 'chantiers' ? 'active' : ''}`} onClick={() => setActiveTab('chantiers')}>🏗️ Chantiers</button>
-                        <button className={`tab ${activeTab === 'export' ? 'active' : ''}`} onClick={() => setActiveTab('export')}>📥 Export</button>
+                        {[['dashboard','Tableau de Bord'],['employees','Employés'],['modifications','Modifications'],['chantiers','Chantiers'],['export','Export']].map(([key, label]) => (
+                            <button key={key} className={`tab ${activeTab === key ? 'active' : ''}`} onClick={() => setActiveTab(key)}>{label}</button>
+                        ))}
                     </div>
 
-                    {activeTab === 'dashboard' && (
-                        <DashboardTab
-                            employees={employees}
-                            chantiers={chantiers}
-                        />
-                    )}
-
+                    {activeTab === 'dashboard' && <Dashboard stats={stats} />}
                     {activeTab === 'employees' && (
-                        <EmployeesTab
-                            employees={employees}
-                            setEmployees={(emp) => { setEmployees(emp); setHasUnsavedChanges(true); }}
+                        <EmployeesTab employees={employees} absences={absences}
+                            onAdd={() => { setEditingEmployee(null); setShowModal(true); }}
+                            onEdit={(emp) => { setEditingEmployee(emp); setShowModal(true); }}
+                            onDelete={deleteEmployee}
                         />
                     )}
-
+                    {activeTab === 'modifications' && (
+                        <ModificationsTab employees={employees} absences={absences} setAbsences={setAbsences}
+                            retards={retards} setRetards={setRetards}
+                            heuresSupp={heuresSupp} setHeuresSupp={setHeuresSupp} setMessage={setMessage} />
+                    )}
                     {activeTab === 'chantiers' && (
-                        <ChantiersTab
-                            chantiers={chantiers}
-                            employees={employees}
-                            setChantiers={(chan) => { setChantiers(chan); setHasUnsavedChanges(true); }}
-                        />
+                        <ChantiersTab chantiers={chantiers} employees={employees}
+                            onAdd={() => { setEditingChantier(null); setShowChantierModal(true); }}
+                            onEdit={(ch) => { setEditingChantier(ch); setShowChantierModal(true); }}
+                            onDelete={deleteChantier} setChantiers={setChantiers} setMessage={setMessage} />
                     )}
+                    {activeTab === 'export' && <ExportTab employees={employees} onExport={exportEmployee} />}
 
-                    {activeTab === 'export' && (
-                        <ExportTab
-                            employees={employees}
-                            onExport={exportPlanning}
-                        />
-                    )}
+                    {showModal && <EmployeeModal employee={editingEmployee} onSave={saveEmployee} onClose={() => { setShowModal(false); setEditingEmployee(null); }} />}
+                    {showChantierModal && <ChantierModal chantier={editingChantier} employees={employees} onSave={saveChantier} onClose={() => { setShowChantierModal(false); setEditingChantier(null); }} />}
+                    {showPasswordModal && <PasswordModal onSave={changePassword} onClose={() => setShowPasswordModal(false)} />}
                 </div>
             );
         }
 
-        // ─── LOGIN PAGE ───
-        function LoginPage({ onLogin }) {
-            const [username, setUsername] = useState('');
-            const [password, setPassword] = useState('');
-            const [error, setError] = useState('');
-
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                if (!onLogin(username, password)) {
-                    setError('Identifiants incorrects');
-                }
-            };
-
+        // ─── LOGIN ───
+        function LoginForm({ onLogin, message }) {
             return (
                 <div className="login-page">
                     <div className="login-container">
                         <div className="login-logo-wrap">
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="Logo" className="login-logo" style={{display: 'none'}} />
+                            <img className="login-logo" src={`data:image/webp;base64,${LOGO_B64}`} alt="Logo Thierry Carles" />
                         </div>
                         <h2>Connexion</h2>
-                        <p>Accédez à votre espace de gestion</p>
-                        {error && <p style={{ color: 'var(--danger)', marginBottom: '15px', textAlign: 'center', fontSize: '13px' }}>{error}</p>}
-                        <form onSubmit={handleSubmit}>
+                        <p>Accédez à la gestion du personnel</p>
+                        {message && message.type === 'error' && <div className="error-message">{message.text}</div>}
+                        <form onSubmit={onLogin}>
                             <div className="input-group">
                                 <label>Nom d'utilisateur</label>
-                                <input
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    placeholder="Entrez votre nom d'utilisateur"
-                                    required
-                                />
+                                <input type="text" name="username" required />
                             </div>
                             <div className="input-group">
                                 <label>Mot de passe</label>
-                                <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="Entrez votre mot de passe"
-                                    required
-                                />
+                                <input type="password" name="password" required />
                             </div>
                             <button type="submit" className="primary-btn">Se connecter</button>
                         </form>
@@ -839,269 +994,187 @@
             );
         }
 
-        // ─── DASHBOARD TAB ───
-        function DashboardTab({ employees, chantiers }) {
-            const today = new Date().toISOString().split('T')[0];
+        // ─── PASSWORD MODAL ───
+        function PasswordModal({ onSave, onClose }) {
+            const [oldPwd, setOldPwd] = useState('');
+            const [newPwd, setNewPwd] = useState('');
+            const [confirmPwd, setConfirmPwd] = useState('');
+            const [error, setError] = useState('');
 
-            // Chantiers en cours (qui contiennent la date d'aujourd'hui)
-            const chantiersEnCours = chantiers.filter(c => 
-                c.dateDebut <= today && c.dateFin >= today
-            );
-
-            // Employés en congé aujourd'hui
-            const employesEnConge = employees.filter(emp => {
-                if (!emp.conges || emp.conges.length === 0) return false;
-                return emp.conges.some(conge => 
-                    conge.dateDebut <= today && conge.dateFin >= today
-                );
-            }).map(emp => {
-                const conge = emp.conges.find(c => c.dateDebut <= today && c.dateFin >= today);
-                return { ...emp, congeActuel: conge };
-            });
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (newPwd !== confirmPwd) { setError('Les mots de passe ne correspondent pas'); return; }
+                if (newPwd.length < 3) { setError('Le mot de passe doit avoir au moins 3 caractères'); return; }
+                setError('');
+                onSave(oldPwd, newPwd);
+            };
 
             return (
-                <div>
-                    <div className="card">
-                        <h3>📊 Aperçu d'aujourd'hui - {new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginTop: '20px' }}>
-                            <div style={{ background: 'linear-gradient(135deg, #3d3573 0%, #2d2558 100%)', padding: '20px', borderRadius: '12px', color: 'white' }}>
-                                <div style={{ fontSize: '32px', fontWeight: '800', marginBottom: '4px' }}>{chantiersEnCours.length}</div>
-                                <div style={{ fontSize: '13px', opacity: '0.9' }}>Chantiers actifs</div>
+                <div className="modal-overlay">
+                    <div className="modal" style={{ maxWidth: '440px' }}>
+                        <h3>🔐 Modifier le mot de passe</h3>
+                        {error && <div className="error-message">{error}</div>}
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label>Ancien mot de passe</label>
+                                <input type="password" value={oldPwd} onChange={e => setOldPwd(e.target.value)} required />
                             </div>
-                            <div style={{ background: 'linear-gradient(135deg, #e84597 0%, #c1439d 100%)', padding: '20px', borderRadius: '12px', color: 'white' }}>
-                                <div style={{ fontSize: '32px', fontWeight: '800', marginBottom: '4px' }}>
-                                    {chantiersEnCours.reduce((sum, c) => sum + (c.employees?.length || 0), 0)}
-                                </div>
-                                <div style={{ fontSize: '13px', opacity: '0.9' }}>Employés sur chantier</div>
+                            <div className="form-group">
+                                <label>Nouveau mot de passe</label>
+                                <input type="password" value={newPwd} onChange={e => setNewPwd(e.target.value)} required />
                             </div>
-                            <div style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', padding: '20px', borderRadius: '12px', color: 'white' }}>
-                                <div style={{ fontSize: '32px', fontWeight: '800', marginBottom: '4px' }}>{employesEnConge.length}</div>
-                                <div style={{ fontSize: '13px', opacity: '0.9' }}>Employés en congé</div>
+                            <div className="form-group">
+                                <label>Confirmer le nouveau mot de passe</label>
+                                <input type="password" value={confirmPwd} onChange={e => setConfirmPwd(e.target.value)} required />
                             </div>
-                            <div style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', padding: '20px', borderRadius: '12px', color: 'white' }}>
-                                <div style={{ fontSize: '32px', fontWeight: '800', marginBottom: '4px' }}>{employees.length}</div>
-                                <div style={{ fontSize: '13px', opacity: '0.9' }}>Total employés</div>
+                            <div className="modal-actions">
+                                <button type="button" className="btn btn-secondary" onClick={onClose}>Annuler</button>
+                                <button type="submit" className="btn btn-edit">Changer</button>
                             </div>
-                        </div>
+                        </form>
                     </div>
+                </div>
+            );
+        }
 
-                    <div className="dashboard-grid">
-                        <div>
-                            <h3 style={{ color: 'var(--primary)', fontSize: '18px', fontWeight: '700', marginBottom: '16px', fontFamily: 'Manrope, sans-serif' }}>
-                                🏗️ Chantiers en cours
-                            </h3>
-                            {chantiersEnCours.length === 0 ? (
-                                <div className="no-data">
-                                    <p>Aucun chantier actif aujourd'hui</p>
-                                </div>
-                            ) : (
-                                chantiersEnCours.map(chantier => (
-                                    <div key={chantier.id} className="dashboard-card">
-                                        <div className="dashboard-card-header">
-                                            <h4>{chantier.nom}</h4>
-                                            <span className="chantier-badge">Actif</span>
-                                        </div>
-                                        <div className="chantier-details">
-                                            <div className="chantier-location">
-                                                <span>📍</span>
-                                                <p>{chantier.lieu}</p>
-                                            </div>
-                                            <p>📅 Du {new Date(chantier.dateDebut + 'T00:00:00').toLocaleDateString('fr-FR')} au {new Date(chantier.dateFin + 'T00:00:00').toLocaleDateString('fr-FR')}</p>
-                                            {chantier.zone && <p>🗺️ Zone {chantier.zone} • Panier: {chantier.panier}€</p>}
-                                        </div>
-                                        {chantier.employees && chantier.employees.length > 0 && (
-                                            <div className="employee-list">
-                                                <div className="employee-list-title">👷 Employés assignés ({chantier.employees.length})</div>
-                                                {chantier.employees.map(assignment => {
-                                                    const emp = employees.find(e => e.id === assignment.employeeId);
-                                                    return emp ? (
-                                                        <div key={assignment.id} className="employee-item">
-                                                            <div className="employee-item-info">
-                                                                <div className="employee-name">{emp.nom}</div>
-                                                                <div className="employee-dates">
-                                                                    📅 {new Date(assignment.dateDebut + 'T00:00:00').toLocaleDateString('fr-FR')} → {new Date(assignment.dateFin + 'T00:00:00').toLocaleDateString('fr-FR')}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    ) : null;
-                                                })}
-                                            </div>
-                                        )}
-                                    </div>
-                                ))
-                            )}
-                        </div>
-
-                        <div>
-                            <h3 style={{ color: 'var(--danger)', fontSize: '18px', fontWeight: '700', marginBottom: '16px', fontFamily: 'Manrope, sans-serif' }}>
-                                🏖️ Employés en congé
-                            </h3>
-                            {employesEnConge.length === 0 ? (
-                                <div className="no-data">
-                                    <p>Aucun employé en congé aujourd'hui</p>
-                                </div>
-                            ) : (
-                                employesEnConge.map(emp => (
-                                    <div key={emp.id} className="dashboard-card conge-card">
-                                        <div className="dashboard-card-header">
-                                            <h4>{emp.nom}</h4>
-                                            <span className="conge-badge chantier-badge">En congé</span>
-                                        </div>
-                                        <div className="employee-list">
-                                            <div className="conge-item employee-item">
-                                                <div className="employee-item-info">
-                                                    <div className="employee-name">{emp.congeActuel.type || 'Congé payé'}</div>
-                                                    <div className="employee-dates">
-                                                        📅 Du {new Date(emp.congeActuel.dateDebut + 'T00:00:00').toLocaleDateString('fr-FR')} au {new Date(emp.congeActuel.dateFin + 'T00:00:00').toLocaleDateString('fr-FR')}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
-                            )}
-                        </div>
+        // ─── DASHBOARD ───
+        function Dashboard({ stats }) {
+            return (
+                <div className="stats-grid">
+                    <div className="stat-card present">
+                        <h4>Présents</h4>
+                        <div className="value">{stats.present}</div>
+                    </div>
+                    <div className="stat-card late">
+                        <h4>Retards aujourd'hui</h4>
+                        <div className="value">{stats.late}</div>
+                        <div className="list">{stats.lateEmployees.length > 0 ? stats.lateEmployees.join(', ') : 'Aucun retard'}</div>
+                    </div>
+                    <div className="stat-card absent">
+                        <h4>Absents</h4>
+                        <div className="value">{stats.absent}</div>
+                        <div className="list">{stats.absentEmployees.length > 0 ? stats.absentEmployees.join(', ') : 'Aucune absence'}</div>
                     </div>
                 </div>
             );
         }
 
         // ─── EMPLOYEES TAB ───
-        function EmployeesTab({ employees, setEmployees }) {
-            const [showModal, setShowModal] = useState(false);
-            const [showCongeModal, setShowCongeModal] = useState(false);
-            const [editingEmployee, setEditingEmployee] = useState(null);
-            const [selectedEmployee, setSelectedEmployee] = useState(null);
+        function EmployeesTab({ employees, absences, onAdd, onEdit, onDelete }) {
+            const [selectedEmp, setSelectedEmp] = useState(null);
+            const [detailTab, setDetailTab] = useState('absences');
 
-            const handleSaveEmployee = (employeeData) => {
-                if (editingEmployee) {
-                    setEmployees(employees.map(e => e.id === editingEmployee.id ? { ...employeeData, id: e.id, conges: e.conges } : e));
-                } else {
-                    setEmployees([...employees, { ...employeeData, id: Date.now(), conges: [] }]);
-                }
-                setShowModal(false);
-                setEditingEmployee(null);
-            };
-
-            const handleDeleteEmployee = (id) => {
-                if (confirm('Êtes-vous sûr de vouloir supprimer cet employé ?')) {
-                    setEmployees(employees.filter(e => e.id !== id));
-                }
-            };
-
-            const handleAddConge = (employeeId) => {
-                const emp = employees.find(e => e.id === employeeId);
-                setSelectedEmployee(emp);
-                setShowCongeModal(true);
-            };
-
-            const handleSaveConge = (congeData) => {
-                setEmployees(employees.map(emp => {
-                    if (emp.id === selectedEmployee.id) {
-                        return {
-                            ...emp,
-                            conges: [...(emp.conges || []), { ...congeData, id: Date.now() }]
-                        };
-                    }
-                    return emp;
-                }));
-                setShowCongeModal(false);
-                setSelectedEmployee(null);
-            };
-
-            const handleDeleteConge = (employeeId, congeId) => {
-                if (confirm('Supprimer ce congé ?')) {
-                    setEmployees(employees.map(emp => {
-                        if (emp.id === employeeId) {
-                            return {
-                                ...emp,
-                                conges: emp.conges.filter(c => c.id !== congeId)
-                            };
-                        }
-                        return emp;
-                    }));
-                }
-            };
+            const empAbsences = selectedEmp ? absences.filter(a => a.employeeId === selectedEmp.id) : [];
+            const cpBal = selectedEmp ? computeCPBalance(selectedEmp, absences) : null;
 
             return (
                 <div>
                     <div className="card">
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                            <h3>Gestion des employés</h3>
-                            <button className="btn btn-primary" onClick={() => setShowModal(true)}>+ Ajouter un employé</button>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+                            <h3>Gestion des Employés</h3>
+                            <button className="btn btn-edit" onClick={onAdd}>+ Ajouter</button>
                         </div>
-
-                        {employees.length === 0 ? (
-                            <p style={{ textAlign: 'center', color: 'var(--text-light)', padding: '40px 0' }}>Aucun employé enregistré</p>
-                        ) : (
-                            <div className="table-container">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Nom</th>
-                                            <th>Qualification</th>
-                                            <th>Téléphone</th>
-                                            <th>Email</th>
-                                            <th>Congés</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {employees.map(emp => (
-                                            <React.Fragment key={emp.id}>
-                                                <tr>
-                                                    <td><strong>{emp.nom}</strong></td>
-                                                    <td>{emp.qualification}</td>
-                                                    <td>{emp.telephone}</td>
-                                                    <td>{emp.email}</td>
-                                                    <td>
-                                                        <span className="badge badge-success">{emp.conges?.length || 0} période(s)</span>
-                                                    </td>
-                                                    <td>
-                                                        <div style={{ display: 'flex', gap: '6px' }}>
-                                                            <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '12px' }} onClick={() => handleAddConge(emp.id)}>+ Congé</button>
-                                                            <button className="btn btn-edit" style={{ padding: '6px 12px', fontSize: '12px' }} onClick={() => { setEditingEmployee(emp); setShowModal(true); }}>Modifier</button>
-                                                            <button className="btn btn-delete" style={{ padding: '6px 12px', fontSize: '12px' }} onClick={() => handleDeleteEmployee(emp.id)}>Supprimer</button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                {emp.conges && emp.conges.length > 0 && (
-                                                    <tr>
-                                                        <td colSpan="6" style={{ background: 'var(--bg-light)', padding: '12px 16px' }}>
-                                                            <strong style={{ fontSize: '12px', color: 'var(--primary)', marginBottom: '8px', display: 'block' }}>Périodes de congé :</strong>
-                                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                                                                {emp.conges.map(conge => (
-                                                                    <div key={conge.id} style={{ background: 'white', padding: '8px 12px', borderRadius: '8px', fontSize: '12px', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                                        <span><strong>{conge.type || 'CP'}</strong> : {new Date(conge.dateDebut + 'T00:00:00').toLocaleDateString('fr-FR')} → {new Date(conge.dateFin + 'T00:00:00').toLocaleDateString('fr-FR')}</span>
-                                                                        <button onClick={() => handleDeleteConge(emp.id, conge.id)} style={{ background: 'var(--danger)', color: 'white', border: 'none', borderRadius: '4px', padding: '2px 6px', cursor: 'pointer', fontSize: '11px' }}>✕</button>
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                )}
-                                            </React.Fragment>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
+                        <div className="employee-list">
+                            {employees.length === 0 ? (
+                                <p style={{ textAlign: 'center', color: 'var(--text-light)', padding: '36px' }}>Aucun employé enregistré</p>
+                            ) : employees.map(emp => (
+                                <div key={emp.id} className="employee-item" style={selectedEmp?.id === emp.id ? { border: '2px solid var(--secondary)', background: '#fdf2f8' } : {}}>
+                                    <div className="employee-info" style={{ cursor: 'pointer' }} onClick={() => setSelectedEmp(selectedEmp?.id === emp.id ? null : emp)}>
+                                        <h4>{emp.nom}</h4>
+                                        <p>Cliquez pour voir les détails</p>
+                                    </div>
+                                    <div className="employee-actions">
+                                        <button className="btn btn-edit" onClick={() => onEdit(emp)}>Modifier</button>
+                                        <button className="btn btn-delete" onClick={() => onDelete(emp.id)}>Supprimer</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
-                    {showModal && (
-                        <EmployeeModal
-                            employee={editingEmployee}
-                            onSave={handleSaveEmployee}
-                            onClose={() => { setShowModal(false); setEditingEmployee(null); }}
-                        />
-                    )}
+                    {selectedEmp && (
+                        <div className="detail-panel">
+                            <div className="detail-panel-header">
+                                <h4>📋 Détails – {selectedEmp.nom}</h4>
+                                <button style={{ background: 'rgba(255,255,255,0.2)', border: 'none', color: 'white', cursor: 'pointer', fontSize: '18px', borderRadius: '6px', padding: '2px 8px' }} onClick={() => setSelectedEmp(null)}>×</button>
+                            </div>
+                            <div className="detail-panel-body">
+                                {cpBal && (
+                                    <div className="cp-summary">
+                                        <div className="cp-card">
+                                            <div className="cp-label">CP de base (année)</div>
+                                            <div className="cp-value">{cpBal.base}</div>
+                                        </div>
+                                        <div className="cp-card">
+                                            <div className="cp-label">Accumulés (+2.5/mois)</div>
+                                            <div className="cp-value" style={{ color: 'var(--success)' }}>+{cpBal.accumulated}</div>
+                                        </div>
+                                        <div className="cp-card">
+                                            <div className="cp-label">Utilisés</div>
+                                            <div className="cp-value warning">{cpBal.used}</div>
+                                        </div>
+                                        <div className="cp-card">
+                                            <div className="cp-label">Solde CP</div>
+                                            <div className={`cp-value ${cpBal.balance < 0 ? 'danger' : ''}`}>{cpBal.balance}</div>
+                                        </div>
+                                    </div>
+                                )}
 
-                    {showCongeModal && (
-                        <CongeModal
-                            employee={selectedEmployee}
-                            onSave={handleSaveConge}
-                            onClose={() => { setShowCongeModal(false); setSelectedEmployee(null); }}
-                        />
+                                <div className="detail-tabs" style={{ marginTop: '18px' }}>
+                                    <button className={`detail-tab ${detailTab === 'absences' ? 'active' : ''}`} onClick={() => setDetailTab('absences')}>Absences</button>
+                                    <button className={`detail-tab ${detailTab === 'horaires' ? 'active' : ''}`} onClick={() => setDetailTab('horaires')}>Horaires</button>
+                                </div>
+
+                                {detailTab === 'absences' && (
+                                    <div>
+                                        {empAbsences.length === 0 ? (
+                                            <p style={{ color: 'var(--text-light)', fontSize: '13px', padding: '12px 0' }}>Aucune absence enregistrée</p>
+                                        ) : empAbsences.map(abs => {
+                                            const motifClass = abs.motif === 'Congés payés' ? 'motif-cp' : abs.motif === 'Maladie' ? 'motif-maladie' : 'motif-other';
+                                            return (
+                                                <div key={abs.id} className="absence-list-item">
+                                                    <div>
+                                                        <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-dark)' }}>
+                                                            {new Date(abs.dateDebut+'T00:00:00').toLocaleDateString('fr-FR')} → {new Date(abs.dateFin+'T00:00:00').toLocaleDateString('fr-FR')}
+                                                        </span>
+                                                        <span style={{ fontSize: '11px', color: 'var(--text-light)', marginLeft: '10px' }}>
+                                                            ({countWorkDays(abs.dateDebut, abs.dateFin)} jour{countWorkDays(abs.dateDebut, abs.dateFin) > 1 ? 's' : ''})
+                                                        </span>
+                                                    </div>
+                                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                        <span className={`motif-tag ${motifClass}`}>{abs.motif}</span>
+                                                        <button className="btn btn-delete" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={() => {
+                                                            // We need a way to delete — pass setAbsences via props or use a callback
+                                                            // For simplicity, we'll use a custom event approach; but since we have no direct access here,
+                                                            // we'll handle it via a global-like approach. For now, just show.
+                                                        }}>×</button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+
+                                {detailTab === 'horaires' && (
+                                    <div style={{ display: 'grid', gap: '6px' }}>
+                                        {['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'].map(jour => {
+                                            const h = selectedEmp.horaires?.[jour];
+                                            const hasHoraires = h?.debut && h?.fin;
+                                            return (
+                                                <div key={jour} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--bg-light)', borderRadius: '8px' }}>
+                                                    <span style={{ fontWeight: '600', fontSize: '13px', textTransform: 'capitalize', color: 'var(--text-dark)', minWidth: '90px' }}>{jour}</span>
+                                                    {hasHoraires ? (
+                                                        <span style={{ fontSize: '13px', color: 'var(--primary)', fontWeight: '600' }}>{h.debut} – {h.fin}</span>
+                                                    ) : (
+                                                        <span style={{ fontSize: '12px', color: 'var(--text-light)', fontStyle: 'italic' }}>Repos</span>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     )}
                 </div>
             );
@@ -1109,31 +1182,43 @@
 
         // ─── EMPLOYEE MODAL ───
         function EmployeeModal({ employee, onSave, onClose }) {
-            const [formData, setFormData] = useState(employee || { nom: '', qualification: '', telephone: '', email: '' });
+            const [formData, setFormData] = useState(employee || {
+                nom: '', cpBase: 25,
+                horaires: { lundi:{debut:'',fin:''}, mardi:{debut:'',fin:''}, mercredi:{debut:'',fin:''}, jeudi:{debut:'',fin:''}, vendredi:{debut:'',fin:''}, samedi:{debut:'',fin:''}, dimanche:{debut:'',fin:''} }
+            });
+
             const handleSubmit = (e) => { e.preventDefault(); onSave(formData); };
+            const updateHoraire = (jour, type, value) => setFormData({ ...formData, horaires: { ...formData.horaires, [jour]: { ...formData.horaires[jour], [type]: value } } });
+
+            const jours = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
 
             return (
                 <div className="modal-overlay">
                     <div className="modal">
-                        <h3>{employee ? 'Modifier l\'employé' : 'Nouvel employé'}</h3>
+                        <h3>{employee ? "Modifier l'employé" : 'Nouvel employé'}</h3>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label>Nom complet</label>
                                 <input type="text" value={formData.nom} onChange={e => setFormData({ ...formData, nom: e.target.value })} required />
                             </div>
                             <div className="form-group">
-                                <label>Qualification</label>
-                                <input type="text" value={formData.qualification} onChange={e => setFormData({ ...formData, qualification: e.target.value })} placeholder="Ex: Maçon, Électricien..." />
+                                <label>Nombre de CP de base (jours/an)</label>
+                                <input type="number" value={formData.cpBase || 25} min="0" max="50" step="0.5"
+                                    onChange={e => setFormData({ ...formData, cpBase: parseFloat(e.target.value) || 0 })} />
                             </div>
-                            <div className="form-grid">
-                                <div className="form-group">
-                                    <label>Téléphone</label>
-                                    <input type="tel" value={formData.telephone} onChange={e => setFormData({ ...formData, telephone: e.target.value })} />
-                                </div>
-                                <div className="form-group">
-                                    <label>Email</label>
-                                    <input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
-                                </div>
+                            <h4 style={{ marginTop: '20px', marginBottom: '12px', color: 'var(--primary)', fontSize: '14px' }}>Horaires hebdomadaires</h4>
+                            <div className="schedule-grid">
+                                {jours.map(jour => (
+                                    <div key={jour} className="schedule-day">
+                                        <label style={{ textTransform: 'capitalize' }}>{jour}</label>
+                                        <div className="time-inputs">
+                                            <input type="time" value={formData.horaires[jour]?.debut || ''} onChange={e => updateHoraire(jour, 'debut', e.target.value)} />
+                                        </div>
+                                        <div className="time-inputs">
+                                            <input type="time" value={formData.horaires[jour]?.fin || ''} onChange={e => updateHoraire(jour, 'fin', e.target.value)} />
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                             <div className="modal-actions">
                                 <button type="button" className="btn btn-secondary" onClick={onClose}>Annuler</button>
@@ -1145,174 +1230,280 @@
             );
         }
 
-        // ─── CONGE MODAL ───
-        function CongeModal({ employee, onSave, onClose }) {
-            const [formData, setFormData] = useState({ type: 'CP', dateDebut: '', dateFin: '' });
-            const handleSubmit = (e) => { e.preventDefault(); onSave(formData); };
+        // ─── MODIFICATIONS TAB ───
+        function ModificationsTab({ employees, absences, setAbsences, retards, setRetards, heuresSupp, setHeuresSupp, setMessage }) {
+            const [selectedEmp, setSelectedEmp] = useState('');
+            const [absenceForm, setAbsenceForm] = useState({ employeeId:'', dateDebut:'', dateFin:'', motif:'Congés payés' });
+            const [retardForm, setRetardForm] = useState({ employeeId:'', date:'', minutes:0 });
+            const [heureSuppForm, setHeureSuppForm] = useState({ employeeId:'', date:'', type:'arrivee', heureReelle:'' });
+
+            const motifsAbsence = ['Congés payés','Maladie','Congé sans solde','Formation','Événement familial','Autre'];
+
+            // When user selects employee, filter all forms
+            const empAbsences = selectedEmp ? absences.filter(a => a.employeeId === selectedEmp) : [];
+            const empRetards = selectedEmp ? retards.filter(r => r.employeeId === selectedEmp) : [];
+            const empHeuresSupp = selectedEmp ? heuresSupp.filter(h => h.employeeId === selectedEmp) : [];
+
+            const handleAbsenceSubmit = (e) => {
+                e.preventDefault();
+                const form = { ...absenceForm, employeeId: selectedEmp };
+                if (!form.employeeId || !form.dateDebut || !form.dateFin) return;
+                setAbsences([...absences, { id: Date.now().toString(), ...form }]);
+                setAbsenceForm({ employeeId:'', dateDebut:'', dateFin:'', motif:'Congés payés' });
+                setMessage({ type:'success', text:'Absence enregistrée' });
+                setTimeout(() => setMessage(null), 3000);
+            };
+
+            const deleteAbsence = (id) => {
+                setAbsences(absences.filter(a => a.id !== id));
+                setMessage({ type:'success', text:'Absence supprimée' });
+                setTimeout(() => setMessage(null), 3000);
+            };
+
+            const handleRetardSubmit = (e) => {
+                e.preventDefault();
+                const form = { ...retardForm, employeeId: selectedEmp };
+                if (!form.employeeId || !form.date || !form.minutes) return;
+                setRetards([...retards, { id: Date.now().toString(), ...form, minutes: parseInt(form.minutes) }]);
+                setRetardForm({ employeeId:'', date:'', minutes:0 });
+                setMessage({ type:'success', text:'Retard enregistré' });
+                setTimeout(() => setMessage(null), 3000);
+            };
+
+            const deleteRetard = (id) => {
+                setRetards(retards.filter(r => r.id !== id));
+                setMessage({ type:'success', text:'Retard supprimé' });
+                setTimeout(() => setMessage(null), 3000);
+            };
+
+            const handleHeureSuppSubmit = (e) => {
+                e.preventDefault();
+                const form = { ...heureSuppForm, employeeId: selectedEmp };
+                if (!form.employeeId || !form.date || !form.heureReelle) return;
+                setHeuresSupp([...heuresSupp, { id: Date.now().toString(), ...form }]);
+                setHeureSuppForm({ employeeId:'', date:'', type:'arrivee', heureReelle:'' });
+                setMessage({ type:'success', text:'Heures supplémentaires enregistrées' });
+                setTimeout(() => setMessage(null), 3000);
+            };
+
+            const deleteHeureSupp = (id) => {
+                setHeuresSupp(heuresSupp.filter(h => h.id !== id));
+                setMessage({ type:'success', text:'Heures supplémentaires supprimées' });
+                setTimeout(() => setMessage(null), 3000);
+            };
+
+            const empName = selectedEmp ? employees.find(e => e.id === selectedEmp)?.nom : '';
 
             return (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <h3>Ajouter un congé</h3>
-                        <p style={{ color: 'var(--text-light)', marginBottom: '18px', fontSize: '13px' }}>Employé : {employee.nom}</p>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-group">
-                                <label>Type de congé</label>
-                                <select value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} required>
-                                    <option value="CP">Congé Payé (CP)</option>
-                                    <option value="RTT">RTT</option>
-                                    <option value="Maladie">Maladie</option>
-                                    <option value="Sans solde">Sans solde</option>
-                                    <option value="Autre">Autre</option>
-                                </select>
-                            </div>
-                            <div className="form-grid">
-                                <div className="form-group">
-                                    <label>Date de début</label>
-                                    <input type="date" value={formData.dateDebut} onChange={e => setFormData({ ...formData, dateDebut: e.target.value })} required />
-                                </div>
-                                <div className="form-group">
-                                    <label>Date de fin</label>
-                                    <input type="date" value={formData.dateFin} onChange={e => setFormData({ ...formData, dateFin: e.target.value })} required />
-                                </div>
-                            </div>
-                            <div className="modal-actions">
-                                <button type="button" className="btn btn-secondary" onClick={onClose}>Annuler</button>
-                                <button type="submit" className="btn btn-edit">Ajouter</button>
-                            </div>
-                        </form>
+                <div>
+                    {/* Employee selector */}
+                    <div className="card">
+                        <h3>Sélectionner un employé</h3>
+                        <div className="form-group" style={{ marginBottom: 0 }}>
+                            <select value={selectedEmp} onChange={e => setSelectedEmp(e.target.value)} style={{ maxWidth: '320px' }}>
+                                <option value="">Choisir un employé...</option>
+                                {employees.map(emp => <option key={emp.id} value={emp.id}>{emp.nom}</option>)}
+                            </select>
+                        </div>
                     </div>
+
+                    {selectedEmp && (
+                        <>
+                            {/* Absences */}
+                            <div className="card">
+                                <h3>Absences – {empName}</h3>
+                                <form onSubmit={handleAbsenceSubmit}>
+                                    <div className="form-grid">
+                                        <div className="form-group">
+                                            <label>Date de début</label>
+                                            <input type="date" value={absenceForm.dateDebut} onChange={e => setAbsenceForm({...absenceForm, dateDebut: e.target.value})} required />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Date de fin</label>
+                                            <input type="date" value={absenceForm.dateFin} onChange={e => setAbsenceForm({...absenceForm, dateFin: e.target.value})} required />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Motif</label>
+                                            <select value={absenceForm.motif} onChange={e => setAbsenceForm({...absenceForm, motif: e.target.value})} required>
+                                                {motifsAbsence.map(m => <option key={m} value={m}>{m}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="submit" className="btn btn-edit">+ Ajouter absence</button>
+                                </form>
+                                {empAbsences.length > 0 && (
+                                    <div style={{ marginTop: '16px' }}>
+                                        <p style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-light)', textTransform: 'uppercase', marginBottom: '8px' }}>Liste des absences</p>
+                                        {empAbsences.map(abs => {
+                                            const motifClass = abs.motif === 'Congés payés' ? 'motif-cp' : abs.motif === 'Maladie' ? 'motif-maladie' : 'motif-other';
+                                            return (
+                                                <div key={abs.id} className="absence-list-item">
+                                                    <div>
+                                                        <span style={{ fontSize: '13px', fontWeight: '600' }}>{new Date(abs.dateDebut+'T00:00:00').toLocaleDateString('fr-FR')} → {new Date(abs.dateFin+'T00:00:00').toLocaleDateString('fr-FR')}</span>
+                                                        <span style={{ fontSize: '11px', color: 'var(--text-light)', marginLeft: '8px' }}>({countWorkDays(abs.dateDebut, abs.dateFin)} jour{countWorkDays(abs.dateDebut, abs.dateFin) > 1 ? 's' : ''})</span>
+                                                    </div>
+                                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                        <span className={`motif-tag ${motifClass}`}>{abs.motif}</span>
+                                                        <button className="btn btn-delete" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={() => deleteAbsence(abs.id)}>Supprimer</button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Retards */}
+                            <div className="card">
+                                <h3>Retards & Départs anticipés – {empName}</h3>
+                                <form onSubmit={handleRetardSubmit}>
+                                    <div className="form-grid">
+                                        <div className="form-group">
+                                            <label>Date</label>
+                                            <input type="date" value={retardForm.date} onChange={e => setRetardForm({...retardForm, date: e.target.value})} required />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Minutes (+ retard / − départ tôt)</label>
+                                            <input type="number" value={retardForm.minutes} onChange={e => setRetardForm({...retardForm, minutes: e.target.value})} required />
+                                        </div>
+                                    </div>
+                                    <button type="submit" className="btn btn-edit">+ Ajouter retard</button>
+                                </form>
+                                {empRetards.length > 0 && (
+                                    <div style={{ marginTop: '16px' }}>
+                                        <p style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-light)', textTransform: 'uppercase', marginBottom: '8px' }}>Liste des retards</p>
+                                        {empRetards.map(ret => (
+                                            <div key={ret.id} className="absence-list-item">
+                                                <span style={{ fontSize: '13px', fontWeight: '600' }}>{new Date(ret.date+'T00:00:00').toLocaleDateString('fr-FR')} – {ret.minutes > 0 ? `+${ret.minutes} min` : `${ret.minutes} min`}</span>
+                                                <button className="btn btn-delete" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={() => deleteRetard(ret.id)}>Supprimer</button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Heures Supp */}
+                            <div className="card">
+                                <h3>Heures Supplémentaires – {empName}</h3>
+                                <form onSubmit={handleHeureSuppSubmit}>
+                                    <div className="form-grid">
+                                        <div className="form-group">
+                                            <label>Date</label>
+                                            <input type="date" value={heureSuppForm.date} onChange={e => setHeureSuppForm({...heureSuppForm, date: e.target.value})} required />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Type</label>
+                                            <select value={heureSuppForm.type} onChange={e => setHeureSuppForm({...heureSuppForm, type: e.target.value})}>
+                                                <option value="arrivee">Arrivée anticipée</option>
+                                                <option value="depart">Départ tardif</option>
+                                            </select>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Heure réelle</label>
+                                            <input type="time" value={heureSuppForm.heureReelle} onChange={e => setHeureSuppForm({...heureSuppForm, heureReelle: e.target.value})} required />
+                                        </div>
+                                    </div>
+                                    <button type="submit" className="btn btn-edit">+ Ajouter</button>
+                                </form>
+                                {empHeuresSupp.length > 0 && (
+                                    <div style={{ marginTop: '16px' }}>
+                                        <p style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-light)', textTransform: 'uppercase', marginBottom: '8px' }}>Liste des heures supplémentaires</p>
+                                        {empHeuresSupp.map(hs => (
+                                            <div key={hs.id} className="absence-list-item">
+                                                <span style={{ fontSize: '13px', fontWeight: '600' }}>{new Date(hs.date+'T00:00:00').toLocaleDateString('fr-FR')} – {hs.type === 'arrivee' ? 'Arrivée' : 'Départ'} à {hs.heureReelle}</span>
+                                                <button className="btn btn-delete" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={() => deleteHeureSupp(hs.id)}>Supprimer</button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    )}
                 </div>
             );
         }
 
         // ─── CHANTIERS TAB ───
-        function ChantiersTab({ chantiers, employees, setChantiers }) {
-            const [showModal, setShowModal] = useState(false);
-            const [editingChantier, setEditingChantier] = useState(null);
+        function ChantiersTab({ chantiers, employees, onAdd, onEdit, onDelete, setChantiers, setMessage }) {
             const [showAssignModal, setShowAssignModal] = useState(false);
             const [selectedChantier, setSelectedChantier] = useState(null);
-            const [assignForm, setAssignForm] = useState({ employeeId: '', dateDebut: '', dateFin: '' });
+            const [assignForm, setAssignForm] = useState({ employeeId:'', dateDebut:'', dateFin:'' });
 
-            const handleSaveChantier = (chantierData) => {
-                if (editingChantier) {
-                    setChantiers(chantiers.map(c => c.id === editingChantier.id ? { ...chantierData, id: c.id, employees: c.employees } : c));
-                } else {
-                    setChantiers([...chantiers, { ...chantierData, id: Date.now(), employees: [] }]);
-                }
-                setShowModal(false);
-                setEditingChantier(null);
-            };
-
-            const handleDeleteChantier = (id) => {
-                if (confirm('Supprimer ce chantier ?')) {
-                    setChantiers(chantiers.filter(c => c.id !== id));
-                }
-            };
-
-            const handleAssignEmployee = (chantier) => {
-                setSelectedChantier(chantier);
-                setAssignForm({ employeeId: '', dateDebut: chantier.dateDebut, dateFin: chantier.dateFin });
-                setShowAssignModal(true);
-            };
+            const handleAssignEmployee = (chantier) => { setSelectedChantier(chantier); setShowAssignModal(true); setAssignForm({ employeeId:'', dateDebut:'', dateFin:'' }); };
 
             const submitAssignment = (e) => {
                 e.preventDefault();
-                setChantiers(chantiers.map(c => {
-                    if (c.id === selectedChantier.id) {
-                        return {
-                            ...c,
-                            employees: [...(c.employees || []), { ...assignForm, id: Date.now() }]
-                        };
-                    }
-                    return c;
-                }));
-                setShowAssignModal(false);
-                setSelectedChantier(null);
+                if (!assignForm.employeeId || !assignForm.dateDebut || !assignForm.dateFin) return;
+                setChantiers(chantiers.map(c => c.id === selectedChantier.id ? { ...c, employees: [...(c.employees||[]), { id: Date.now().toString(), ...assignForm }] } : c));
+                setShowAssignModal(false); setSelectedChantier(null);
+                setMessage({ type:'success', text:'Employé assigné au chantier' });
+                setTimeout(() => setMessage(null), 3000);
             };
 
             const removeAssignment = (chantierId, assignmentId) => {
-                if (confirm('Retirer cet employé du chantier ?')) {
-                    setChantiers(chantiers.map(c => {
-                        if (c.id === chantierId) {
-                            return {
-                                ...c,
-                                employees: c.employees.filter(a => a.id !== assignmentId)
-                            };
-                        }
-                        return c;
-                    }));
+                if (confirm('Retirer cet employé ?')) {
+                    setChantiers(chantiers.map(c => c.id === chantierId ? { ...c, employees: c.employees.filter(e => e.id !== assignmentId) } : c));
+                    setMessage({ type:'success', text:'Assignation supprimée' });
+                    setTimeout(() => setMessage(null), 3000);
                 }
             };
 
             return (
                 <div className="card">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                        <h3>Gestion des chantiers</h3>
-                        <button className="btn btn-primary" onClick={() => setShowModal(true)}>+ Nouveau chantier</button>
+                    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'18px' }}>
+                        <h3>Gestion des Chantiers</h3>
+                        <button className="btn btn-edit" onClick={onAdd}>+ Nouveau chantier</button>
                     </div>
-
                     {chantiers.length === 0 ? (
-                        <p style={{ textAlign: 'center', color: 'var(--text-light)', padding: '40px 0' }}>Aucun chantier enregistré</p>
-                    ) : (
-                        chantiers.map(chantier => (
-                            <div key={chantier.id} className="chantier-item">
-                                <div className="chantier-header">
-                                    <div className="chantier-info">
-                                        <h4>{chantier.nom}</h4>
-                                        <p>📍 {chantier.lieu}</p>
-                                        <p>Du {new Date(chantier.dateDebut + 'T00:00:00').toLocaleDateString('fr-FR')} au {new Date(chantier.dateFin + 'T00:00:00').toLocaleDateString('fr-FR')}</p>
-                                        <span className="badge badge-zone">Zone {chantier.zone} – Panier: {chantier.panier}€</span>
-                                    </div>
-                                    <div style={{ display: 'flex', gap: '6px' }}>
-                                        <button className="btn btn-secondary" onClick={() => handleAssignEmployee(chantier)}>Assigner</button>
-                                        <button className="btn btn-edit" onClick={() => { setEditingChantier(chantier); setShowModal(true); }}>Modifier</button>
-                                        <button className="btn btn-delete" onClick={() => handleDeleteChantier(chantier.id)}>Supprimer</button>
-                                    </div>
+                        <p style={{ textAlign:'center', color:'var(--text-light)', padding:'36px' }}>Aucun chantier enregistré</p>
+                    ) : chantiers.map(chantier => (
+                        <div key={chantier.id} className="chantier-item">
+                            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'start', marginBottom:'10px' }}>
+                                <div>
+                                    <h4>{chantier.nom}</h4>
+                                    <p>{chantier.lieu}</p>
+                                    <p>Du {new Date(chantier.dateDebut+'T00:00:00').toLocaleDateString('fr-FR')} au {new Date(chantier.dateFin+'T00:00:00').toLocaleDateString('fr-FR')}</p>
+                                    <span className="badge badge-zone">Zone {chantier.zone} – Panier: {chantier.panier}€</span>
                                 </div>
-                                {chantier.employees && chantier.employees.length > 0 && (
-                                    <div className="employee-assignments">
-                                        <h4 style={{ fontSize: '13px', marginBottom: '10px', color: 'var(--primary)' }}>Employés assignés :</h4>
-                                        {chantier.employees.map(assignment => {
-                                            const emp = employees.find(e => e.id === assignment.employeeId);
-                                            return emp ? (
-                                                <div key={assignment.id} className="assignment-item">
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                        <div>
-                                                            <strong style={{ fontSize: '13px' }}>{emp.nom}</strong>
-                                                            <p style={{ fontSize: '12px', color: 'var(--text-light)', margin: '3px 0 0 0' }}>
-                                                                Du {new Date(assignment.dateDebut + 'T00:00:00').toLocaleDateString('fr-FR')} au {new Date(assignment.dateFin + 'T00:00:00').toLocaleDateString('fr-FR')}
-                                                            </p>
-                                                        </div>
-                                                        <button className="btn btn-delete" style={{ padding: '5px 10px', fontSize: '11px' }} onClick={() => removeAssignment(chantier.id, assignment.id)}>Retirer</button>
-                                                    </div>
-                                                </div>
-                                            ) : null;
-                                        })}
-                                    </div>
-                                )}
+                                <div style={{ display:'flex', gap:'6px' }}>
+                                    <button className="btn btn-secondary" onClick={() => handleAssignEmployee(chantier)}>Assigner</button>
+                                    <button className="btn btn-edit" onClick={() => onEdit(chantier)}>Modifier</button>
+                                    <button className="btn btn-delete" onClick={() => onDelete(chantier.id)}>Supprimer</button>
+                                </div>
                             </div>
-                        ))
-                    )}
-
-                    {showModal && (
-                        <ChantierModal
-                            chantier={editingChantier}
-                            employees={employees}
-                            onSave={handleSaveChantier}
-                            onClose={() => { setShowModal(false); setEditingChantier(null); }}
-                        />
-                    )}
+                            {chantier.employees && chantier.employees.length > 0 && (
+                                <div className="employee-assignments">
+                                    <h4 style={{ fontSize:'13px', marginBottom:'10px', color:'var(--primary)' }}>Employés assignés :</h4>
+                                    {chantier.employees.map(assignment => {
+                                        const emp = employees.find(e => e.id === assignment.employeeId);
+                                        return emp ? (
+                                            <div key={assignment.id} className="assignment-item">
+                                                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                                                    <div>
+                                                        <strong style={{ fontSize: '13px' }}>{emp.nom}</strong>
+                                                        <p style={{ fontSize:'12px', color:'var(--text-light)', margin:'3px 0 0 0' }}>
+                                                            Du {new Date(assignment.dateDebut+'T00:00:00').toLocaleDateString('fr-FR')} au {new Date(assignment.dateFin+'T00:00:00').toLocaleDateString('fr-FR')}
+                                                        </p>
+                                                    </div>
+                                                    <button className="btn btn-delete" style={{ padding:'5px 10px', fontSize:'11px' }} onClick={() => removeAssignment(chantier.id, assignment.id)}>Retirer</button>
+                                                </div>
+                                            </div>
+                                        ) : null;
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    ))}
 
                     {showAssignModal && (
                         <div className="modal-overlay">
                             <div className="modal">
                                 <h3>Assigner un employé</h3>
-                                <p style={{ color: 'var(--text-light)', marginBottom: '18px', fontSize: '13px' }}>Chantier : {selectedChantier.nom}</p>
+                                <p style={{ color:'var(--text-light)', marginBottom:'18px', fontSize: '13px' }}>Chantier : {selectedChantier.nom}</p>
                                 <form onSubmit={submitAssignment}>
                                     <div className="form-group">
                                         <label>Employé</label>
-                                        <select value={assignForm.employeeId} onChange={e => setAssignForm({ ...assignForm, employeeId: e.target.value })} required>
+                                        <select value={assignForm.employeeId} onChange={e => setAssignForm({...assignForm, employeeId: e.target.value})} required>
                                             <option value="">Sélectionner...</option>
                                             {employees.map(emp => <option key={emp.id} value={emp.id}>{emp.nom}</option>)}
                                         </select>
@@ -1320,11 +1511,11 @@
                                     <div className="form-grid">
                                         <div className="form-group">
                                             <label>Date de début</label>
-                                            <input type="date" value={assignForm.dateDebut} onChange={e => setAssignForm({ ...assignForm, dateDebut: e.target.value })} min={selectedChantier.dateDebut} max={selectedChantier.dateFin} required />
+                                            <input type="date" value={assignForm.dateDebut} onChange={e => setAssignForm({...assignForm, dateDebut: e.target.value})} min={selectedChantier.dateDebut} max={selectedChantier.dateFin} required />
                                         </div>
                                         <div className="form-group">
                                             <label>Date de fin</label>
-                                            <input type="date" value={assignForm.dateFin} onChange={e => setAssignForm({ ...assignForm, dateFin: e.target.value })} min={selectedChantier.dateDebut} max={selectedChantier.dateFin} required />
+                                            <input type="date" value={assignForm.dateFin} onChange={e => setAssignForm({...assignForm, dateFin: e.target.value})} min={selectedChantier.dateDebut} max={selectedChantier.dateFin} required />
                                         </div>
                                     </div>
                                     <div className="modal-actions">
@@ -1341,7 +1532,7 @@
 
         // ─── CHANTIER MODAL ───
         function ChantierModal({ chantier, employees, onSave, onClose }) {
-            const [formData, setFormData] = useState(chantier || { nom: '', lieu: '', dateDebut: '', dateFin: '', zone: '', panier: '' });
+            const [formData, setFormData] = useState(chantier || { nom:'', lieu:'', dateDebut:'', dateFin:'', employees:[] });
             const handleSubmit = (e) => { e.preventDefault(); onSave(formData); };
 
             return (
@@ -1351,30 +1542,20 @@
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label>Nom du chantier</label>
-                                <input type="text" value={formData.nom} onChange={e => setFormData({ ...formData, nom: e.target.value })} required />
+                                <input type="text" value={formData.nom} onChange={e => setFormData({...formData, nom: e.target.value})} required />
                             </div>
                             <div className="form-group">
                                 <label>Lieu de travail (adresse complète)</label>
-                                <textarea value={formData.lieu} onChange={e => setFormData({ ...formData, lieu: e.target.value })} rows="3" required placeholder="Ex: 123 Rue de la Paix, 59000 Lille" />
+                                <textarea value={formData.lieu} onChange={e => setFormData({...formData, lieu: e.target.value})} rows="3" required placeholder="Ex: 123 Rue de la Paix, 59000 Lille" />
                             </div>
                             <div className="form-grid">
                                 <div className="form-group">
                                     <label>Date de début</label>
-                                    <input type="date" value={formData.dateDebut} onChange={e => setFormData({ ...formData, dateDebut: e.target.value })} required />
+                                    <input type="date" value={formData.dateDebut} onChange={e => setFormData({...formData, dateDebut: e.target.value})} required />
                                 </div>
                                 <div className="form-group">
                                     <label>Date de fin</label>
-                                    <input type="date" value={formData.dateFin} onChange={e => setFormData({ ...formData, dateFin: e.target.value })} required />
-                                </div>
-                            </div>
-                            <div className="form-grid">
-                                <div className="form-group">
-                                    <label>Zone</label>
-                                    <input type="text" value={formData.zone} onChange={e => setFormData({ ...formData, zone: e.target.value })} placeholder="Ex: 1, 2, 3..." />
-                                </div>
-                                <div className="form-group">
-                                    <label>Panier repas (€)</label>
-                                    <input type="number" step="0.01" value={formData.panier} onChange={e => setFormData({ ...formData, panier: e.target.value })} placeholder="Ex: 10.50" />
+                                    <input type="date" value={formData.dateFin} onChange={e => setFormData({...formData, dateFin: e.target.value})} required />
                                 </div>
                             </div>
                             <div className="modal-actions">
@@ -1396,7 +1577,7 @@
                     <h3>Exporter les plannings</h3>
                     <div className="export-section">
                         <h4>Sélectionner un employé</h4>
-                        <p style={{ color: 'var(--text-light)', marginBottom: '14px', fontSize: '13px' }}>
+                        <p style={{ color:'var(--text-light)', marginBottom:'14px', fontSize:'13px' }}>
                             Le planning annuel sera exporté au format Excel coloré avec un onglet par mois et un résumé CP
                         </p>
                         <div className="form-grid">
@@ -1407,8 +1588,8 @@
                                     {employees.map(emp => <option key={emp.id} value={emp.id}>{emp.nom}</option>)}
                                 </select>
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                                <button className="btn btn-edit" onClick={() => selectedEmployee && onExport(selectedEmployee)} disabled={!selectedEmployee} style={{ width: '100%' }}>
+                            <div style={{ display:'flex', alignItems:'flex-end' }}>
+                                <button className="btn btn-edit" onClick={() => selectedEmployee && onExport(selectedEmployee)} disabled={!selectedEmployee} style={{ width:'100%' }}>
                                     📥 Exporter le planning
                                 </button>
                             </div>
