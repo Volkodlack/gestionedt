@@ -1149,332 +1149,317 @@
             };
 
             // ─── EXPORT AMÉLIORÉ ───
-            const exportEmployee = (employeeId) => {
-                const employee = employees.find(e => e.id === employeeId);
-                if (!employee) return;
+           const exportEmployee = (employeeId) => {
+    try {
+        const employee = employees.find(e => e.id === employeeId);
+        if (!employee) {
+            setMessage({ type: 'error', text: 'Aucun employé sélectionné ou introuvable' });
+            return;
+        }
 
-                const wb = XLSX.utils.book_new();
-                const year = new Date().getFullYear();
-                const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+        const wb = XLSX.utils.book_new();
+        const year = new Date().getFullYear();
+        const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
-                const P = '3D3573';
-                const S = 'E84597';
-                const W = 'FFFFFF';
-                const BG_TITLE = S;
-                const BG_CP = 'F3E8FF';
-                const BG_HDR = P;
-                const BG_ROW_A = 'FFFFFF';
-                const BG_ROW_B = 'F5F3FA';
-                const BG_WEEKEND = 'ECECEC';
-                const BG_CP_OK = 'D1FAE5';
-                const BG_ABSENT = 'FEE2E2';
-                const BG_RETARD = 'FEF3C7';
-                const BG_TOTALS = 'EDE9F5';
-                const BG_MOTIF = 'F0E6FF';
+        // ── COULEURS AVEC FF ──
+        const P = 'FF3D3573';
+        const S = 'FFE84597';
+        const W = 'FFFFFFFF';
 
-                // Bordures améliorées
-                const bThin = { style: 'thin', color: { rgb: 'B0AEC0' } };
-                const bMed = { style: 'medium', color: { rgb: P } };
-                const bThick = { style: 'thick', color: { rgb: P } };
-                const bWhite = { style: 'thin', color: { rgb: W } };
-                const bAll = (s) => ({ top: s, bottom: s, left: s, right: s });
-                const bCell = bAll(bThin);
-                const bHdr = bAll(bWhite);
-                const bTitle = bAll(bThick);
-                const bTotals = bAll(bMed);
-                const bLastData = { top: bThin, bottom: bThick, left: bThin, right: bThin };
+        const BG_TITLE   = S;
+        const BG_CP      = 'FFF3E8FF';
+        const BG_HDR     = P;
+        const BG_ROW_A   = 'FFFFFFFF';
+        const BG_ROW_B   = 'FFF5F3FA';
+        const BG_WEEKEND = 'FFDDDDDD';
+        const BG_CP_OK   = 'FFD1FAE5';
+        const BG_ABSENT  = 'FFFEE2E2';
+        const BG_RETARD  = 'FFFEF3C7';
+        const BG_TOTALS  = 'FFEDE9F5';
+        const BG_MOTIF   = 'FFF0E6FF';
 
-                // Polices agrandies
-                const fTitle = { bold: true, color: { rgb: W }, sz: 16, name: 'Calibri' };
-                const fCpLabel = { bold: true, color: { rgb: P }, sz: 11, name: 'Calibri' };
-                const fCpValue = { bold: true, color: { rgb: P }, sz: 14, name: 'Calibri' };
-                const fHdr = { bold: true, color: { rgb: W }, sz: 12, name: 'Calibri' };
-                const fNormal = { color: { rgb: '2A2547' }, sz: 11, name: 'Calibri' };
-                const fBold = { bold: true, color: { rgb: '2A2547' }, sz: 11, name: 'Calibri' };
-                const fWeekend = { color: { rgb: '6B7280' }, sz: 11, name: 'Calibri', italic: true };
-                const fAbsent = { bold: true, color: { rgb: 'B91C1C' }, sz: 11, name: 'Calibri' };
-                const fTotLabel = { bold: true, color: { rgb: P }, sz: 12, name: 'Calibri' };
-                const fTotValue = { bold: true, color: { rgb: P }, sz: 14, name: 'Calibri' };
-                const fMotifHdr = { bold: true, color: { rgb: W }, sz: 11, name: 'Calibri' };
+        // ── Bordures (thick → medium pour meilleure compatibilité) ──
+        const bThin = { style: 'thin', color: { rgb: 'FFB0AEC0' } };
+        const bMed  = { style: 'medium', color: { rgb: P } };
+        const bThick = { style: 'medium', color: { rgb: P } }; // ← modifié
+        const bWhite = { style: 'thin', color: { rgb: W } };
+        const bAll = (s) => ({ top: s, bottom: s, left: s, right: s });
+        const bCell = bAll(bThin);
+        const bHdr = bAll(bWhite);
+        const bTitle = bAll(bThick);
+        const bTotals = bAll(bMed);
+        const bLastData = { top: bThin, bottom: bThick, left: bThin, right: bThin };
 
-                const fill = (hex) => ({ patternType: 'solid', fgColor: { rgb: hex } });
-                const centerH = { horizontal: 'center', vertical: 'center' };
-                const leftH = { horizontal: 'left', vertical: 'center' };
-                const rightH = { horizontal: 'right', vertical: 'center' };
+        // ── Polices (avec FF pour les couleurs de texte) ──
+        const fTitle = { bold: true, color: { rgb: W }, sz: 16, name: 'Calibri' };
+        const fCpLabel = { bold: true, color: { rgb: P }, sz: 11, name: 'Calibri' };
+        const fCpValue = { bold: true, color: { rgb: P }, sz: 14, name: 'Calibri' };
+        const fHdr = { bold: true, color: { rgb: W }, sz: 12, name: 'Calibri' };
+        const fNormal = { color: { rgb: 'FF2A2547' }, sz: 11, name: 'Calibri' };
+        const fBold = { bold: true, color: { rgb: 'FF2A2547' }, sz: 11, name: 'Calibri' };
+        const fWeekend = { color: { rgb: 'FF6B7280' }, sz: 11, name: 'Calibri', italic: true };
+        const fAbsent = { bold: true, color: { rgb: 'FFB91C1C' }, sz: 11, name: 'Calibri' };
+        const fTotLabel = { bold: true, color: { rgb: P }, sz: 12, name: 'Calibri' };
+        const fTotValue = { bold: true, color: { rgb: P }, sz: 14, name: 'Calibri' };
+        const fMotifHdr = { bold: true, color: { rgb: W }, sz: 11, name: 'Calibri' };
 
-                const cpBal = computeCPBalance(employee, absences);
+        const fill = (hex) => ({ patternType: 'solid', fgColor: { rgb: hex } });
+        const centerH = { horizontal: 'center', vertical: 'center' };
+        const leftH = { horizontal: 'left', vertical: 'center' };
+        const rightH = { horizontal: 'right', vertical: 'center' };
 
-                months.forEach((monthName, monthIndex) => {
-                    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
-                    const ws = {};
-                    ws['!merges'] = [];
-                    let row = 0;
-                    const COLS = 8;
+        const cpBal = computeCPBalance(employee, absences);
 
-                    // ROW 0 : Titre avec bordure épaisse
-                    ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
-                        v: `Planning – ${employee.nom} – ${monthName} ${year}`, t: 's',
-                        s: { font: fTitle, fill: fill(BG_TITLE), alignment: centerH, border: bTitle }
-                    };
-                    for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                        v: '', t: 's', s: { fill: fill(BG_TITLE), border: bTitle }
-                    };
-                    ws['!merges'].push({ s: { c: 0, r: row }, e: { c: COLS - 1, r: row } });
-                    row++;
+        months.forEach((monthName, monthIndex) => {
+            const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+            const ws = {};
+            ws['!merges'] = [];
+            let row = 0;
+            const COLS = 8;
 
-                    // CP résumé (inchangé sauf polices)
-                    const cpItems = [
-                        { label: 'CP de base (année)', value: String(cpBal.base) },
-                        { label: 'Accumulés (+2.5/mois)', value: '+' + cpBal.accumulated },
-                        { label: 'Utilisés', value: String(cpBal.used) },
-                        { label: 'Solde CP', value: String(cpBal.balance) }
-                    ];
-
-                    cpItems.forEach((item, i) => {
-                        const c = i * 2;
-                        ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                            v: item.label, t: 's',
-                            s: { font: fCpLabel, fill: fill(BG_CP), alignment: centerH, border: bTotals }
-                        };
-                        ws[XLSX.utils.encode_cell({ c: c + 1, r: row })] = { v: '', t: 's', s: { fill: fill(BG_CP), border: bTotals } };
-                        ws['!merges'].push({ s: { c, r: row }, e: { c: c + 1, r: row } });
-                    });
-                    row++;
-
-                    cpItems.forEach((item, i) => {
-                        const c = i * 2;
-                        const isNeg = cpBal.balance < 0 && i === 3;
-                        ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                            v: item.value, t: 's',
-                            s: { font: { ...fCpValue, color: { rgb: isNeg ? 'EF4444' : P } }, fill: fill(BG_CP), alignment: centerH, border: bTotals }
-                        };
-                        ws[XLSX.utils.encode_cell({ c: c + 1, r: row })] = { v: '', t: 's', s: { fill: fill(BG_CP), border: bTotals } };
-                        ws['!merges'].push({ s: { c, r: row }, e: { c: c + 1, r: row } });
-                    });
-                    row++;
-
-                    // En-tête
-                    const headers = ['Date', 'Jour', 'Heures', 'Chantier', 'Zone', 'Panier (€)', 'Retard (min)', 'Absence'];
-                    headers.forEach((h, c) => {
-                        ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                            v: h, t: 's',
-                            s: { font: fHdr, fill: fill(BG_HDR), alignment: centerH, border: bHdr }
-                        };
-                    });
-                    row++;
-
-                    const dataStartRow = row;
-
-                    let totalHeures = 0, totalPanier = 0, totalHeuresSupp = 0, totalRetards = 0, totalConges = 0;
-                    let absencesByMotif = {};
-
-                    for (let day = 1; day <= daysInMonth; day++) {
-                        const date = new Date(year, monthIndex, day);
-                        const dateStr = date.toISOString().split('T')[0];
-                        const dayNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-                        const dayNamesLow = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
-                        const dayOfWeek = dayNames[date.getDay()];
-                        const dayName = dayNamesLow[date.getDay()];
-                        const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-                        const isLastDay = (day === daysInMonth);
-                        const dateFormatted = `${String(day).padStart(2, '0')} ${monthName.toLowerCase()} ${year}`;
-
-                        const absence = absences.find(a => a.employeeId === employeeId &&
-                            new Date(a.dateDebut + 'T00:00:00') <= date &&
-                            new Date(a.dateFin + 'T00:00:00') >= date);
-
-                        let rowData, bg, font;
-                        const altBg = (day % 2 === 0) ? BG_ROW_B : BG_ROW_A;
-
-                        if (absence) {
-                            rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', absence.motif];
-                            bg = (absence.motif === 'Congés payés') ? BG_CP_OK : BG_ABSENT;
-                            font = fAbsent;
-                            if (absence.motif === 'Congés payés') totalConges++;
-                            absencesByMotif[absence.motif] = (absencesByMotif[absence.motif] || 0) + 1;
-                        } else if (isWeekend) {
-                            rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', 'Repos'];
-                            bg = BG_WEEKEND;
-                            font = fWeekend;
-                        } else {
-                            const schedule = employee.horaires?.[dayName];
-                            if (!schedule || !schedule.debut || !schedule.fin) {
-                                rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', 'Jour off'];
-                                bg = BG_WEEKEND;
-                                font = fWeekend;
-                            } else {
-                                const debut = new Date(`2000-01-01T${schedule.debut}`);
-                                const fin = new Date(`2000-01-01T${schedule.fin}`);
-                                let heures = (fin - debut) / (1000 * 60 * 60);
-
-                                const chantierAssignment = chantiers.find(c => {
-                                    const hasEmp = c.employees?.some(e => e.employeeId === employeeId &&
-                                        new Date(e.dateDebut + 'T00:00:00') <= date &&
-                                        new Date(e.dateFin + 'T00:00:00') >= date);
-                                    return hasEmp && new Date(c.dateDebut + 'T00:00:00') <= date &&
-                                        new Date(c.dateFin + 'T00:00:00') >= date;
-                                });
-
-                                const chantierNom = chantierAssignment?.nom || '';
-                                const zone = chantierAssignment?.zone !== undefined ? chantierAssignment.zone : '';
-                                const panier = chantierAssignment?.panier || 0;
-
-                                const retard = retards.find(r => r.employeeId === employeeId && r.date === dateStr);
-                                const retardMinutes = retard?.minutes || 0;
-
-                                const hSupp = heuresSupp.find(h => h.employeeId === employeeId && h.date === dateStr);
-                                if (hSupp) {
-                                    if (hSupp.type === 'arrivee') {
-                                        const hr = new Date(`2000-01-01T${hSupp.heureReelle}`);
-                                        heures += (debut - hr) / (1000 * 60 * 60);
-                                    } else {
-                                        const hr = new Date(`2000-01-01T${hSupp.heureReelle}`);
-                                        heures += (hr - fin) / (1000 * 60 * 60);
-                                    }
-                                    totalHeuresSupp += Math.abs(
-                                        hSupp.heureReelle && schedule[hSupp.type === 'arrivee' ? 'debut' : 'fin'] ?
-                                        (new Date(`2000-01-01T${hSupp.heureReelle}`) -
-                                         new Date(`2000-01-01T${schedule[hSupp.type === 'arrivee' ? 'debut' : 'fin']}`)) / (1000 * 60 * 60) : 0
-                                    );
-                                }
-
-                                totalHeures += heures;
-                                totalPanier += panier;
-                                totalRetards += retardMinutes;
-
-                                rowData = [dateFormatted, dayOfWeek, parseFloat(heures.toFixed(2)), chantierNom, zone, panier, retardMinutes, ''];
-                                bg = retardMinutes > 0 ? BG_RETARD : altBg;
-                                font = retardMinutes > 0 ? fBold : fNormal;
-                            }
-                        }
-
-                        const rowBorder = isLastDay ? bLastData : bCell;
-                        rowData.forEach((val, c) => {
-                            const isNum = typeof val === 'number';
-                            const align = (c === 0 || c === 1 || c === 3 || c === 7) ? leftH : rightH;
-                            ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                                v: val, t: isNum ? 'n' : 's',
-                                s: {
-                                    font,
-                                    fill: fill(bg),
-                                    border: rowBorder,
-                                    alignment: align,
-                                    numFmt: (c === 2 || c === 6) ? '0.00' : (c === 5 ? '#,##0.00' : undefined)
-                                }
-                            };
-                        });
-                        row++;
-                    }
-
-                    row++; // ligne vide
-
-                    // RÉSUMÉ DU MOIS avec bordure épaisse
-                    ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
-                        v: 'RÉSUMÉ DU MOIS', t: 's',
-                        s: { font: { bold: true, sz: 14, color: { rgb: W }, name: 'Calibri' },
-                             fill: fill(BG_HDR), alignment: centerH, border: bThick }
-                    };
-                    for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                        v: '', t: 's', s: { fill: fill(BG_HDR), border: bThick }
-                    };
-                    ws['!merges'].push({ s: { c: 0, r: row }, e: { c: COLS - 1, r: row } });
-                    row++;
-
-                    const totalsData = [
-                        ['Total heures travaillées', totalHeures.toFixed(2) + ' h'],
-                        ['Montant paniers', totalPanier.toFixed(2) + ' €'],
-                        ['Heures supplémentaires', totalHeuresSupp.toFixed(2) + ' h'],
-                        ['Congés payés utilisés', totalConges + ' jour' + (totalConges !== 1 ? 's' : '')],
-                        ['Total retards', totalRetards + ' min']
-                    ];
-
-                    totalsData.forEach(([label, value], idx) => {
-                        ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
-                            v: label, t: 's',
-                            s: { font: fTotLabel, fill: fill(BG_TOTALS), alignment: leftH, border: bTotals }
-                        };
-                        ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: '', t: 's', s: { fill: fill(BG_TOTALS), border: bTotals } };
-                        ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 1, r: row } });
-
-                        ws[XLSX.utils.encode_cell({ c: 2, r: row })] = {
-                            v: value, t: 's',
-                            s: { font: fTotValue, fill: fill(BG_TOTALS), alignment: rightH, border: bTotals }
-                        };
-                        ws[XLSX.utils.encode_cell({ c: 3, r: row })] = { v: '', t: 's', s: { fill: fill(BG_TOTALS), border: bTotals } };
-                        ws['!merges'].push({ s: { c: 2, r: row }, e: { c: 3, r: row } });
-
-                        for (let c = 4; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                            v: '', t: 's', s: { fill: fill(BG_TOTALS), border: bTotals }
-                        };
-                        row++;
-                    });
-
-                    if (Object.keys(absencesByMotif).length > 0) {
-                        row++;
-                        ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
-                            v: 'ABSENCES PAR MOTIF', t: 's',
-                            s: { font: { bold: true, sz: 13, color: { rgb: W }, name: 'Calibri' },
-                                 fill: fill(P), alignment: centerH, border: bThick }
-                        };
-                        for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                            v: '', t: 's', s: { fill: fill(P), border: bThick }
-                        };
-                        ws['!merges'].push({ s: { c: 0, r: row }, e: { c: COLS - 1, r: row } });
-                        row++;
-
-                        ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
-                            v: 'Motif', t: 's',
-                            s: { font: fMotifHdr, fill: fill(BG_MOTIF), alignment: leftH, border: bTotals }
-                        };
-                        ws[XLSX.utils.encode_cell({ c: 1, r: row })] = {
-                            v: 'Jours', t: 's',
-                            s: { font: fMotifHdr, fill: fill(BG_MOTIF), alignment: centerH, border: bTotals }
-                        };
-                        for (let c = 2; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                            v: '', t: 's', s: { fill: fill(BG_MOTIF), border: bTotals }
-                        };
-                        ws['!merges'].push({ s: { c: 2, r: row }, e: { c: COLS - 1, r: row } });
-                        row++;
-
-                        Object.entries(absencesByMotif).forEach(([motif, count]) => {
-                            const motifBg = motif === 'Congés payés' ? BG_CP_OK : motif === 'Maladie' ? BG_ABSENT : BG_RETARD;
-                            ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
-                                v: motif, t: 's',
-                                s: { font: fBold, fill: fill(motifBg), alignment: leftH, border: bCell }
-                            };
-                            ws[XLSX.utils.encode_cell({ c: 1, r: row })] = {
-                                v: count, t: 'n',
-                                s: { font: { bold: true, sz: 11, color: { rgb: P }, name: 'Calibri' }, fill: fill(motifBg), alignment: centerH, border: bCell }
-                            };
-                            for (let c = 2; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
-                                v: '', t: 's', s: { fill: fill(motifBg), border: bCell }
-                            };
-                            row++;
-                        });
-                    }
-
-                    ws['!ref'] = XLSX.utils.encode_range({ s: { c: 0, r: 0 }, e: { c: COLS - 1, r: row - 1 } });
-                    ws['!cols'] = [
-                        { wch: 18 }, { wch: 13 }, { wch: 10 }, { wch: 24 },
-                        { wch: 8 },  { wch: 13 }, { wch: 13 }, { wch: 18 }
-                    ];
-
-                    ws['!rows'] = [];
-                    for (let r = 0; r < row; r++) {
-                        if (r === 0) ws['!rows'].push({ ht: 35 });
-                        else if (r <= 2) ws['!rows'].push({ ht: 24 });
-                        else if (r === 3) ws['!rows'].push({ ht: 24 });
-                        else ws['!rows'].push({ ht: 20 });
-                    }
-
-                    XLSX.utils.book_append_sheet(wb, ws, monthName);
-                });
-
-                XLSX.writeFile(wb, `Planning_${employee.nom}_${year}.xlsx`);
-                setMessage({ type: 'success', text: 'Planning exporté avec succès' });
-                setTimeout(() => setMessage(null), 3000);
+            // ROW 0 : Titre avec bordure
+            ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
+                v: `Planning – ${employee.nom} – ${monthName} ${year}`, t: 's',
+                s: { font: fTitle, fill: fill(BG_TITLE), alignment: centerH, border: bTitle }
             };
+            for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                v: '', t: 's', s: { fill: fill(BG_TITLE), border: bTitle }
+            };
+            ws['!merges'].push({ s: { c: 0, r: row }, e: { c: COLS - 1, r: row } });
+            row++;
 
+            // CP résumé
+            const cpItems = [
+                { label: 'CP de base (année)', value: String(cpBal.base) },
+                { label: 'Accumulés (+2.5/mois)', value: '+' + cpBal.accumulated },
+                { label: 'Utilisés', value: String(cpBal.used) },
+                { label: 'Solde CP', value: String(cpBal.balance) }
+            ];
+
+            cpItems.forEach((item, i) => {
+                const c = i * 2;
+                ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                    v: item.label, t: 's',
+                    s: { font: fCpLabel, fill: fill(BG_CP), alignment: centerH, border: bTotals }
+                };
+                ws[XLSX.utils.encode_cell({ c: c + 1, r: row })] = { v: '', t: 's', s: { fill: fill(BG_CP), border: bTotals } };
+                ws['!merges'].push({ s: { c, r: row }, e: { c: c + 1, r: row } });
+            });
+            row++;
+
+            cpItems.forEach((item, i) => {
+                const c = i * 2;
+                const isNeg = cpBal.balance < 0 && i === 3;
+                ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                    v: item.value, t: 's',
+                    s: { font: { ...fCpValue, color: { rgb: isNeg ? 'FFEF4444' : P } }, fill: fill(BG_CP), alignment: centerH, border: bTotals }
+                };
+                ws[XLSX.utils.encode_cell({ c: c + 1, r: row })] = { v: '', t: 's', s: { fill: fill(BG_CP), border: bTotals } };
+                ws['!merges'].push({ s: { c, r: row }, e: { c: c + 1, r: row } });
+            });
+            row++;
+
+            // En-tête
+            const headers = ['Date', 'Jour', 'Heures', 'Chantier', 'Zone', 'Panier (€)', 'Retard (min)', 'Absence'];
+            headers.forEach((h, c) => {
+                ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                    v: h, t: 's',
+                    s: { font: fHdr, fill: fill(BG_HDR), alignment: centerH, border: bHdr }
+                };
+            });
+            row++;
+
+            const dataStartRow = row;
+            let totalHeures = 0, totalPanier = 0, totalHeuresSupp = 0, totalRetards = 0, totalConges = 0;
+            let absencesByMotif = {};
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, monthIndex, day);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+                const dayNamesLow = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+                const dayOfWeek = dayNames[date.getDay()];
+                const dayName = dayNamesLow[date.getDay()];
+                const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                const isLastDay = (day === daysInMonth);
+                const dateFormatted = `${String(day).padStart(2, '0')} ${monthName.toLowerCase()} ${year}`;
+                const absence = absences.find(a => a.employeeId === employeeId &&
+                    new Date(a.dateDebut + 'T00:00:00') <= date &&
+                    new Date(a.dateFin + 'T00:00:00') >= date);
+                let rowData, bg, font;
+                const altBg = (day % 2 === 0) ? BG_ROW_B : BG_ROW_A;
+                if (absence) {
+                    rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', absence.motif];
+                    bg = (absence.motif === 'Congés payés') ? BG_CP_OK : BG_ABSENT;
+                    font = fAbsent;
+                    if (absence.motif === 'Congés payés') totalConges++;
+                    absencesByMotif[absence.motif] = (absencesByMotif[absence.motif] || 0) + 1;
+                } else if (isWeekend) {
+                    rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', 'Repos'];
+                    bg = BG_WEEKEND;
+                    font = fWeekend;
+                } else {
+                    const schedule = employee.horaires?.[dayName];
+                    if (!schedule || !schedule.debut || !schedule.fin) {
+                        rowData = [dateFormatted, dayOfWeek, '', '', '', '', '', 'Jour off'];
+                        bg = BG_WEEKEND;
+                        font = fWeekend;
+                    } else {
+                        const debut = new Date(`2000-01-01T${schedule.debut}`);
+                        const fin = new Date(`2000-01-01T${schedule.fin}`);
+                        let heures = (fin - debut) / (1000 * 60 * 60);
+                        const chantierAssignment = chantiers.find(c => {
+                            const hasEmp = c.employees?.some(e => e.employeeId === employeeId &&
+                                new Date(e.dateDebut + 'T00:00:00') <= date &&
+                                new Date(e.dateFin + 'T00:00:00') >= date);
+                            return hasEmp && new Date(c.dateDebut + 'T00:00:00') <= date &&
+                                new Date(c.dateFin + 'T00:00:00') >= date;
+                        });
+                        const chantierNom = chantierAssignment?.nom || '';
+                        const zone = chantierAssignment?.zone !== undefined ? chantierAssignment.zone : '';
+                        const panier = chantierAssignment?.panier || 0;
+                        const retard = retards.find(r => r.employeeId === employeeId && r.date === dateStr);
+                        const retardMinutes = retard?.minutes || 0;
+                        const hSupp = heuresSupp.find(h => h.employeeId === employeeId && h.date === dateStr);
+                        if (hSupp) {
+                            if (hSupp.type === 'arrivee') {
+                                const hr = new Date(`2000-01-01T${hSupp.heureReelle}`);
+                                heures += (debut - hr) / (1000 * 60 * 60);
+                            } else {
+                                const hr = new Date(`2000-01-01T${hSupp.heureReelle}`);
+                                heures += (hr - fin) / (1000 * 60 * 60);
+                            }
+                            totalHeuresSupp += Math.abs(
+                                hSupp.heureReelle && schedule[hSupp.type === 'arrivee' ? 'debut' : 'fin'] ?
+                                (new Date(`2000-01-01T${hSupp.heureReelle}`) -
+                                 new Date(`2000-01-01T${schedule[hSupp.type === 'arrivee' ? 'debut' : 'fin']}`)) / (1000 * 60 * 60) : 0
+                            );
+                        }
+                        totalHeures += heures;
+                        totalPanier += panier;
+                        totalRetards += retardMinutes;
+                        rowData = [dateFormatted, dayOfWeek, parseFloat(heures.toFixed(2)), chantierNom, zone, panier, retardMinutes, ''];
+                        bg = retardMinutes > 0 ? BG_RETARD : altBg;
+                        font = retardMinutes > 0 ? fBold : fNormal;
+                    }
+                }
+                const rowBorder = isLastDay ? bLastData : bCell;
+                rowData.forEach((val, c) => {
+                    const isNum = typeof val === 'number';
+                    const align = (c === 0 || c === 1 || c === 3 || c === 7) ? leftH : rightH;
+                    ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                        v: val, t: isNum ? 'n' : 's',
+                        s: {
+                            font,
+                            fill: fill(bg),
+                            border: rowBorder,
+                            alignment: align,
+                            numFmt: (c === 2 || c === 6) ? '0.00' : (c === 5 ? '#,##0.00' : undefined)
+                        }
+                    };
+                });
+                row++;
+            }
+            row++; // ligne vide
+            // RÉSUMÉ DU MOIS avec bordure
+            ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
+                v: 'RÉSUMÉ DU MOIS', t: 's',
+                s: { font: { bold: true, sz: 14, color: { rgb: W }, name: 'Calibri' },
+                     fill: fill(BG_HDR), alignment: centerH, border: bThick }
+            };
+            for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                v: '', t: 's', s: { fill: fill(BG_HDR), border: bThick }
+            };
+            ws['!merges'].push({ s: { c: 0, r: row }, e: { c: COLS - 1, r: row } });
+            row++;
+            const totalsData = [
+                ['Total heures travaillées', totalHeures.toFixed(2) + ' h'],
+                ['Montant paniers', totalPanier.toFixed(2) + ' €'],
+                ['Heures supplémentaires', totalHeuresSupp.toFixed(2) + ' h'],
+                ['Congés payés utilisés', totalConges + ' jour' + (totalConges !== 1 ? 's' : '')],
+                ['Total retards', totalRetards + ' min']
+            ];
+            totalsData.forEach(([label, value], idx) => {
+                ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
+                    v: label, t: 's',
+                    s: { font: fTotLabel, fill: fill(BG_TOTALS), alignment: leftH, border: bTotals }
+                };
+                ws[XLSX.utils.encode_cell({ c: 1, r: row })] = { v: '', t: 's', s: { fill: fill(BG_TOTALS), border: bTotals } };
+                ws['!merges'].push({ s: { c: 0, r: row }, e: { c: 1, r: row } });
+                ws[XLSX.utils.encode_cell({ c: 2, r: row })] = {
+                    v: value, t: 's',
+                    s: { font: fTotValue, fill: fill(BG_TOTALS), alignment: rightH, border: bTotals }
+                };
+                ws[XLSX.utils.encode_cell({ c: 3, r: row })] = { v: '', t: 's', s: { fill: fill(BG_TOTALS), border: bTotals } };
+                ws['!merges'].push({ s: { c: 2, r: row }, e: { c: 3, r: row } });
+                for (let c = 4; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                    v: '', t: 's', s: { fill: fill(BG_TOTALS), border: bTotals }
+                };
+                row++;
+            });
+            if (Object.keys(absencesByMotif).length > 0) {
+                row++;
+                ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
+                    v: 'ABSENCES PAR MOTIF', t: 's',
+                    s: { font: { bold: true, sz: 13, color: { rgb: W }, name: 'Calibri' },
+                         fill: fill(P), alignment: centerH, border: bThick }
+                };
+                for (let c = 1; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                    v: '', t: 's', s: { fill: fill(P), border: bThick }
+                };
+                ws['!merges'].push({ s: { c: 0, r: row }, e: { c: COLS - 1, r: row } });
+                row++;
+                ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
+                    v: 'Motif', t: 's',
+                    s: { font: fMotifHdr, fill: fill(BG_MOTIF), alignment: leftH, border: bTotals }
+                };
+                ws[XLSX.utils.encode_cell({ c: 1, r: row })] = {
+                    v: 'Jours', t: 's',
+                    s: { font: fMotifHdr, fill: fill(BG_MOTIF), alignment: centerH, border: bTotals }
+                };
+                for (let c = 2; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                    v: '', t: 's', s: { fill: fill(BG_MOTIF), border: bTotals }
+                };
+                ws['!merges'].push({ s: { c: 2, r: row }, e: { c: COLS - 1, r: row } });
+                row++;
+                Object.entries(absencesByMotif).forEach(([motif, count]) => {
+                    const motifBg = motif === 'Congés payés' ? BG_CP_OK : motif === 'Maladie' ? BG_ABSENT : BG_RETARD;
+                    ws[XLSX.utils.encode_cell({ c: 0, r: row })] = {
+                        v: motif, t: 's',
+                        s: { font: fBold, fill: fill(motifBg), alignment: leftH, border: bCell }
+                    };
+                    ws[XLSX.utils.encode_cell({ c: 1, r: row })] = {
+                        v: count, t: 'n',
+                        s: { font: { bold: true, sz: 11, color: { rgb: P }, name: 'Calibri' }, fill: fill(motifBg), alignment: centerH, border: bCell }
+                    };
+                    for (let c = 2; c < COLS; c++) ws[XLSX.utils.encode_cell({ c, r: row })] = {
+                        v: '', t: 's', s: { fill: fill(motifBg), border: bCell }
+                    };
+                    row++;
+                });
+            }
+            ws['!ref'] = XLSX.utils.encode_range({ s: { c: 0, r: 0 }, e: { c: COLS - 1, r: row - 1 } });
+            ws['!cols'] = [
+                { wch: 18 }, { wch: 13 }, { wch: 10 }, { wch: 24 },
+                { wch: 8 }, { wch: 13 }, { wch: 13 }, { wch: 18 }
+            ];
+            ws['!rows'] = [];
+            for (let r = 0; r < row; r++) {
+                if (r === 0) ws['!rows'].push({ ht: 35 });
+                else if (r <= 2) ws['!rows'].push({ ht: 24 });
+                else if (r === 3) ws['!rows'].push({ ht: 24 });
+                else ws['!rows'].push({ ht: 20 });
+            }
+            XLSX.utils.book_append_sheet(wb, ws, monthName);
+        });
+        XLSX.writeFile(wb, `Planning_${employee.nom}_${year}.xlsx`);
+        setMessage({ type: 'success', text: 'Planning exporté avec succès' });
+        setTimeout(() => setMessage(null), 3000);
+    } catch (err) {
+        console.error('Erreur lors de l\'export :', err);
+        setMessage({ type: 'error', text: 'Erreur lors de l\'export : ' + (err.message || 'Erreur inconnue') });
+    }
+};
             // ─── RENDER ───
             if (!authenticated) {
                 return <LoginForm onLogin={handleLogin} message={message} />;
