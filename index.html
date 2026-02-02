@@ -684,6 +684,15 @@
             font-size: 13px;
             border-left: 4px solid var(--success);
         }
+        .info-message {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            padding: 11px 15px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            border-left: 4px solid #3b82f6;
+        }
         /* ===== CP SUMMARY ===== */
         .cp-summary {
             display: grid;
@@ -876,6 +885,29 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
+        .cp-calculation-info {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        .cp-calculation-info h5 {
+            color: #3b82f6;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .conflict-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 12px;
+            border-left: 3px solid var(--warning);
+        }
     </style>
 </head>
 <body>
@@ -919,34 +951,62 @@
             return count;
         }
         
-        function computeCPBalance(employee, absences) {
-            // Calcul des CP avec possibilité de 0 CP de base
-            const cpBase = employee.cpBase || 0;
-            const manualCP = absences
+        // ─── NOUVEAU SYSTÈME DE CP AUTOMATIQUE ───
+        function computeCPBalance(employee, absences, dateEmbauche) {
+            // Système automatique selon la loi française
+            // 2.5 jours par mois travaillé (acquis le 1er du mois suivant)
+            
+            if (!employee) return { base: 0, accumulated: 0, used: 0, balance: 0 };
+            
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            
+            // Date d'embauche ou 1er janvier de l'année en cours
+            const embaucheDate = dateEmbauche ? new Date(dateEmbauche + 'T00:00:00') : new Date(currentYear, 0, 1);
+            const startYear = new Date(currentYear, 0, 1);
+            const startDate = embaucheDate > startYear ? embaucheDate : startYear;
+            
+            // Calcul des mois travaillés (acquis le 1er du mois suivant)
+            let monthsWorked = 0;
+            for (let m = startDate.getMonth(); m <= today.getMonth(); m++) {
+                // On considère qu'un mois est travaillé s'il est complet avant aujourd'hui
+                const monthEnd = new Date(currentYear, m + 1, 0);
+                if (monthEnd < today) {
+                    monthsWorked++;
+                }
+            }
+            
+            // CP acquis automatiquement : 2.5 jours par mois travaillé
+            const cpAuto = monthsWorked * 2.5;
+            
+            // CP ajoutés manuellement
+            const cpManuel = absences
                 .filter(a => a.employeeId === employee.id && a.motif === 'Congés payés (ajout manuel)')
                 .reduce((sum, a) => sum + 2.5, 0);
             
-            // CP utilisés (sauf les ajouts manuels)
-            const usedCP = absences
-                .filter(a => a.employeeId === employee.id && 
-                           a.motif === 'Congés payés' && 
-                           a.motif !== 'Congés payés (ajout manuel)')
+            // CP utilisés (congés payés normaux, pas les ajouts manuels)
+            const cpUtilises = absences
+                .filter(a => a.employeeId === employee.id && a.motif === 'Congés payés')
                 .reduce((sum, a) => {
                     const days = countWorkDays(a.dateDebut, a.dateFin);
                     return sum + days;
                 }, 0);
             
+            const totalAcquis = cpAuto + cpManuel;
+            const solde = totalAcquis - cpUtilises;
+            
             return {
-                base: cpBase,
-                accumulated: parseFloat(manualCP.toFixed(1)),
-                used: usedCP,
-                balance: parseFloat((cpBase + manualCP - usedCP).toFixed(1))
+                base: parseFloat(cpAuto.toFixed(1)),
+                accumulated: parseFloat(cpManuel.toFixed(1)),
+                used: cpUtilises,
+                balance: parseFloat(solde.toFixed(1)),
+                monthsWorked: monthsWorked
             };
         }
         
-        // ─── CALCUL DISTANCE (FORMULE HAVERSINE) ───
+        // ─── CALCUL DISTANCE ───
         function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Rayon de la Terre en km
+            const R = 6371;
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
             const a = 
@@ -965,7 +1025,6 @@
         
         // ─── FONCTION POUR OBTENIR LES COORDONNÉES D'UNE ADRESSE ───
         async function getCoordinates(address) {
-            // Pour l'exemple, on utilise une API gratuite (nominatim)
             try {
                 const response = await fetch(
                     `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`
@@ -988,11 +1047,9 @@
             if (!address) return { zone: 3, panier: config.zone3.panier };
             
             try {
-                // Géocodage de l'adresse
                 const coords = await getCoordinates(address);
                 if (!coords) return { zone: 3, panier: config.zone3.panier };
                 
-                // Calcul distance depuis Wargnies
                 const distance = calculateDistance(
                     WARGNIES_COORDS.lat, 
                     WARGNIES_COORDS.lon, 
@@ -1000,7 +1057,6 @@
                     coords.lon
                 );
                 
-                // Détermination de la zone
                 if (distance <= config.zone0.distance) {
                     return { zone: 0, panier: config.zone0.panier };
                 } else if (distance <= config.zone1.distance) {
@@ -1014,6 +1070,33 @@
                 console.error("Erreur calcul zone:", error);
                 return { zone: 3, panier: config.zone3.panier };
             }
+        }
+        
+        // ─── FONCTION VÉRIFICATION CONFLIT CHANTIERS ───
+        function checkChantierConflict(employeeId, dateDebut, dateFin, chantiers) {
+            const start = new Date(dateDebut + 'T00:00:00');
+            const end = new Date(dateFin + 'T00:00:00');
+            
+            for (const chantier of chantiers) {
+                if (chantier.employees) {
+                    for (const assignment of chantier.employees) {
+                        if (assignment.employeeId === employeeId) {
+                            const assignStart = new Date(assignment.dateDebut + 'T00:00:00');
+                            const assignEnd = new Date(assignment.dateFin + 'T00:00:00');
+                            
+                            // Vérifier si les périodes se chevauchent
+                            if ((start <= assignEnd) && (end >= assignStart)) {
+                                return {
+                                    conflict: true,
+                                    chantier: chantier.nom,
+                                    dates: `Du ${assignment.dateDebut} au ${assignment.dateFin}`
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            return { conflict: false };
         }
         
         // ─── NOUVELLE FONCTION CHANTIERS ACTIFS ───
@@ -1190,8 +1273,8 @@
                 } else {
                     setEmployees([...employees, { 
                         ...empData, 
-                        id: Date.now().toString(), 
-                        cpBase: empData.cpBase || 0 // Accepte 0
+                        id: Date.now().toString(),
+                        dateEmbauche: empData.dateEmbauche || new Date().toISOString().split('T')[0]
                     }]);
                     setMessage({ type: 'success', text: 'Employé ajouté' });
                 }
@@ -1213,7 +1296,6 @@
             
             // ─── CHANTIERS CRUD ───
             const saveChantier = async (data) => {
-                // Calcul de la zone basée sur Wargnies le Grand
                 const zoneInfo = await getZone(data.lieu, zoneConfig);
                 const ch = { ...data, zone: zoneInfo.zone, panier: zoneInfo.panier };
                 
@@ -1235,6 +1317,36 @@
                     setMessage({ type: 'success', text: 'Chantier supprimé' });
                     setTimeout(() => setMessage(null), 3000);
                 }
+            };
+            
+            // ─── ASSIGNATION EMPLOYÉ AVEC VÉRIFICATION ───
+            const assignEmployeeToChantier = (chantierId, employeeId, dateDebut, dateFin) => {
+                // Vérifier les conflits
+                const conflict = checkChantierConflict(employeeId, dateDebut, dateFin, chantiers);
+                
+                if (conflict.conflict) {
+                    setMessage({ 
+                        type: 'error', 
+                        text: `Conflit détecté : L'employé est déjà assigné au chantier "${conflict.chantier}" ${conflict.dates}`
+                    });
+                    setTimeout(() => setMessage(null), 5000);
+                    return false;
+                }
+                
+                // Ajouter l'assignation
+                setChantiers(chantiers.map(c => c.id === chantierId ? {
+                    ...c,
+                    employees: [...(c.employees || []), { 
+                        id: Date.now().toString(), 
+                        employeeId, 
+                        dateDebut, 
+                        dateFin 
+                    }]
+                } : c));
+                
+                setMessage({ type: 'success', text: 'Employé assigné au chantier' });
+                setTimeout(() => setMessage(null), 3000);
+                return true;
             };
             
             // ─── EXPORT EXCEL AMÉLIORÉ ───
@@ -1260,7 +1372,7 @@
                     const absencesEmp = absences.filter(a => a.employeeId === employeeId);
                     const retardsEmp = retards.filter(r => r.employeeId === employeeId);
                     const heuresSuppEmp = heuresSupp.filter(h => h.employeeId === employeeId);
-                    const cpBalance = computeCPBalance(employee, absences);
+                    const cpBalance = computeCPBalance(employee, absences, employee.dateEmbauche);
                     
                     // Création d'un onglet par mois
                     months.forEach((monthName, monthIndex) => {
@@ -1291,6 +1403,7 @@
                         let monthlyPanier = 0;
                         let monthlyRetards = 0;
                         let monthlyCP = 0;
+                        let monthlyHS = 0;
                         
                         for (let day = 1; day <= daysInMonth; day++) {
                             const date = new Date(year, monthIndex, day);
@@ -1333,6 +1446,7 @@
                             // Heures prévues selon horaire
                             let heuresPrevues = '';
                             let heuresRealisees = '';
+                            let heuresSuppValue = '';
                             if (employee.horaires) {
                                 const horaireJour = employee.horaires[dayOfWeek.toLowerCase()];
                                 if (horaireJour?.debut && horaireJour?.fin) {
@@ -1345,6 +1459,12 @@
                                         heuresRealisees = heures.toFixed(1);
                                     }
                                 }
+                            }
+                            
+                            // Calcul heures supplémentaires
+                            if (heureSupp) {
+                                heuresSuppValue = heureSupp.heureReelle;
+                                monthlyHS++;
                             }
                             
                             // Type de jour
@@ -1368,7 +1488,7 @@
                                 panierChantier,
                                 heuresPrevues,
                                 heuresRealisees,
-                                heureSupp ? heureSupp.heureReelle : '',
+                                heuresSuppValue,
                                 retard ? retard.minutes : '',
                                 absence ? absence.motif : ''
                             ];
@@ -1395,17 +1515,18 @@
                             '',
                             `${monthlyPanier.toFixed(2)} €`,
                             `${monthlyHeures.toFixed(1)} h`,
-                            '',
-                            '',
+                            `${monthlyHeures.toFixed(1)} h`,
+                            `${monthlyHS} occ.`,
                             `${monthlyRetards} min`,
                             `${monthlyCP} j CP`
                         ]);
                         
                         // RÉCAPITULATIF
                         ws_data.push([]);
-                        ws_data.push(['RÉCAPITULATIF', '', '', '', '', '', '', '', '', '', '']);
+                        ws_data.push(['RÉCAPITULATIF MENSUEL', '', '', '', '', '', '', '', '', '', '']);
                         ws_data.push(['Heures totales:', `${monthlyHeures.toFixed(1)} h`, '', '', '', '', '', '', '', '', '']);
                         ws_data.push(['Panier total:', `${monthlyPanier.toFixed(2)} €`, '', '', '', '', '', '', '', '', '']);
+                        ws_data.push(['Heures supplémentaires:', `${monthlyHS} occurrences`, '', '', '', '', '', '', '', '', '']);
                         ws_data.push(['Retards totaux:', `${monthlyRetards} min`, '', '', '', '', '', '', '', '', '']);
                         ws_data.push(['CP pris:', `${monthlyCP} jours`, '', '', '', '', '', '', '', '', '']);
                         
@@ -1456,7 +1577,7 @@
                                 }
                                 
                                 // Récapitulatif
-                                if (R >= daysInMonth + 7 && R <= daysInMonth + 11) {
+                                if (R >= daysInMonth + 7 && R <= daysInMonth + 12) {
                                     if (C === 0) {
                                         ws[cell_ref].s = {
                                             font: { bold: true, sz: 11, color: { rgb: "3D3573" } }
@@ -1506,9 +1627,16 @@
                     recap_ws_data.push([`RÉCAPITULATIF ANNUEL - ${employee.nom} - ${year}`]);
                     recap_ws_data.push([]);
                     
+                    // Informations employé
+                    recap_ws_data.push(['INFORMATIONS EMPLOYÉ', '', '', '', '', '']);
+                    recap_ws_data.push(['Nom:', employee.nom, '', '', '', '']);
+                    recap_ws_data.push(['Date d\'embauche:', employee.dateEmbauche ? new Date(employee.dateEmbauche + 'T00:00:00').toLocaleDateString('fr-FR') : 'Non spécifiée', '', '', '', '']);
+                    recap_ws_data.push([]);
+                    
                     // Bilan CP
                     recap_ws_data.push(['SOLDE CONGÉS PAYÉS', '', '', '', '', '']);
-                    recap_ws_data.push(['CP de base:', cpBalance.base, 'jours']);
+                    recap_ws_data.push(['Mois travaillés:', cpBalance.monthsWorked, 'mois']);
+                    recap_ws_data.push(['CP acquis automatiquement (2.5j/mois):', cpBalance.base, 'jours']);
                     recap_ws_data.push(['CP ajoutés manuellement:', cpBalance.accumulated, 'jours']);
                     recap_ws_data.push(['CP utilisés:', cpBalance.used, 'jours']);
                     recap_ws_data.push(['SOLDE RESTANT:', cpBalance.balance, 'jours']);
@@ -1516,6 +1644,7 @@
                     
                     // Chantiers
                     recap_ws_data.push(['CHANTIERS ASSIGNÉS', '', '', '', '', '']);
+                    recap_ws_data.push(['Chantier', 'Lieu', 'Zone', 'Panier (€)', 'Période assignée']);
                     chantiersEmp.forEach((c, index) => {
                         const assignment = c.employees?.find(e => e.employeeId === employeeId);
                         recap_ws_data.push([
@@ -1530,11 +1659,15 @@
                     });
                     recap_ws_data.push([]);
                     
-                    // Statistiques
-                    recap_ws_data.push(['STATISTIQUES', '', '', '', '', '']);
-                    recap_ws_data.push(['Total retards:', retardsEmp.reduce((sum, r) => sum + Math.abs(r.minutes), 0), 'minutes']);
-                    recap_ws_data.push(['Total heures supp:', heuresSuppEmp.length, 'occurrences']);
-                    recap_ws_data.push(['Total absences:', absencesEmp.filter(a => a.motif !== 'Congés payés (ajout manuel)').length, 'périodes']);
+                    // Statistiques annuelles
+                    const totalRetards = retardsEmp.reduce((sum, r) => sum + Math.abs(r.minutes), 0);
+                    const totalHeuresSupp = heuresSuppEmp.length;
+                    const totalAbsences = absencesEmp.filter(a => a.motif !== 'Congés payés (ajout manuel)').length;
+                    
+                    recap_ws_data.push(['STATISTIQUES ANNUEL', '', '', '', '', '']);
+                    recap_ws_data.push(['Total retards:', totalRetards, 'minutes']);
+                    recap_ws_data.push(['Total heures supp:', totalHeuresSupp, 'occurrences']);
+                    recap_ws_data.push(['Total absences:', totalAbsences, 'périodes']);
                     
                     const recap_ws = XLSX.utils.aoa_to_sheet(recap_ws_data);
                     XLSX.utils.book_append_sheet(wb, recap_ws, 'Récap Annuel');
@@ -1543,7 +1676,7 @@
                     if (window.showSaveFilePicker) {
                         try {
                             const handle = await window.showSaveFilePicker({
-                                suggestedName: `Planning_${employee.nom}_${year}.xlsx`,
+                                suggestedName: `Planning_${employee.nom.replace(/\s+/g, '_')}_${year}.xlsx`,
                                 types: [{
                                     description: 'Fichier Excel',
                                     accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] }
@@ -1557,12 +1690,12 @@
                             setMessage({ type: 'success', text: `Planning exporté avec succès: ${handle.name}` });
                         } catch (err) {
                             if (err.name !== 'AbortError') {
-                                XLSX.writeFile(wb, `Planning_${employee.nom}_${year}.xlsx`);
+                                XLSX.writeFile(wb, `Planning_${employee.nom.replace(/\s+/g, '_')}_${year}.xlsx`);
                                 setMessage({ type: 'success', text: 'Planning exporté avec succès' });
                             }
                         }
                     } else {
-                        XLSX.writeFile(wb, `Planning_${employee.nom}_${year}.xlsx`);
+                        XLSX.writeFile(wb, `Planning_${employee.nom.replace(/\s+/g, '_')}_${year}.xlsx`);
                         setMessage({ type: 'success', text: 'Planning exporté avec succès' });
                     }
                     
@@ -1628,7 +1761,7 @@
                     </header>
                     
                     {message && (
-                        <div className={message.type === 'error' ? 'error-message' : 'success-message'}>
+                        <div className={message.type === 'error' ? 'error-message' : message.type === 'info' ? 'info-message' : 'success-message'}>
                             {message.text}
                         </div>
                     )}
@@ -1689,6 +1822,7 @@
                             onDelete={deleteChantier}
                             setChantiers={setChantiers}
                             setMessage={setMessage}
+                            onAssignEmployee={assignEmployeeToChantier}
                         />
                     )}
                     
@@ -1902,7 +2036,7 @@
             const [detailTab, setDetailTab] = useState('absences');
             
             const empAbsences = selectedEmp ? absences.filter(a => a.employeeId === selectedEmp.id) : [];
-            const cpBal = selectedEmp ? computeCPBalance(selectedEmp, absences) : null;
+            const cpBal = selectedEmp ? computeCPBalance(selectedEmp, absences, selectedEmp.dateEmbauche) : null;
             
             return (
                 <div>
@@ -1945,24 +2079,35 @@
                             </div>
                             <div className="detail-panel-body">
                                 {cpBal && (
-                                    <div className="cp-summary">
-                                        <div className="cp-card">
-                                            <div className="cp-label">CP de base (année)</div>
-                                            <div className="cp-value">{cpBal.base}</div>
+                                    <>
+                                        <div className="cp-summary">
+                                            <div className="cp-card">
+                                                <div className="cp-label">Mois travaillés</div>
+                                                <div className="cp-value">{cpBal.monthsWorked}</div>
+                                            </div>
+                                            <div className="cp-card">
+                                                <div className="cp-label">CP acquis (auto)</div>
+                                                <div className="cp-value">{cpBal.base} j</div>
+                                            </div>
+                                            <div className="cp-card">
+                                                <div className="cp-label">Accumulés (manuels)</div>
+                                                <div className="cp-value" style={{ color: 'var(--success)' }}>+{cpBal.accumulated} j</div>
+                                            </div>
+                                            <div className="cp-card">
+                                                <div className="cp-label">Utilisés</div>
+                                                <div className="cp-value warning">{cpBal.used} j</div>
+                                            </div>
+                                            <div className="cp-card">
+                                                <div className="cp-label">Solde CP</div>
+                                                <div className={`cp-value ${cpBal.balance < 0 ? 'danger' : ''}`}>{cpBal.balance} j</div>
+                                            </div>
                                         </div>
-                                        <div className="cp-card">
-                                            <div className="cp-label">Accumulés (manuels)</div>
-                                            <div className="cp-value" style={{ color: 'var(--success)' }}>+{cpBal.accumulated}</div>
+                                        <div className="cp-calculation-info">
+                                            <h5>💡 Calcul automatique selon la loi française</h5>
+                                            <p>2.5 jours par mois travaillé, acquis le 1er du mois suivant.</p>
+                                            <p>Date d'embauche : {selectedEmp.dateEmbauche ? new Date(selectedEmp.dateEmbauche + 'T00:00:00').toLocaleDateString('fr-FR') : 'Non spécifiée'}</p>
                                         </div>
-                                        <div className="cp-card">
-                                            <div className="cp-label">Utilisés</div>
-                                            <div className="cp-value warning">{cpBal.used}</div>
-                                        </div>
-                                        <div className="cp-card">
-                                            <div className="cp-label">Solde CP</div>
-                                            <div className={`cp-value ${cpBal.balance < 0 ? 'danger' : ''}`}>{cpBal.balance}</div>
-                                        </div>
-                                    </div>
+                                    </>
                                 )}
                                 <div className="detail-tabs" style={{ marginTop: '18px' }}>
                                     <button className={`detail-tab ${detailTab === 'absences' ? 'active' : ''}`} onClick={() => setDetailTab('absences')}>Absences</button>
@@ -2037,7 +2182,7 @@
         function EmployeeModal({ employee, onSave, onClose }) {
             const [formData, setFormData] = useState(employee || {
                 nom: '',
-                cpBase: 0, // Changé de 25 à 0 par défaut
+                dateEmbauche: new Date().toISOString().split('T')[0],
                 horaires: {
                     lundi: { debut: '08:00', fin: '17:00' },
                     mardi: { debut: '08:00', fin: '17:00' },
@@ -2076,16 +2221,16 @@
                                 <input type="text" value={formData.nom} onChange={e => setFormData({ ...formData, nom: e.target.value })} required />
                             </div>
                             <div className="form-group">
-                                <label>Nombre de CP de base (jours/an)</label>
+                                <label>Date d'embauche</label>
                                 <input
-                                    type="number"
-                                    value={formData.cpBase || 0}
-                                    min="0"
-                                    max="50"
-                                    step="0.5"
-                                    onChange={e => setFormData({ ...formData, cpBase: parseFloat(e.target.value) || 0 })}
+                                    type="date"
+                                    value={formData.dateEmbauche || new Date().toISOString().split('T')[0]}
+                                    onChange={e => setFormData({ ...formData, dateEmbauche: e.target.value })}
+                                    required
                                 />
-                                <small style={{ fontSize: '11px', color: 'var(--text-light)' }}>Mettre 0 si pas de CP de base</small>
+                                <small style={{ fontSize: '11px', color: 'var(--text-light)' }}>
+                                    Utilisée pour calculer les CP automatiques (2.5 jours par mois travaillé)
+                                </small>
                             </div>
                             <h4 style={{ marginTop: '20px', marginBottom: '12px', color: 'var(--primary)', fontSize: '14px' }}>Horaires hebdomadaires</h4>
                             <div className="schedule-grid">
@@ -2452,10 +2597,11 @@
         }
         
         // ─── CHANTIERS TAB ───
-        function ChantiersTab({ chantiers, employees, onAdd, onEdit, onDelete, setChantiers, setMessage }) {
+        function ChantiersTab({ chantiers, employees, onAdd, onEdit, onDelete, setChantiers, setMessage, onAssignEmployee }) {
             const [showAssignModal, setShowAssignModal] = useState(false);
             const [selectedChantier, setSelectedChantier] = useState(null);
             const [assignForm, setAssignForm] = useState({ employeeId: '', dateDebut: '', dateFin: '' });
+            const [conflict, setConflict] = useState(null);
             
             const handleAssignEmployee = (chantier) => {
                 setSelectedChantier(chantier);
@@ -2465,19 +2611,47 @@
                     dateDebut: chantier.dateDebut, 
                     dateFin: chantier.dateFin 
                 });
+                setConflict(null);
             };
+            
+            const checkConflict = () => {
+                if (!assignForm.employeeId || !assignForm.dateDebut || !assignForm.dateFin) return;
+                
+                // Vérifier si l'employé est déjà assigné sur cette période
+                const conflictInfo = checkChantierConflict(
+                    assignForm.employeeId, 
+                    assignForm.dateDebut, 
+                    assignForm.dateFin, 
+                    chantiers.filter(c => c.id !== selectedChantier.id) // Exclure le chantier actuel
+                );
+                
+                setConflict(conflictInfo.conflict ? conflictInfo : null);
+            };
+            
+            useEffect(() => {
+                if (assignForm.employeeId && assignForm.dateDebut && assignForm.dateFin) {
+                    checkConflict();
+                }
+            }, [assignForm.employeeId, assignForm.dateDebut, assignForm.dateFin]);
             
             const submitAssignment = (e) => {
                 e.preventDefault();
                 if (!assignForm.employeeId || !assignForm.dateDebut || !assignForm.dateFin) return;
-                setChantiers(chantiers.map(c => c.id === selectedChantier.id ? {
-                    ...c,
-                    employees: [...(c.employees || []), { id: Date.now().toString(), ...assignForm }]
-                } : c));
-                setShowAssignModal(false); 
-                setSelectedChantier(null);
-                setMessage({ type: 'success', text: 'Employé assigné au chantier' });
-                setTimeout(() => setMessage(null), 3000);
+                
+                if (conflict) {
+                    setMessage({ 
+                        type: 'error', 
+                        text: `Conflit détecté : L'employé est déjà assigné au chantier "${conflict.chantier}" ${conflict.dates}` 
+                    });
+                    return;
+                }
+                
+                const success = onAssignEmployee(selectedChantier.id, assignForm.employeeId, assignForm.dateDebut, assignForm.dateFin);
+                if (success) {
+                    setShowAssignModal(false); 
+                    setSelectedChantier(null);
+                    setConflict(null);
+                }
             };
             
             const removeAssignment = (chantierId, assignmentId) => {
@@ -2553,6 +2727,15 @@
                                 <p style={{ color: 'var(--text-light)', marginBottom: '18px', fontSize: '13px' }}>
                                     Chantier : {selectedChantier.nom}
                                 </p>
+                                
+                                {conflict && (
+                                    <div className="conflict-warning">
+                                        ⚠️ <strong>Conflit détecté</strong><br/>
+                                        L'employé est déjà assigné au chantier "{conflict.chantier}"<br/>
+                                        {conflict.dates}
+                                    </div>
+                                )}
+                                
                                 <form onSubmit={submitAssignment}>
                                     <div className="form-group">
                                         <label>Employé</label>
@@ -2590,8 +2773,8 @@
                                         </div>
                                     </div>
                                     <div className="modal-actions">
-                                        <button type="button" className="btn btn-secondary" onClick={() => { setShowAssignModal(false); setSelectedChantier(null); }}>Annuler</button>
-                                        <button type="submit" className="btn btn-edit">Assigner</button>
+                                        <button type="button" className="btn btn-secondary" onClick={() => { setShowAssignModal(false); setSelectedChantier(null); setConflict(null); }}>Annuler</button>
+                                        <button type="submit" className="btn btn-edit" disabled={conflict}>Assigner</button>
                                     </div>
                                 </form>
                             </div>
@@ -2687,6 +2870,7 @@
                             <ul style={{ marginLeft: '20px', marginTop: '8px' }}>
                                 <li>Un onglet par mois avec les détails jour par jour</li>
                                 <li>Les totaux mensuels en bas de chaque page</li>
+                                <li>Les zones et paniers en euros</li>
                                 <li>Un onglet récapitulatif annuel</li>
                                 <li>Choisir l'emplacement d'enregistrement sur votre PC</li>
                             </ul>
